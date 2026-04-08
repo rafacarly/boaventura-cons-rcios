@@ -4,6 +4,10 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
   	extend: {
+      fontFamily: {
+        heading: ['var(--font-heading)'],
+        body: ['var(--font-body)'],
+      },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -12,6 +16,14 @@ module.exports = {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+        brown: {
+          dark: '#21180F',
+          graphite: '#3B3125',
+          medium: '#73583A',
+          caramel: '#D4924D',
+          sand: '#FEF7F2',
+        },
+        'blue-accent': '#46B8E8',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -63,20 +75,12 @@ module.exports = {
   		},
   		keyframes: {
   			'accordion-down': {
-  				from: {
-  					height: '0'
-  				},
-  				to: {
-  					height: 'var(--radix-accordion-content-height)'
-  				}
+  				from: { height: '0' },
+  				to: { height: 'var(--radix-accordion-content-height)' }
   			},
   			'accordion-up': {
-  				from: {
-  					height: 'var(--radix-accordion-content-height)'
-  				},
-  				to: {
-  					height: '0'
-  				}
+  				from: { height: 'var(--radix-accordion-content-height)' },
+  				to: { height: '0' }
   			}
   		},
   		animation: {
@@ -85,5 +89,11 @@ module.exports = {
   		}
   	}
   },
+  safelist: [
+    'bg-brown-dark', 'bg-brown-graphite', 'bg-brown-medium', 'bg-brown-caramel', 'bg-brown-sand',
+    'text-brown-dark', 'text-brown-graphite', 'text-brown-medium', 'text-brown-caramel', 'text-brown-sand',
+    'text-blue-accent', 'bg-blue-accent',
+    'border-brown-caramel', 'border-brown-medium',
+  ],
   plugins: [require("tailwindcss-animate")],
 }
