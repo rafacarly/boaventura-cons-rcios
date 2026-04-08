@@ -7,7 +7,7 @@ import { ArrowRight, ArrowLeft, Check, Car, Home, TrendingUp, Bike, Loader2, Che
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 
-const WHATSAPP_NUMBER = "5511999999999";
+const WHATSAPP_NUMBER = "5571992764466";
 
 const OBJETIVOS = [
   { value: "carro", label: "Carro", icon: Car },
