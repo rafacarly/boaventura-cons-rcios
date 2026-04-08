@@ -89,18 +89,18 @@ export default function FormularioMultietapas() {
 
   const validateWhatsapp = (phone) => {
     const cleaned = phone.replace(/\D/g, "");
-    return cleaned.length === 11 && cleaned.startsWith("55");
+    return cleaned.length === 13 && cleaned.startsWith("55");
   };
 
   const handleWhatsappChange = (e) => {
     let value = e.target.value.replace(/\D/g, "");
     
-    if (value.length > 11) {
-      value = value.slice(0, 11);
+    if (value.length > 13) {
+      value = value.slice(0, 13);
     }
     
     if (value.length > 0 && !value.startsWith("55")) {
-      value = "55" + value.slice(0, 9);
+      value = "55" + value.slice(0, 11);
     }
     
     const formatted = value.length > 0 ? "+55 " + value.slice(2) : "";

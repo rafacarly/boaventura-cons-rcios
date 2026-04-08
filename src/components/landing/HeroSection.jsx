@@ -10,8 +10,8 @@ const TABS = [
     icon: Car,
     images: [
       "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/51c474cb1_generated_035ec33b.png",
-      "https://images.unsplash.com/photo-1494976388531-d1058bb78b3b?w=800&q=80",
-      "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=800&q=80"
+      "https://images.unsplash.com/photo-1617469767537-b85ba699c72d?w=800&q=80",
+      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80"
     ],
     headline: "Seu próximo carro com planejamento e sem juros.",
     sub: "Parcelas acessíveis e poder de compra à vista. O caminho mais inteligente para seu veículo."
@@ -22,8 +22,8 @@ const TABS = [
     icon: Home,
     images: [
       "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png",
-      "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&q=80",
-      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80"
+      "https://images.unsplash.com/photo-1512917774080-9991f1c52f1d?w=800&q=80",
+      "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&q=80"
     ],
     headline: "A casa dos seus sonhos, sem juros de financiamento.",
     sub: "Planejamento inteligente para conquistar seu imóvel com parcelas que cabem no bolso."
@@ -34,8 +34,8 @@ const TABS = [
     icon: TrendingUp,
     images: [
       "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/b2406dd9d_generated_37d09505.png",
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
-      "https://images.unsplash.com/photo-1518650904714-836dc28954e3?w=800&q=80"
+      "https://images.unsplash.com/photo-1579621970563-ebec5330e82f?w=800&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f70504504?w=800&q=80"
     ],
     headline: "Multiplique seu patrimônio com estratégia.",
     sub: "Use o consórcio como ferramenta de investimento inteligente e conquiste mais."
