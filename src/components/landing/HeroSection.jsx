@@ -1,30 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Car, Home, TrendingUp, Shield, Users, Award, ArrowRight } from "lucide-react";
 
 const TABS = [
   {
-    id: "casa",
-    label: "Casa",
-    icon: Home,
-    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png",
-    headline: "A casa dos seus sonhos, sem juros de financiamento.",
-    sub: "Planejamento inteligente para conquistar seu imóvel com parcelas que cabem no bolso."
-  },
-  {
     id: "carro",
     label: "Carro",
     icon: Car,
-    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/51c474cb1_generated_035ec33b.png",
+    images: [
+      "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/51c474cb1_generated_035ec33b.png",
+      "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=800&q=80",
+      "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80"
+    ],
     headline: "Seu próximo carro com planejamento e sem juros.",
     sub: "Parcelas acessíveis e poder de compra à vista. O caminho mais inteligente para seu veículo."
+  },
+  {
+    id: "casa",
+    label: "Casa",
+    icon: Home,
+    images: [
+      "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png",
+      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80"
+    ],
+    headline: "A casa dos seus sonhos, sem juros de financiamento.",
+    sub: "Planejamento inteligente para conquistar seu imóvel com parcelas que cabem no bolso."
   },
   {
     id: "investimento",
     label: "Investimento",
     icon: TrendingUp,
-    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/b2406dd9d_generated_37d09505.png",
+    images: [
+      "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/b2406dd9d_generated_37d09505.png",
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80"
+    ],
     headline: "Multiplique seu patrimônio com estratégia.",
     sub: "Use o consórcio como ferramenta de investimento inteligente e conquiste mais."
   }
@@ -32,7 +44,17 @@ const TABS = [
 
 export default function HeroSection() {
   const [activeTab, setActiveTab] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
+
   const tab = TABS[activeTab];
+  const currentImage = tab.images[imageIndex];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setImageIndex((prev) => (prev + 1) % tab.images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [tab.images.length]);
 
   const scrollToForm = () => {
     document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
@@ -58,7 +80,10 @@ export default function HeroSection() {
               {TABS.map((t, i) => (
                 <button
                   key={t.id}
-                  onClick={() => setActiveTab(i)}
+                  onClick={() => {
+                    setActiveTab(i);
+                    setImageIndex(0);
+                  }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-body font-medium transition-all border-2 ${
                     activeTab === i
                       ? "bg-blue-accent text-white border-blue-accent"
@@ -133,24 +158,40 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right - Image */}
+          {/* Right - Image Slider */}
           <div className="relative flex justify-center lg:justify-end">
             <AnimatePresence mode="wait">
               <motion.div
-                key={tab.id}
+                key={`${tab.id}-${imageIndex}`}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4 }}
-                className="relative"
+                className="relative w-full max-w-md lg:max-w-lg"
               >
-                <div className="w-full max-w-md lg:max-w-lg overflow-hidden rounded-3xl shadow-2xl">
+                <div className="overflow-hidden rounded-3xl shadow-2xl">
                   <img
-                    src={tab.image}
+                    src={currentImage}
                     alt={tab.label}
                     className="w-full h-[300px] sm:h-[400px] lg:h-[480px] object-cover"
                   />
                 </div>
+
+                {/* Slide Indicators */}
+                <div className="flex justify-center gap-2 mt-4">
+                  {tab.images.map((_, idx) => (
+                    <motion.button
+                      key={idx}
+                      onClick={() => setImageIndex(idx)}
+                      className={`h-2 rounded-full transition-all ${
+                        idx === imageIndex ? "bg-blue-accent w-6" : "bg-blue-accent/40 w-2"
+                      }`}
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                    />
+                  ))}
+                </div>
+
                 {/* Floating badge */}
                 <motion.div
                   animate={{ y: [0, -8, 0] }}

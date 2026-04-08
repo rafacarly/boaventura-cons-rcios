@@ -18,7 +18,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <img 
-            src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/24c6bcf57_APRESENTACAOPAULApdf.png" 
+            src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/fadd51044_APRESENTACAOPAULApdf.png" 
             alt="Boaventura" 
             className="h-12 md:h-14 object-contain"
           />

@@ -11,7 +11,7 @@ export default function Footer() {
           {/* Logo & About */}
           <div>
             <img 
-              src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/24c6bcf57_APRESENTACAOPAULApdf.png" 
+              src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/fadd51044_APRESENTACAOPAULApdf.png" 
               alt="Boaventura" 
               className="h-12 object-contain mb-4"
             />
