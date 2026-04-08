@@ -17,11 +17,11 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-brown-sand/90 backdrop-blur-md border-b border-brown-caramel/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-heading text-brown-dark">Boa</span>
-            <span className="text-2xl font-heading text-blue-accent">V</span>
-            <span className="text-2xl font-heading text-brown-caramel">entura</span>
-          </div>
+          <img 
+            src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/24c6bcf57_APRESENTACAOPAULApdf.png" 
+            alt="Boaventura" 
+            className="h-12 md:h-14 object-contain"
+          />
 
           <div className="hidden md:flex items-center gap-8">
             <button onClick={() => scrollTo("vantagens")} className="text-sm font-body text-brown-graphite hover:text-brown-caramel transition-colors">Vantagens</button>

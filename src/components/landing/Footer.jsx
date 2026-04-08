@@ -10,11 +10,11 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Logo & About */}
           <div>
-            <div className="flex items-center gap-1 mb-4">
-              <span className="text-2xl font-heading text-brown-sand">Boa</span>
-              <span className="text-2xl font-heading text-blue-accent">V</span>
-              <span className="text-2xl font-heading text-brown-caramel">entura</span>
-            </div>
+            <img 
+              src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/24c6bcf57_APRESENTACAOPAULApdf.png" 
+              alt="Boaventura" 
+              className="h-12 object-contain mb-4"
+            />
             <p className="text-sm font-body text-brown-sand/50 leading-relaxed mb-4">
               Consórcios com atendimento consultivo, estratégia patrimonial e transparência. A forma mais inteligente de conquistar seus objetivos.
             </p>
