@@ -75,6 +75,7 @@ export default function Admin() {
   const [completudeFilter, setCompletudeFilter] = useState("all");
   const [selectedLead, setSelectedLead] = useState(null);
   const [editingPlano, setEditingPlano] = useState(null);
+  const [editingDepoimento, setEditingDepoimento] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -93,6 +94,11 @@ export default function Admin() {
     queryFn: () => base44.entities.PlanoPreco.list("-created_date", 100),
   });
 
+  const { data: depoimentos = [] } = useQuery({
+    queryKey: ["depoimentos"],
+    queryFn: () => base44.entities.Depoimento.list("-created_date", 100),
+  });
+
   const updateMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.Lead.update(id, data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["leads"] }),
@@ -109,6 +115,19 @@ export default function Admin() {
   const deletePlanoMutation = useMutation({
     mutationFn: (id) => base44.entities.PlanoPreco.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["planos"] }),
+  });
+
+  const updateDepoimentoMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.Depoimento.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["depoimentos"] });
+      setEditingDepoimento(null);
+    },
+  });
+
+  const deleteDepoimentoMutation = useMutation({
+    mutationFn: (id) => base44.entities.Depoimento.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["depoimentos"] }),
   });
 
   const filtered = leads.filter((lead) => {
@@ -165,6 +184,7 @@ export default function Admin() {
           <TabsList className="bg-white border border-brown-caramel/10">
             <TabsTrigger value="leads">📋 Leads</TabsTrigger>
             <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
+            <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
           </TabsList>
 
           {/* ABA LEADS */}
@@ -412,6 +432,114 @@ export default function Admin() {
                   </Button>
                   <Button
                     onClick={() => setEditingPlano(null)}
+                    variant="outline"
+                    className="rounded-lg"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
+
+          {/* ABA DEPOIMENTOS */}
+          <TabsContent value="depoimentos" className="space-y-6">
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="p-6 border-b border-brown-caramel/10">
+                <h3 className="text-lg font-heading text-brown-dark">Depoimentos (Exibidos na Home)</h3>
+                <p className="text-sm font-body text-brown-medium mt-1">Edite as histórias que aparecem na seção "Histórias de quem já conquistou"</p>
+              </div>
+
+              {depoimentos.length === 0 ? (
+                <div className="p-8 text-center text-brown-medium font-body">Nenhum depoimento criado.</div>
+              ) : (
+                <div className="space-y-4 p-6">
+                  {depoimentos.map((dep) => (
+                    <div key={dep.id} className="border border-brown-caramel/15 rounded-lg p-4 hover:bg-brown-sand/30 transition-colors">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex-1">
+                          <h4 className="font-heading text-brown-dark font-semibold">{dep.nome}</h4>
+                          <p className="text-xs font-body text-brown-medium">{dep.localizacao} • {dep.tipo_aquisicao === "carro" ? "🚗" : "🏠"} {dep.tipo_aquisicao}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setEditingDepoimento(dep)}
+                            className="text-blue-accent hover:bg-blue-accent/10"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => deleteDepoimentoMutation.mutate(dep.id)}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                      <p className="text-sm font-body text-brown-medium italic">"{dep.texto}"</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {editingDepoimento && (
+              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">✏️ Editando: {editingDepoimento.nome}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Nome"
+                    value={editingDepoimento.nome}
+                    onChange={(e) => setEditingDepoimento({ ...editingDepoimento, nome: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Input
+                    placeholder="Localização (cidade)"
+                    value={editingDepoimento.localizacao}
+                    onChange={(e) => setEditingDepoimento({ ...editingDepoimento, localizacao: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Select
+                    value={editingDepoimento.tipo_aquisicao}
+                    onValueChange={(value) => setEditingDepoimento({ ...editingDepoimento, tipo_aquisicao: value })}
+                  >
+                    <SelectTrigger className="border-blue-accent/20 font-body">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="carro">🚗 Carro</SelectItem>
+                      <SelectItem value="imovel">🏠 Imóvel</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    placeholder="URL da foto"
+                    value={editingDepoimento.foto_url || ""}
+                    onChange={(e) => setEditingDepoimento({ ...editingDepoimento, foto_url: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <textarea
+                    placeholder="Texto do depoimento"
+                    value={editingDepoimento.texto}
+                    onChange={(e) => setEditingDepoimento({ ...editingDepoimento, texto: e.target.value })}
+                    className="border border-blue-accent/20 rounded-md p-3 font-body text-sm md:col-span-2"
+                    rows="3"
+                  />
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={() => updateDepoimentoMutation.mutate({ id: editingDepoimento.id, data: editingDepoimento })}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  >
+                    💾 Salvar
+                  </Button>
+                  <Button
+                    onClick={() => setEditingDepoimento(null)}
                     variant="outline"
                     className="rounded-lg"
                   >
