@@ -47,51 +47,53 @@ export default function TabelaPrecosHome() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* CARRO */}
-          {carroPlanos.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-2xl border-2 border-blue-accent/30 shadow-xl overflow-hidden"
-            >
-              <div className="bg-gradient-to-r from-blue-accent/20 to-blue-accent/10 px-6 py-4 border-b-2 border-blue-accent/20">
-                <h3 className="text-2xl font-heading text-brown-dark">🚗 Consórcio para Carro</h3>
-              </div>
+        {/* CARRO */}
+        {carroPlanos.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <h3 className="text-2xl font-heading text-brown-dark mb-4">🚗 Consórcio para Carro</h3>
+            <div className="bg-white rounded-2xl border-2 border-blue-accent/30 shadow-xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="bg-blue-accent/10 border-b border-blue-accent/20">
-                      <th className="px-4 py-3 text-left font-heading text-brown-dark text-sm">Plano</th>
-                      <th className="px-4 py-3 text-right font-heading text-brown-dark text-sm">Original</th>
-                      <th className="px-4 py-3 text-right font-heading text-brown-dark text-sm">Redução</th>
-                      <th className="px-4 py-3 text-right font-heading text-brown-dark text-sm">Final</th>
+                      <th className="px-6 py-4 text-left font-heading text-brown-dark text-sm">Plano</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Crédito</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Parcela Original</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Redução</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Parcela Final</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {carroPlanos.map((plano, idx) => {
+                    {carroPlanos.map((plano) => {
                       const parcela = parseValue(plano.parcela);
                       const reducao = plano.valor_reducao ? parseValue(plano.valor_reducao) : 0;
                       const original = parcela + reducao;
 
                       return (
                         <tr key={plano.id} className="border-b border-blue-accent/10 hover:bg-blue-accent/5">
-                          <td className="px-4 py-3">
-                            <div className="font-body text-sm font-medium text-brown-dark">{plano.titulo}</div>
+                          <td className="px-6 py-4">
+                            <div className="font-body font-medium text-brown-dark">{plano.titulo}</div>
                             <div className="text-xs text-brown-medium">{plano.prazo} meses</div>
                           </td>
-                          <td className="px-4 py-3 text-right font-body text-sm text-brown-medium">
+                          <td className="px-6 py-4 text-right font-heading text-sm font-bold text-brown-dark">
+                            {plano.credito}
+                          </td>
+                          <td className="px-6 py-4 text-right font-body text-sm text-brown-medium">
                             {formatCurrency(original)}
                           </td>
-                          <td className="px-4 py-3 text-right">
+                          <td className="px-6 py-4 text-right">
                             {reducao > 0 ? (
-                              <span className="text-sm font-heading text-red-600">-{formatCurrency(reducao)}</span>
+                              <span className="text-sm font-heading text-red-600 font-bold">-{formatCurrency(reducao)}</span>
                             ) : (
                               <span className="text-sm text-brown-medium">—</span>
                             )}
                           </td>
-                          <td className="px-4 py-3 text-right font-heading text-sm text-blue-accent font-bold">
+                          <td className="px-6 py-4 text-right font-heading text-sm text-blue-accent font-bold">
                             {formatCurrency(parcela)}
                           </td>
                         </tr>
@@ -100,53 +102,57 @@ export default function TabelaPrecosHome() {
                   </tbody>
                 </table>
               </div>
-            </motion.div>
-          )}
+            </div>
+          </motion.div>
+        )}
 
-          {/* IMÓVEL */}
-          {imovelPlanos.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-2xl border-2 border-purple-400/30 shadow-xl overflow-hidden"
-            >
-              <div className="bg-gradient-to-r from-purple-400/20 to-purple-400/10 px-6 py-4 border-b-2 border-purple-400/20">
-                <h3 className="text-2xl font-heading text-brown-dark">🏠 Consórcio para Imóvel</h3>
-              </div>
+        {/* IMÓVEL */}
+        {imovelPlanos.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <h3 className="text-2xl font-heading text-brown-dark mb-4">🏠 Consórcio para Imóvel</h3>
+            <div className="bg-white rounded-2xl border-2 border-purple-400/30 shadow-xl overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="bg-purple-400/10 border-b border-purple-400/20">
-                      <th className="px-4 py-3 text-left font-heading text-brown-dark text-sm">Plano</th>
-                      <th className="px-4 py-3 text-right font-heading text-brown-dark text-sm">Original</th>
-                      <th className="px-4 py-3 text-right font-heading text-brown-dark text-sm">Redução</th>
-                      <th className="px-4 py-3 text-right font-heading text-brown-dark text-sm">Final</th>
+                      <th className="px-6 py-4 text-left font-heading text-brown-dark text-sm">Plano</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Crédito</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Parcela Original</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Redução</th>
+                      <th className="px-6 py-4 text-right font-heading text-brown-dark text-sm">Parcela Final</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {imovelPlanos.map((plano, idx) => {
+                    {imovelPlanos.map((plano) => {
                       const parcela = parseValue(plano.parcela);
                       const reducao = plano.valor_reducao ? parseValue(plano.valor_reducao) : 0;
                       const original = parcela + reducao;
 
                       return (
                         <tr key={plano.id} className="border-b border-purple-400/10 hover:bg-purple-400/5">
-                          <td className="px-4 py-3">
-                            <div className="font-body text-sm font-medium text-brown-dark">{plano.titulo}</div>
+                          <td className="px-6 py-4">
+                            <div className="font-body font-medium text-brown-dark">{plano.titulo}</div>
                             <div className="text-xs text-brown-medium">{plano.prazo} meses</div>
                           </td>
-                          <td className="px-4 py-3 text-right font-body text-sm text-brown-medium">
+                          <td className="px-6 py-4 text-right font-heading text-sm font-bold text-brown-dark">
+                            {plano.credito}
+                          </td>
+                          <td className="px-6 py-4 text-right font-body text-sm text-brown-medium">
                             {formatCurrency(original)}
                           </td>
-                          <td className="px-4 py-3 text-right">
+                          <td className="px-6 py-4 text-right">
                             {reducao > 0 ? (
-                              <span className="text-sm font-heading text-red-600">-{formatCurrency(reducao)}</span>
+                              <span className="text-sm font-heading text-red-600 font-bold">-{formatCurrency(reducao)}</span>
                             ) : (
                               <span className="text-sm text-brown-medium">—</span>
                             )}
                           </td>
-                          <td className="px-4 py-3 text-right font-heading text-sm text-purple-600 font-bold">
+                          <td className="px-6 py-4 text-right font-heading text-sm text-purple-600 font-bold">
                             {formatCurrency(parcela)}
                           </td>
                         </tr>
@@ -155,9 +161,9 @@ export default function TabelaPrecosHome() {
                   </tbody>
                 </table>
               </div>
-            </motion.div>
-          )}
-        </div>
+            </div>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
