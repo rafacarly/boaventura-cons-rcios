@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle, LogOut, Edit2, Trash2 } from "lucide-react";
+import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle, LogOut, Edit2, Trash2, Image as ImageIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import LeadDetailDialog from "../components/admin/LeadDetailDialog";
 import { isAdminAuthenticated, logoutAdmin } from "@/lib/adminAuth";
@@ -76,6 +76,7 @@ export default function Admin() {
   const [selectedLead, setSelectedLead] = useState(null);
   const [editingPlano, setEditingPlano] = useState(null);
   const [editingDepoimento, setEditingDepoimento] = useState(null);
+  const [editingHeroImage, setEditingHeroImage] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -97,6 +98,11 @@ export default function Admin() {
   const { data: depoimentos = [] } = useQuery({
     queryKey: ["depoimentos"],
     queryFn: () => base44.entities.Depoimento.list("-created_date", 100),
+  });
+
+  const { data: heroImages = [] } = useQuery({
+    queryKey: ["heroImages"],
+    queryFn: () => base44.entities.HeroImage.list("-ordem", 100),
   });
 
   const updateMutation = useMutation({
@@ -128,6 +134,19 @@ export default function Admin() {
   const deleteDepoimentoMutation = useMutation({
     mutationFn: (id) => base44.entities.Depoimento.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["depoimentos"] }),
+  });
+
+  const updateHeroImageMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.HeroImage.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["heroImages"] });
+      setEditingHeroImage(null);
+    },
+  });
+
+  const deleteHeroImageMutation = useMutation({
+    mutationFn: (id) => base44.entities.HeroImage.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["heroImages"] }),
   });
 
   const filtered = leads.filter((lead) => {
@@ -185,6 +204,7 @@ export default function Admin() {
             <TabsTrigger value="leads">📋 Leads</TabsTrigger>
             <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
             <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
+            <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
           </TabsList>
 
           {/* ABA LEADS */}
@@ -538,6 +558,84 @@ export default function Admin() {
                   </Button>
                   <Button
                     onClick={() => setEditingDepoimento(null)}
+                    variant="outline"
+                    className="rounded-lg"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
+            </TabsContent>
+
+            {/* ABA IMAGENS DO HERO */}
+            <TabsContent value="hero-images" className="space-y-6">
+            <div className="space-y-6">
+              {["carro", "casa", "investimento"].map((categoria) => (
+                <div key={categoria} className="bg-white rounded-xl border border-brown-caramel/10 p-6">
+                  <h3 className="text-lg font-heading text-brown-dark mb-4">
+                    {categoria === "carro" ? "🚗 Imagens - Carro" : categoria === "casa" ? "🏠 Imagens - Casa" : "💰 Imagens - Investimento"}
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {heroImages
+                      .filter((img) => img.categoria === categoria)
+                      .sort((a, b) => a.ordem - b.ordem)
+                      .map((img) => (
+                        <div key={img.id} className="border border-brown-caramel/15 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="aspect-video bg-brown-sand/30 overflow-hidden">
+                            <img src={img.imagem_url} alt={`${categoria}-${img.ordem}`} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="p-3 flex justify-between items-center">
+                            <span className="text-sm font-body text-brown-dark">Foto {img.ordem}</span>
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => setEditingHeroImage(img)}
+                                className="text-blue-accent hover:bg-blue-accent/10"
+                              >
+                                <Edit2 className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => deleteHeroImageMutation.mutate(img.id)}
+                                className="text-red-600 hover:bg-red-50"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {editingHeroImage && (
+              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">✏️ Editando: {editingHeroImage.categoria.charAt(0).toUpperCase() + editingHeroImage.categoria.slice(1)} - Foto {editingHeroImage.ordem}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="URL da imagem"
+                    value={editingHeroImage.imagem_url}
+                    onChange={(e) => setEditingHeroImage({ ...editingHeroImage, imagem_url: e.target.value })}
+                    className="border-blue-accent/20 font-body md:col-span-2"
+                  />
+                  <div className="aspect-video rounded-lg overflow-hidden bg-brown-sand/30 md:col-span-2">
+                    <img src={editingHeroImage.imagem_url} alt="preview" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={() => updateHeroImageMutation.mutate({ id: editingHeroImage.id, data: editingHeroImage })}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  >
+                    💾 Salvar
+                  </Button>
+                  <Button
+                    onClick={() => setEditingHeroImage(null)}
                     variant="outline"
                     className="rounded-lg"
                   >
