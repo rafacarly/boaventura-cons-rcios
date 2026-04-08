@@ -205,7 +205,7 @@ export default function FormularioMultietapas() {
         className="absolute bottom-32 left-10 w-32 h-32 rounded-full bg-brown-caramel/8 blur-3xl"
       />
 
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -226,200 +226,231 @@ export default function FormularioMultietapas() {
           <p className="text-brown-medium font-body text-lg">Sem compromisso, 100% gratuito.</p>
         </motion.div>
 
-        {/* Enhanced Progress */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mb-12"
-        >
-          <div className="flex items-center justify-center gap-2">
-            {Array.from({ length: totalSteps }).map((_, i) => (
-              <motion.div 
-                key={i} 
-                className="flex items-center gap-2"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <motion.div
-                  animate={{
-                    scale: i === step ? 1.15 : 1,
-                    boxShadow: i === step ? "0 0 20px rgba(249, 130, 39, 0.4)" : "0 0 0px rgba(0,0,0,0)"
-                  }}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-heading font-bold transition-all ${
-                    i <= step ? "bg-gradient-to-br from-brown-caramel to-orange-500 text-white" : "bg-brown-caramel/10 text-brown-medium"
-                  }`}
-                >
-                  {i < step ? <Check className="w-5 h-5" /> : i + 1}
-                </motion.div>
-                {i < totalSteps - 1 && (
-                  <motion.div
-                    className={`h-1 rounded transition-all ${i < step ? "bg-brown-caramel" : "bg-brown-caramel/15"}`}
-                    animate={{
-                      width: i < step ? 80 : 48,
-                    }}
-                  />
-                )}
-              </motion.div>
-            ))}
-          </div>
-          <motion.p 
-            key={`step-${step}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center text-sm text-brown-medium font-body mt-4"
-          >
-            {step === 0 && "Primeiramente, seus dados de contato"}
-            {step === 1 && "Agora, qual é seu objetivo?"}
-            {step === 2 && "Quase lá! Últimas informações para personalizar"}
-          </motion.p>
-        </motion.div>
-
-        {/* Form Card */}
+        {/* Main Container with Image + Form */}
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white rounded-3xl shadow-2xl p-6 sm:p-10 border border-blue-accent/15 relative overflow-hidden"
+          className="grid md:grid-cols-2 gap-6 lg:gap-10 items-center"
         >
-          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-accent/10 to-transparent rounded-full -mr-20 -mt-20" />
-          <div className="relative z-10">
-            <AnimatePresence mode="wait">
-              {step === 0 && (
-                <motion.div key="step0" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} className="space-y-6">
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-heading text-brown-dark mb-2">Vamos começar! 👋</h3>
-                    <p className="text-brown-medium font-body">Nos diga como podemos encontrá-lo.</p>
+          {/* Left Side - Image */}
+          <div className="hidden md:block relative">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="relative rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <div className="aspect-square">
+                <img
+                  src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png"
+                  alt="Simulador de Consórcio"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Overlay Card */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 4 }}
+                className="absolute bottom-6 left-6 right-6 bg-white rounded-2xl p-5 shadow-xl border border-blue-accent/20"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brown-caramel to-orange-500 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-6 h-6 text-white" />
                   </div>
-                  <motion.div className="space-y-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
-                    <div>
-                      <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Seu nome completo</Label>
-                      <motion.div whileFocus={{ scale: 1.02 }}>
-                        <Input
-                          value={form.nome}
-                          onChange={(e) => setForm({ ...form, nome: e.target.value })}
-                          placeholder="Ex: João Silva"
-                          className="h-12 rounded-xl border-2 border-brown-caramel/20 focus:border-blue-accent focus:bg-blue-accent/5 font-body text-base"
-                        />
-                      </motion.div>
-                    </div>
-                    <div>
-                      <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">WhatsApp</Label>
-                      <motion.div whileFocus={{ scale: 1.02 }}>
-                        <Input
-                          value={form.whatsapp}
-                          onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-                          placeholder="(11) 99999-9999"
-                          className="h-12 rounded-xl border-2 border-brown-caramel/20 focus:border-blue-accent focus:bg-blue-accent/5 font-body text-base"
-                        />
-                      </motion.div>
-                    </div>
+                  <div className="flex-1">
+                    <p className="font-heading font-bold text-brown-dark text-sm">Análise em tempo real</p>
+                    <p className="text-xs text-brown-medium font-body">Melhores opções para seu perfil</p>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Stats Side */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="absolute -bottom-6 -right-6 bg-white rounded-2xl p-4 shadow-xl border border-brown-caramel/20"
+            >
+              <p className="text-2xl font-heading font-bold text-brown-dark">+2k</p>
+              <p className="text-xs text-brown-medium font-body">Clientes satisfeitos</p>
+            </motion.div>
+          </div>
+
+          {/* Right Side - Form */}
+          <div className="relative">
+            <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-10 border border-blue-accent/15 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-accent/10 to-transparent rounded-full -mr-20 -mt-20" />
+              <div className="relative z-10">
+                
+                {/* Progress Bar */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="mb-10"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <motion.p 
+                      key={`step-label-${step}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-sm font-heading font-bold text-brown-dark"
+                    >
+                      {step === 0 && "📝 Seus dados"}
+                      {step === 1 && "🎯 Seu objetivo"}
+                      {step === 2 && "🚀 Detalhes finais"}
+                    </motion.p>
+                    <span className="text-xs font-heading font-bold px-3 py-1 bg-brown-caramel/10 text-brown-caramel rounded-full">
+                      {step + 1}/{totalSteps}
+                    </span>
+                  </div>
+                  <motion.div className="h-2 bg-brown-caramel/10 rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-brown-caramel via-blue-accent to-brown-caramel rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${((step + 1) / totalSteps) * 100}%` }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                    />
                   </motion.div>
                 </motion.div>
-              )}
 
-              {step === 1 && (
-                <motion.div key="step1" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} className="space-y-6">
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-heading text-brown-dark mb-2">Qual é seu objetivo? 🎯</h3>
-                    <p className="text-brown-medium font-body">Escolha o tipo de consórcio que te interessa.</p>
-                  </div>
-                  <SelectOption
-                    options={OBJETIVOS}
-                    value={form.objetivo}
-                    onChange={(v) => setForm({ ...form, objetivo: v })}
-                    cols={4}
-                  />
-                </motion.div>
-              )}
+                {/* Form Content */}
+                <AnimatePresence mode="wait">
+                  {step === 0 && (
+                    <motion.div key="step0" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} className="space-y-5">
+                      <div>
+                        <h3 className="text-2xl font-heading text-brown-dark mb-1">Vamos começar! 👋</h3>
+                        <p className="text-brown-medium font-body text-sm">Como podemos encontrá-lo?</p>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Nome completo</Label>
+                          <Input
+                            value={form.nome}
+                            onChange={(e) => setForm({ ...form, nome: e.target.value })}
+                            placeholder="João Silva"
+                            className="h-11 rounded-xl border-2 border-brown-caramel/20 focus:border-blue-accent focus:bg-blue-accent/5 font-body"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">WhatsApp</Label>
+                          <Input
+                            value={form.whatsapp}
+                            onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
+                            placeholder="(11) 99999-9999"
+                            className="h-11 rounded-xl border-2 border-brown-caramel/20 focus:border-blue-accent focus:bg-blue-accent/5 font-body"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
 
-              {step === 2 && (
-                <motion.div key="step2" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} className="space-y-6">
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-heading text-brown-dark mb-2">Quase lá! 🚀</h3>
-                    <p className="text-brown-medium font-body">Alguns detalhes para personalizar o melhor plano.</p>
-                  </div>
+                  {step === 1 && (
+                    <motion.div key="step1" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} className="space-y-5">
+                      <div>
+                        <h3 className="text-2xl font-heading text-brown-dark mb-1">Qual é seu objetivo?</h3>
+                        <p className="text-brown-medium font-body text-sm">Escolha o tipo de consórcio.</p>
+                      </div>
+                      <SelectOption
+                        options={OBJETIVOS}
+                        value={form.objetivo}
+                        onChange={(v) => setForm({ ...form, objetivo: v })}
+                        cols={4}
+                      />
+                    </motion.div>
+                  )}
 
-                  <div>
-                    <Label className="text-brown-graphite font-heading font-semibold text-sm mb-3 block">Faixa de crédito desejada</Label>
-                    <SelectOption options={FAIXAS} value={form.faixa_credito} onChange={(v) => setForm({ ...form, faixa_credito: v })} />
-                  </div>
+                  {step === 2 && (
+                    <motion.div key="step2" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} className="space-y-5">
+                      <div>
+                        <h3 className="text-2xl font-heading text-brown-dark mb-1">Quase lá! 🚀</h3>
+                        <p className="text-brown-medium font-body text-sm">Últimas informações para personalizar.</p>
+                      </div>
 
-                  <div>
-                    <Label className="text-brown-graphite font-heading font-semibold text-sm mb-3 block">Para quando você precisa?</Label>
-                    <SelectOption options={PRAZOS} value={form.prazo} onChange={(v) => setForm({ ...form, prazo: v })} />
-                  </div>
+                      <div>
+                        <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Faixa de crédito</Label>
+                        <SelectOption options={FAIXAS} value={form.faixa_credito} onChange={(v) => setForm({ ...form, faixa_credito: v })} />
+                      </div>
 
-                  <div>
-                    <Label className="text-brown-graphite font-heading font-semibold text-sm mb-3 block">Você conhece consórcio?</Label>
-                    <SelectOption options={CONHECIMENTO} value={form.conhecimento} onChange={(v) => setForm({ ...form, conhecimento: v })} cols={3} />
-                  </div>
+                      <div>
+                        <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Para quando?</Label>
+                        <SelectOption options={PRAZOS} value={form.prazo} onChange={(v) => setForm({ ...form, prazo: v })} />
+                      </div>
 
-                  <div>
-                    <Label className="text-brown-graphite font-heading font-semibold text-sm mb-3 block">Pretende dar lance?</Label>
-                    <SelectOption options={LANCE} value={form.lance} onChange={(v) => setForm({ ...form, lance: v })} cols={3} />
-                  </div>
+                      <div>
+                        <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Conhece consórcio?</Label>
+                        <SelectOption options={CONHECIMENTO} value={form.conhecimento} onChange={(v) => setForm({ ...form, conhecimento: v })} cols={3} />
+                      </div>
 
-                  <div>
-                    <Label className="text-brown-graphite font-heading font-semibold text-sm mb-3 block">Seu momento?</Label>
-                    <SelectOption options={MOMENTO} value={form.momento} onChange={(v) => setForm({ ...form, momento: v })} cols={3} />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                      <div>
+                        <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Pretende dar lance?</Label>
+                        <SelectOption options={LANCE} value={form.lance} onChange={(v) => setForm({ ...form, lance: v })} cols={3} />
+                      </div>
 
-            {/* Navigation */}
-            <div className="flex justify-between items-center mt-10 pt-8 border-t border-brown-caramel/10">
-              {step > 0 ? (
-                <motion.button
-                  onClick={() => setStep(step - 1)}
-                  whileHover={{ x: -4 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 text-brown-medium hover:text-brown-dark font-heading font-semibold transition-colors"
-                >
-                  <ArrowLeft className="w-5 h-5" />
-                  Voltar
-                </motion.button>
-              ) : <div />}
+                      <div>
+                        <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Seu momento?</Label>
+                        <SelectOption options={MOMENTO} value={form.momento} onChange={(v) => setForm({ ...form, momento: v })} cols={3} />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-              {step < totalSteps - 1 ? (
-                <motion.div
-                  whileHover={canNext() ? { scale: 1.05 } : {}}
-                  whileTap={canNext() ? { scale: 0.95 } : {}}
-                >
-                  <Button
-                    onClick={() => setStep(step + 1)}
-                    disabled={!canNext()}
-                    className="bg-gradient-to-r from-brown-caramel to-orange-500 hover:shadow-lg hover:shadow-brown-caramel/30 text-white rounded-full px-8 py-5 font-heading font-bold gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Continuar
-                    <ArrowRight className="w-5 h-5" />
-                  </Button>
-                </motion.div>
-              ) : (
-                <motion.div
-                  whileHover={canNext() ? { scale: 1.05 } : {}}
-                  whileTap={canNext() ? { scale: 0.95 } : {}}
-                >
-                  <Button
-                    onClick={handleSubmit}
-                    disabled={!canNext() || loading}
-                    className="bg-gradient-to-r from-brown-caramel via-orange-500 to-brown-caramel hover:shadow-lg hover:shadow-brown-caramel/30 text-white rounded-full px-8 py-5 font-heading font-bold gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        Enviando...
-                      </>
-                    ) : (
-                      <>
-                        ✓ Enviar & WhatsApp
-                      </>
-                    )}
-                  </Button>
-                </motion.div>
-              )}
+                {/* Navigation */}
+                <div className="flex justify-between items-center mt-10 pt-8 border-t border-brown-caramel/10">
+                  {step > 0 ? (
+                    <motion.button
+                      onClick={() => setStep(step - 1)}
+                      whileHover={{ x: -4 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center gap-2 text-brown-medium hover:text-brown-dark font-heading font-semibold transition-colors"
+                    >
+                      <ArrowLeft className="w-5 h-5" />
+                      Voltar
+                    </motion.button>
+                  ) : <div />}
+
+                  {step < totalSteps - 1 ? (
+                    <motion.div
+                      whileHover={canNext() ? { scale: 1.05 } : {}}
+                      whileTap={canNext() ? { scale: 0.95 } : {}}
+                    >
+                      <Button
+                        onClick={() => setStep(step + 1)}
+                        disabled={!canNext()}
+                        className="bg-gradient-to-r from-brown-caramel to-orange-500 hover:shadow-lg hover:shadow-brown-caramel/30 text-white rounded-full px-6 py-4 font-heading font-bold gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                      >
+                        Continuar
+                        <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      whileHover={canNext() ? { scale: 1.05 } : {}}
+                      whileTap={canNext() ? { scale: 0.95 } : {}}
+                    >
+                      <Button
+                        onClick={handleSubmit}
+                        disabled={!canNext() || loading}
+                        className="bg-gradient-to-r from-brown-caramel via-orange-500 to-brown-caramel hover:shadow-lg hover:shadow-brown-caramel/30 text-white rounded-full px-6 py-4 font-heading font-bold gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                      >
+                        {loading ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Enviando
+                          </>
+                        ) : (
+                          <>
+                            ✓ Enviar
+                          </>
+                        )}
+                      </Button>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
