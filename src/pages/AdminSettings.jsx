@@ -174,151 +174,199 @@ export default function AdminSettings() {
 
           {/* PLANOS */}
           <TabsContent value="planos" className="space-y-6">
-            <div className="bg-white rounded-xl border border-brown-caramel/10 p-6">
-              <h2 className="text-lg font-heading text-brown-dark mb-4">Adicionar Novo Plano</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  placeholder="Título"
-                  value={newPlano.titulo}
-                  onChange={(e) => setNewPlano({ ...newPlano, titulo: e.target.value })}
-                  className="border-brown-caramel/20 font-body"
-                />
-                <select
-                  value={newPlano.tipo}
-                  onChange={(e) => setNewPlano({ ...newPlano, tipo: e.target.value })}
-                  className="border border-brown-caramel/20 rounded-md px-3 py-2 font-body text-sm"
+            {/* Lista de Planos Criados */}
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="p-6 border-b border-brown-caramel/10 flex justify-between items-center">
+                <h3 className="text-lg font-heading text-brown-dark">Planos Cadastrados</h3>
+                <Button
+                  onClick={() => {
+                    setNewPlano({ titulo: "", tipo: "carro", credito: "", prazo: "", parcela: "", valor_reducao: "", foto_url: "" });
+                    setEditingPlano(null);
+                    document.getElementById("form-criar-plano")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="bg-brown-caramel hover:bg-brown-medium text-white gap-2 rounded-lg"
                 >
-                  <option value="carro">Carro</option>
-                  <option value="imovel">Imóvel</option>
-                  <option value="investimento">Investimento</option>
-                </select>
-                <Input
-                  placeholder="Crédito (ex: R$ 50.000)"
-                  value={newPlano.credito}
-                  onChange={(e) => setNewPlano({ ...newPlano, credito: e.target.value })}
-                  className="border-brown-caramel/20 font-body"
-                />
-                <Input
-                  placeholder="Prazo (ex: 60 meses)"
-                  value={newPlano.prazo}
-                  onChange={(e) => setNewPlano({ ...newPlano, prazo: e.target.value })}
-                  className="border-brown-caramel/20 font-body"
-                />
-                <Input
-                  placeholder="Parcela (ex: a partir de R$ 650/mês)"
-                  value={newPlano.parcela}
-                  onChange={(e) => setNewPlano({ ...newPlano, parcela: e.target.value })}
-                  className="border-brown-caramel/20 font-body"
-                />
-                <Input
-                  placeholder="Redução na parcela (opcional)"
-                  value={newPlano.valor_reducao}
-                  onChange={(e) => setNewPlano({ ...newPlano, valor_reducao: e.target.value })}
-                  className="border-brown-caramel/20 font-body"
-                />
-                <Input
-                  placeholder="URL da foto"
-                  value={newPlano.foto_url}
-                  onChange={(e) => setNewPlano({ ...newPlano, foto_url: e.target.value })}
-                  className="border-brown-caramel/20 font-body"
-                />
+                  <Plus className="w-4 h-4" />
+                  Novo Plano
+                </Button>
               </div>
-              <Button
-                onClick={handleAddPlano}
-                className="mt-4 bg-brown-caramel hover:bg-brown-medium text-white gap-2 rounded-lg"
-              >
-                <Plus className="w-4 h-4" />
-                Adicionar Plano
-              </Button>
+
+              {planos.length === 0 ? (
+                <div className="p-8 text-center text-brown-medium font-body">
+                  Nenhum plano criado ainda. Clique em "Novo Plano" para começar.
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-brown-dark/5 border-b border-brown-caramel/10">
+                        <th className="px-4 py-3 text-left font-heading text-brown-dark">Plano</th>
+                        <th className="px-4 py-3 text-left font-heading text-brown-dark">Tipo</th>
+                        <th className="px-4 py-3 text-left font-heading text-brown-dark">Crédito</th>
+                        <th className="px-4 py-3 text-left font-heading text-brown-dark">Prazo</th>
+                        <th className="px-4 py-3 text-left font-heading text-brown-dark">Parcela</th>
+                        <th className="px-4 py-3 text-left font-heading text-brown-dark">Redução</th>
+                        <th className="px-4 py-3 text-center font-heading text-brown-dark">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {planos.map((plano) => (
+                        <tr key={plano.id} className="border-b border-brown-caramel/10 hover:bg-brown-sand/50">
+                          <td className="px-4 py-3 font-body font-medium text-brown-dark">{plano.titulo}</td>
+                          <td className="px-4 py-3 font-body text-brown-medium text-xs">
+                            <span className="bg-brown-caramel/20 text-brown-caramel px-2 py-1 rounded">
+                              {plano.tipo === "carro" ? "🚗 Carro" : plano.tipo === "imovel" ? "🏠 Imóvel" : "💰 Investimento"}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 font-body text-brown-dark">{plano.credito}</td>
+                          <td className="px-4 py-3 font-body text-brown-dark">{plano.prazo}</td>
+                          <td className="px-4 py-3 font-body text-brown-dark">{plano.parcela}</td>
+                          <td className="px-4 py-3 font-body text-brown-dark">{plano.valor_reducao || "—"}</td>
+                          <td className="px-4 py-3 text-center flex gap-2 justify-center">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => setEditingPlano(plano)}
+                              className="text-blue-accent hover:bg-blue-accent/10"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => deletePlanoMutation.mutate(plano.id)}
+                              className="text-red-600 hover:bg-red-50"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
 
-            {editingPlano && (
-              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
-                <h2 className="text-lg font-heading text-brown-dark mb-4">Editando: {editingPlano.titulo}</h2>
+            {/* Formulário: Editar ou Criar */}
+            {editingPlano || newPlano.titulo || newPlano.credito ? (
+              <div className="bg-white rounded-xl border border-brown-caramel/10 p-6" id="form-criar-plano">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">
+                  {editingPlano ? `✏️ Editando: ${editingPlano.titulo}` : "✨ Criar Novo Plano"}
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Input
                     placeholder="Título"
-                    value={editingPlano.titulo}
-                    onChange={(e) => setEditingPlano({ ...editingPlano, titulo: e.target.value })}
-                    className="border-blue-accent/20 font-body"
+                    value={editingPlano ? editingPlano.titulo : newPlano.titulo}
+                    onChange={(e) =>
+                      editingPlano
+                        ? setEditingPlano({ ...editingPlano, titulo: e.target.value })
+                        : setNewPlano({ ...newPlano, titulo: e.target.value })
+                    }
+                    className="border-brown-caramel/20 font-body"
+                  />
+                  <select
+                    value={editingPlano ? editingPlano.tipo : newPlano.tipo}
+                    onChange={(e) =>
+                      editingPlano
+                        ? setEditingPlano({ ...editingPlano, tipo: e.target.value })
+                        : setNewPlano({ ...newPlano, tipo: e.target.value })
+                    }
+                    className="border border-brown-caramel/20 rounded-md px-3 py-2 font-body text-sm"
+                  >
+                    <option value="carro">🚗 Carro</option>
+                    <option value="imovel">🏠 Imóvel</option>
+                    <option value="investimento">💰 Investimento</option>
+                  </select>
+                  <Input
+                    placeholder="Crédito (ex: R$ 50.000)"
+                    value={editingPlano ? editingPlano.credito : newPlano.credito}
+                    onChange={(e) =>
+                      editingPlano
+                        ? setEditingPlano({ ...editingPlano, credito: e.target.value })
+                        : setNewPlano({ ...newPlano, credito: e.target.value })
+                    }
+                    className="border-brown-caramel/20 font-body"
                   />
                   <Input
-                    placeholder="Crédito"
-                    value={editingPlano.credito}
-                    onChange={(e) => setEditingPlano({ ...editingPlano, credito: e.target.value })}
-                    className="border-blue-accent/20 font-body"
+                    placeholder="Prazo (ex: 60 meses)"
+                    value={editingPlano ? editingPlano.prazo : newPlano.prazo}
+                    onChange={(e) =>
+                      editingPlano
+                        ? setEditingPlano({ ...editingPlano, prazo: e.target.value })
+                        : setNewPlano({ ...newPlano, prazo: e.target.value })
+                    }
+                    className="border-brown-caramel/20 font-body"
                   />
                   <Input
-                    placeholder="Prazo"
-                    value={editingPlano.prazo}
-                    onChange={(e) => setEditingPlano({ ...editingPlano, prazo: e.target.value })}
-                    className="border-blue-accent/20 font-body"
+                    placeholder="Parcela (ex: R$ 650/mês)"
+                    value={editingPlano ? editingPlano.parcela : newPlano.parcela}
+                    onChange={(e) =>
+                      editingPlano
+                        ? setEditingPlano({ ...editingPlano, parcela: e.target.value })
+                        : setNewPlano({ ...newPlano, parcela: e.target.value })
+                    }
+                    className="border-brown-caramel/20 font-body"
                   />
                   <Input
-                    placeholder="Parcela"
-                    value={editingPlano.parcela}
-                    onChange={(e) => setEditingPlano({ ...editingPlano, parcela: e.target.value })}
-                    className="border-blue-accent/20 font-body"
-                  />
-                  <Input
-                    placeholder="Redução na parcela"
-                    value={editingPlano.valor_reducao || ""}
-                    onChange={(e) => setEditingPlano({ ...editingPlano, valor_reducao: e.target.value })}
-                    className="border-blue-accent/20 font-body"
+                    placeholder="Redução na parcela (opcional)"
+                    value={editingPlano ? editingPlano.valor_reducao || "" : newPlano.valor_reducao}
+                    onChange={(e) =>
+                      editingPlano
+                        ? setEditingPlano({ ...editingPlano, valor_reducao: e.target.value })
+                        : setNewPlano({ ...newPlano, valor_reducao: e.target.value })
+                    }
+                    className="border-brown-caramel/20 font-body"
                   />
                   <Input
                     placeholder="URL da foto"
-                    value={editingPlano.foto_url}
-                    onChange={(e) => setEditingPlano({ ...editingPlano, foto_url: e.target.value })}
-                    className="border-blue-accent/20 font-body col-span-2"
+                    value={editingPlano ? editingPlano.foto_url : newPlano.foto_url}
+                    onChange={(e) =>
+                      editingPlano
+                        ? setEditingPlano({ ...editingPlano, foto_url: e.target.value })
+                        : setNewPlano({ ...newPlano, foto_url: e.target.value })
+                    }
+                    className="border-brown-caramel/20 font-body md:col-span-2"
                   />
                 </div>
                 <div className="flex gap-2 mt-4">
-                  <Button
-                    onClick={handleUpdatePlano}
-                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
-                  >
-                    Salvar
-                  </Button>
-                  <Button
-                    onClick={() => setEditingPlano(null)}
-                    variant="outline"
-                    className="rounded-lg"
-                  >
-                    Cancelar
-                  </Button>
+                  {editingPlano ? (
+                    <>
+                      <Button
+                        onClick={handleUpdatePlano}
+                        className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                      >
+                        💾 Salvar Edição
+                      </Button>
+                      <Button
+                        onClick={() => setEditingPlano(null)}
+                        variant="outline"
+                        className="rounded-lg"
+                      >
+                        Cancelar
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={handleAddPlano}
+                        className="bg-brown-caramel hover:bg-brown-medium text-white rounded-lg gap-2"
+                      >
+                        <Plus className="w-4 h-4" />
+                        Criar Plano
+                      </Button>
+                      <Button
+                        onClick={() => setNewPlano({ titulo: "", tipo: "carro", credito: "", prazo: "", parcela: "", valor_reducao: "", foto_url: "" })}
+                        variant="outline"
+                        className="rounded-lg"
+                      >
+                        Limpar
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
-            )}
-
-            <div className="space-y-3">
-              {planos.map((plano) => (
-                <div key={plano.id} className="bg-white rounded-lg border border-brown-caramel/10 p-4 flex justify-between items-center">
-                  <div>
-                    <p className="font-heading text-brown-dark">{plano.titulo}</p>
-                    <p className="text-sm font-body text-brown-medium">{plano.credito} • {plano.prazo}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => setEditingPlano(plano)}
-                      className="text-blue-accent hover:bg-blue-accent/10"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => deletePlanoMutation.mutate(plano.id)}
-                      className="text-red-600 hover:bg-red-50"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            ) : null}
           </TabsContent>
 
           {/* DEPOIMENTOS */}
