@@ -93,10 +93,21 @@ export default function FormularioMultietapas() {
   };
 
   const handleWhatsappChange = (e) => {
-    const value = e.target.value;
-    setForm({ ...form, whatsapp: value });
-    if (value.trim()) {
-      setWhatsappError(validateWhatsapp(value) ? "" : "Número inválido. Use: 55 + DDD + 9 dígitos");
+    let value = e.target.value.replace(/\D/g, "");
+    
+    if (value.length > 11) {
+      value = value.slice(0, 11);
+    }
+    
+    if (value.length > 0 && !value.startsWith("55")) {
+      value = "55" + value.slice(0, 9);
+    }
+    
+    const formatted = value.length > 0 ? "+55 " + value.slice(2) : "";
+    setForm({ ...form, whatsapp: formatted });
+    
+    if (formatted.trim() && formatted.length > 5) {
+      setWhatsappError(validateWhatsapp(formatted) ? "" : "Número inválido. Digite DDD + 9 dígitos");
     } else {
       setWhatsappError("");
     }
@@ -339,7 +350,7 @@ export default function FormularioMultietapas() {
                           <Input
                             value={form.whatsapp}
                             onChange={handleWhatsappChange}
-                            placeholder="55 11 99999-9999"
+                            placeholder="+55 11 99999-9999"
                             className={`h-11 rounded-xl border-2 font-body transition-colors ${
                               whatsappError
                                 ? "border-red-400 focus:border-red-500 focus:bg-red-50"
