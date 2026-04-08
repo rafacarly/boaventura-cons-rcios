@@ -31,7 +31,7 @@ export default function CTAFinal() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
-              <Button className="bg-white text-brown-dark hover:bg-brown-sand rounded-full px-8 py-6 text-base font-body font-semibold gap-2 w-full sm:w-auto">
+              <Button className="bg-white text-brown-dark hover:bg-blue-accent/10 rounded-full px-8 py-6 text-base font-body font-semibold gap-2 w-full sm:w-auto border-2 border-blue-accent">
                 <Phone className="w-5 h-5" />
                 Falar no WhatsApp
               </Button>
@@ -39,7 +39,7 @@ export default function CTAFinal() {
             <Button
               onClick={scrollToForm}
               variant="outline"
-              className="border-white/40 text-white hover:bg-white/10 rounded-full px-8 py-6 text-base font-body w-full sm:w-auto gap-2"
+              className="border-2 border-white text-white hover:bg-white/10 rounded-full px-8 py-6 text-base font-body w-full sm:w-auto gap-2"
             >
               Solicitar simulação
               <ArrowRight className="w-5 h-5" />

@@ -92,8 +92,8 @@ module.exports = {
   safelist: [
     'bg-brown-dark', 'bg-brown-graphite', 'bg-brown-medium', 'bg-brown-caramel', 'bg-brown-sand',
     'text-brown-dark', 'text-brown-graphite', 'text-brown-medium', 'text-brown-caramel', 'text-brown-sand',
-    'text-blue-accent', 'bg-blue-accent',
-    'border-brown-caramel', 'border-brown-medium',
+    'text-blue-accent', 'bg-blue-accent', 'border-blue-accent', 'shadow-blue-accent',
+    'border-brown-caramel', 'border-brown-medium', 'hover:border-blue-accent', 'hover:text-blue-accent',
   ],
   plugins: [require("tailwindcss-animate")],
 }

@@ -54,10 +54,10 @@ export default function HeroSection() {
                 <button
                   key={t.id}
                   onClick={() => setActiveTab(i)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-body font-medium transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-body font-medium transition-all border-2 ${
                     activeTab === i
-                      ? "bg-brown-caramel text-white"
-                      : "bg-brown-graphite text-brown-sand/70 hover:bg-brown-medium hover:text-white"
+                      ? "bg-blue-accent text-white border-blue-accent"
+                      : "bg-transparent text-brown-sand/70 border-brown-sand/30 hover:border-blue-accent hover:text-blue-accent"
                   }`}
                 >
                   <t.icon className="w-4 h-4" />
@@ -87,7 +87,7 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-3 mb-8">
               <Button
                 onClick={scrollToForm}
-                className="bg-brown-caramel hover:bg-brown-medium text-white rounded-full px-8 py-6 text-base font-body font-semibold gap-2"
+                className="bg-blue-accent hover:bg-cyan-400 text-white rounded-full px-8 py-6 text-base font-body font-semibold gap-2 shadow-lg shadow-blue-accent/30"
               >
                 Solicitar simulação
                 <ArrowRight className="w-5 h-5" />
@@ -95,7 +95,7 @@ export default function HeroSection() {
               <Button
                 onClick={scrollToForm}
                 variant="outline"
-                className="border-brown-sand/30 text-brown-sand hover:bg-brown-sand/10 rounded-full px-8 py-6 text-base font-body"
+                className="border-2 border-blue-accent text-blue-accent hover:bg-blue-accent/10 rounded-full px-8 py-6 text-base font-body"
               >
                 Quero entender mais
               </Button>
@@ -104,15 +104,15 @@ export default function HeroSection() {
             {/* Trust badges */}
             <div className="flex flex-wrap gap-6 text-sm text-brown-sand/60 font-body">
               <div className="flex items-center gap-2">
-                <Shield className="w-4 h-4 text-brown-caramel" />
+                <Shield className="w-4 h-4 text-blue-accent" />
                 <span>Sem juros</span>
               </div>
               <div className="flex items-center gap-2">
-                <Users className="w-4 h-4 text-brown-caramel" />
+                <Users className="w-4 h-4 text-blue-accent" />
                 <span>+2.000 clientes</span>
               </div>
               <div className="flex items-center gap-2">
-                <Award className="w-4 h-4 text-brown-caramel" />
+                <Award className="w-4 h-4 text-blue-accent" />
                 <span>Atendimento consultivo</span>
               </div>
             </div>

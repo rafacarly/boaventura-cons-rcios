@@ -36,7 +36,7 @@ export default function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button className="bg-brown-caramel hover:bg-brown-medium text-white gap-2 rounded-full px-6">
+              <Button className="bg-blue-accent hover:bg-cyan-400 text-white gap-2 rounded-full px-6 shadow-lg shadow-blue-accent/30">
                 <Phone className="w-4 h-4" />
                 Falar no WhatsApp
               </Button>
@@ -63,7 +63,7 @@ export default function Navbar() {
               <button onClick={() => scrollTo("planos")} className="text-left py-2 text-brown-graphite font-body">Planos</button>
               <button onClick={() => scrollTo("faq")} className="text-left py-2 text-brown-graphite font-body">FAQ</button>
               <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-brown-caramel hover:bg-brown-medium text-white gap-2 rounded-full">
+                <Button className="w-full bg-blue-accent hover:bg-cyan-400 text-white gap-2 rounded-full">
                   <Phone className="w-4 h-4" />
                   Falar no WhatsApp
                 </Button>
