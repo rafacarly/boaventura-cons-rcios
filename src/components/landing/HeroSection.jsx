@@ -42,6 +42,11 @@ export default function HeroSection() {
     <section className="relative pt-20 md:pt-24 overflow-hidden">
       {/* Background diagonal */}
       <div className="absolute inset-0 bg-brown-dark" />
+      <motion.div 
+        animate={{ opacity: [0.3, 0.6, 0.3] }}
+        transition={{ repeat: Infinity, duration: 8 }}
+        className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full bg-blue-accent/10 blur-3xl" 
+      />
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-brown-sand" style={{ clipPath: "polygon(0 100%, 100% 100%, 100% 0)" }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
@@ -72,9 +77,9 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4 }}
               >
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-heading leading-tight mb-4">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-heading leading-tight mb-4">
                   {tab.headline}
                 </h1>
                 <p className="text-base sm:text-lg text-brown-sand/70 font-body leading-relaxed mb-8 max-w-lg">
@@ -85,20 +90,30 @@ export default function HeroSection() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3 mb-8">
-              <Button
-                onClick={scrollToForm}
-                className="bg-blue-accent hover:bg-cyan-400 text-white rounded-full px-8 py-6 text-base font-body font-semibold gap-2 shadow-lg shadow-blue-accent/30"
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Solicitar simulação
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-              <Button
-                onClick={scrollToForm}
-                variant="outline"
-                className="border-2 border-blue-accent text-blue-accent hover:bg-blue-accent/10 rounded-full px-8 py-6 text-base font-body"
+                <Button
+                  onClick={scrollToForm}
+                  className="bg-blue-accent hover:bg-cyan-400 text-white rounded-full px-8 py-6 text-base font-heading font-bold gap-2 shadow-lg shadow-blue-accent/30 w-full sm:w-auto"
+                >
+                  Solicitar simulação
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Quero entender mais
-              </Button>
+                <Button
+                  onClick={scrollToForm}
+                  variant="outline"
+                  className="border-2 border-blue-accent text-blue-accent hover:bg-blue-accent/10 rounded-full px-8 py-6 text-base font-heading font-bold w-full sm:w-auto"
+                >
+                  Quero entender mais
+                </Button>
+              </motion.div>
             </div>
 
             {/* Trust badges */}
