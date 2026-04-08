@@ -77,6 +77,7 @@ export default function Admin() {
   const [editingPlano, setEditingPlano] = useState(null);
   const [editingDepoimento, setEditingDepoimento] = useState(null);
   const [editingHeroImage, setEditingHeroImage] = useState(null);
+  const [editingConfig, setEditingConfig] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -103,6 +104,11 @@ export default function Admin() {
   const { data: heroImages = [] } = useQuery({
     queryKey: ["heroImages"],
     queryFn: () => base44.entities.HeroImage.list("-ordem", 100),
+  });
+
+  const { data: configs = [] } = useQuery({
+    queryKey: ["configs"],
+    queryFn: () => base44.entities.ConfiguracaoSite.list("-created_date", 100),
   });
 
   const updateMutation = useMutation({
@@ -147,6 +153,24 @@ export default function Admin() {
   const deleteHeroImageMutation = useMutation({
     mutationFn: (id) => base44.entities.HeroImage.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["heroImages"] }),
+  });
+
+  const updateConfigMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.ConfiguracaoSite.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["configs"] });
+      setEditingConfig(null);
+    },
+  });
+
+  const deleteConfigMutation = useMutation({
+    mutationFn: (id) => base44.entities.ConfiguracaoSite.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["configs"] }),
+  });
+
+  const createConfigMutation = useMutation({
+    mutationFn: (data) => base44.entities.ConfiguracaoSite.create(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["configs"] }),
   });
 
   const filtered = leads.filter((lead) => {
@@ -205,6 +229,7 @@ export default function Admin() {
             <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
             <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
             <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
+            <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>
           </TabsList>
 
           {/* ABA LEADS */}
@@ -636,6 +661,103 @@ export default function Admin() {
                   </Button>
                   <Button
                     onClick={() => setEditingHeroImage(null)}
+                    variant="outline"
+                    className="rounded-lg"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
+            </TabsContent>
+
+            {/* ABA CONFIGURAÇÕES */}
+            <TabsContent value="configs" className="space-y-6">
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="p-6 border-b border-brown-caramel/10">
+                <h3 className="text-lg font-heading text-brown-dark">Configurações do Site</h3>
+                <p className="text-sm font-body text-brown-medium mt-1">Altere links de WhatsApp, formulários e outros elementos do site</p>
+              </div>
+
+              {configs.length === 0 ? (
+                <div className="p-8 text-center text-brown-medium font-body">Nenhuma configuração criada.</div>
+              ) : (
+                <div className="divide-y divide-brown-caramel/10">
+                  {configs.map((cfg) => (
+                    <div key={cfg.id} className="p-4 hover:bg-brown-sand/30 transition-colors flex justify-between items-start gap-4">
+                      <div className="flex-1">
+                        <h4 className="font-heading text-brown-dark font-semibold text-sm">{cfg.chave}</h4>
+                        <p className="text-sm font-body text-brown-medium mt-1 break-all">{cfg.valor}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setEditingConfig(cfg)}
+                          className="text-blue-accent hover:bg-blue-accent/10"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => deleteConfigMutation.mutate(cfg.id)}
+                          className="text-red-600 hover:bg-red-50"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="p-6 border-t border-brown-caramel/10">
+                <Button
+                  onClick={() => setEditingConfig({ chave: "", valor: "" })}
+                  className="bg-green-600 hover:bg-green-700 text-white rounded-lg gap-2"
+                >
+                  ➕ Nova Configuração
+                </Button>
+              </div>
+            </div>
+
+            {editingConfig && (
+              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">
+                  {editingConfig.id ? "✏️ Editando" : "➕ Criar nova configuração"}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Chave (ex: whatsapp_link)"
+                    value={editingConfig.chave}
+                    onChange={(e) => setEditingConfig({ ...editingConfig, chave: e.target.value })}
+                    className="border-blue-accent/20 font-body md:col-span-1"
+                  />
+                  <textarea
+                    placeholder="Valor"
+                    value={editingConfig.valor}
+                    onChange={(e) => setEditingConfig({ ...editingConfig, valor: e.target.value })}
+                    className="border border-blue-accent/20 rounded-md p-3 font-body text-sm md:col-span-2"
+                    rows="3"
+                  />
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={() => {
+                      if (editingConfig.id) {
+                        updateConfigMutation.mutate({ id: editingConfig.id, data: editingConfig });
+                      } else {
+                        createConfigMutation.mutate(editingConfig);
+                        setEditingConfig(null);
+                      }
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  >
+                    💾 Salvar
+                  </Button>
+                  <Button
+                    onClick={() => setEditingConfig(null)}
                     variant="outline"
                     className="rounded-lg"
                   >
