@@ -8,7 +8,7 @@ const TABS = [
     id: "casa",
     label: "Casa",
     icon: Home,
-    image: "/__generating__/img_2bc535c033e7.png",
+    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png",
     headline: "A casa dos seus sonhos, sem juros de financiamento.",
     sub: "Planejamento inteligente para conquistar seu imóvel com parcelas que cabem no bolso."
   },
@@ -16,7 +16,7 @@ const TABS = [
     id: "carro",
     label: "Carro",
     icon: Car,
-    image: "/__generating__/img_c5f20bf062e2.png",
+    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/51c474cb1_generated_035ec33b.png",
     headline: "Seu próximo carro com planejamento e sem juros.",
     sub: "Parcelas acessíveis e poder de compra à vista. O caminho mais inteligente para seu veículo."
   },
@@ -24,7 +24,7 @@ const TABS = [
     id: "investimento",
     label: "Investimento",
     icon: TrendingUp,
-    image: "/__generating__/img_334873126588.png",
+    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/b2406dd9d_generated_37d09505.png",
     headline: "Multiplique seu patrimônio com estratégia.",
     sub: "Use o consórcio como ferramenta de investimento inteligente e conquiste mais."
   }

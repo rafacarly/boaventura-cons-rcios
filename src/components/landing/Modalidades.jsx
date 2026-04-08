@@ -7,19 +7,19 @@ const CARDS = [
   {
     title: "Consórcio de Carro",
     desc: "Parcelas acessíveis e poder de compra à vista. Planeje seu próximo veículo sem juros.",
-    image: "/__generating__/img_c5f20bf062e2.png",
+    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/51c474cb1_generated_035ec33b.png",
     cta: "Simular carro"
   },
   {
     title: "Consórcio de Imóvel",
     desc: "A forma mais inteligente de conquistar a casa própria, com planejamento e sem juros.",
-    image: "/__generating__/img_2bc535c033e7.png",
+    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png",
     cta: "Simular imóvel"
   },
   {
     title: "Consórcio para Investimento",
     desc: "Use o consórcio como estratégia patrimonial. Multiplique seu patrimônio de forma planejada.",
-    image: "/__generating__/img_334873126588.png",
+    image: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/b2406dd9d_generated_37d09505.png",
     cta: "Simular investimento"
   }
 ];

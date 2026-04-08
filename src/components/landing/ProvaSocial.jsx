@@ -4,21 +4,21 @@ import { MapPin } from "lucide-react";
 
 const DEPOIMENTOS = [
   {
-    foto: "/__generating__/img_fb2ebb67f8b2.png",
+    foto: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/91a4349bf_generated_8c21d13b.png",
     nome: "Mariana e Pedro",
     tipo: "Imóvel",
     cidade: "São Paulo, SP",
     frase: "Conquistamos nosso apartamento sem precisar de entrada. O atendimento foi incrível."
   },
   {
-    foto: "/__generating__/img_4c4e6434ea13.png",
+    foto: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/cb5b0e855_generated_1b0cde25.png",
     nome: "Rafael Oliveira",
     tipo: "Carro",
     cidade: "Campinas, SP",
     frase: "Troquei de carro negociando à vista com a carta. Economizei muito comparado ao financiamento."
   },
   {
-    foto: "/__generating__/img_4d622aa676be.png",
+    foto: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/1ab553d88_generated_eb09548a.png",
     nome: "Luciana Mendes",
     tipo: "Investimento",
     cidade: "Belo Horizonte, MG",
