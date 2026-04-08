@@ -1,33 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
-
-const PLANS = [
-  {
-    title: "Carro Popular",
-    credito: "R$ 50.000",
-    prazo: "60 meses",
-    parcela: "a partir de R$ 650/mês",
-    featured: false
-  },
-  {
-    title: "Imóvel Residencial",
-    credito: "R$ 250.000",
-    prazo: "200 meses",
-    parcela: "a partir de R$ 1.600/mês",
-    featured: true
-  },
-  {
-    title: "Investimento Premium",
-    credito: "R$ 500.000",
-    prazo: "180 meses",
-    parcela: "a partir de R$ 3.200/mês",
-    featured: false
-  }
-];
+import { base44 } from "@/api/base44Client";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Planos() {
+  const [plans, setPlans] = useState([]);
+
+  const { data: planosFromDB = [] } = useQuery({
+    queryKey: ["planosHome"],
+    queryFn: () => base44.entities.PlanoPreco.list("-created_date", 100),
+  });
+
+  // Mapear PlanoPreco para formato da página, destacando o primeiro
+  useEffect(() => {
+    const mapped = planosFromDB.map((plano, i) => ({
+      id: plano.id,
+      title: plano.titulo,
+      credito: plano.credito,
+      prazo: plano.prazo,
+      parcela: plano.parcela,
+      featured: i === 1 // Destaca o segundo plano
+    }));
+    setPlans(mapped);
+  }, [planosFromDB]);
+
   const scrollToForm = () => {
     document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -50,7 +48,7 @@ export default function Planos() {
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {PLANS.map((plan, i) => (
+          {plans.map((plan, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 40 }}
