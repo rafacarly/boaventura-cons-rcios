@@ -1,0 +1,28 @@
+{
+  "name": "ImagemCarrossel",
+  "type": "object",
+  "properties": {
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "casa",
+        "carro",
+        "moto"
+      ],
+      "description": "Tipo de imagem"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL da imagem"
+    },
+    "ordem": {
+      "type": "number",
+      "description": "Ordem de exibi\u00e7\u00e3o"
+    }
+  },
+  "required": [
+    "tipo",
+    "url",
+    "ordem"
+  ]
+}

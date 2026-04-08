@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, ArrowLeft, Check, Car, Home, TrendingUp, Bike, Loader2 } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, Car, Home, TrendingUp, Bike, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+import { useQuery } from "@tanstack/react-query";
 
 const WHATSAPP_NUMBER = "5511999999999";
 
@@ -74,6 +75,7 @@ export default function FormularioMultietapas() {
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
   const [form, setForm] = useState({
     nome: "",
     whatsapp: "",
@@ -84,6 +86,20 @@ export default function FormularioMultietapas() {
   });
 
   const [whatsappError, setWhatsappError] = useState("");
+
+  const { data: imagens = [] } = useQuery({
+    queryKey: ["imagensCarrossel"],
+    queryFn: () => base44.entities.ImagemCarrossel.list("ordem", 100),
+  });
+
+  useEffect(() => {
+    if (imagens.length > 0) {
+      const interval = setInterval(() => {
+        setImageIndex((prev) => (prev + 1) % imagens.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [imagens.length]);
 
   const totalSteps = 3;
 
@@ -245,7 +261,7 @@ export default function FormularioMultietapas() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="grid md:grid-cols-2 gap-6 lg:gap-10 items-center"
         >
-          {/* Left Side - Image */}
+          {/* Left Side - Image Carousel */}
           <div className="hidden md:block relative">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -253,13 +269,64 @@ export default function FormularioMultietapas() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="relative rounded-3xl overflow-hidden shadow-2xl"
             >
-              <div className="aspect-square">
-                <img
-                  src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png"
-                  alt="Simulador de Consórcio"
-                  className="w-full h-full object-cover"
-                />
+              <div className="aspect-square bg-brown-sand/50">
+                {imagens.length > 0 ? (
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={imageIndex}
+                      src={imagens[imageIndex]?.url}
+                      alt={imagens[imageIndex]?.tipo}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.5 }}
+                      className="w-full h-full object-cover"
+                    />
+                  </AnimatePresence>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-brown-medium font-body">
+                    Carregando imagens...
+                  </div>
+                )}
               </div>
+
+              {/* Carousel Controls */}
+              {imagens.length > 1 && (
+                <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
+                  <motion.button
+                    onClick={() => setImageIndex((prev) => (prev - 1 + imagens.length) % imagens.length)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="pointer-events-auto w-10 h-10 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-lg transition-colors"
+                  >
+                    <ChevronLeft className="w-5 h-5 text-brown-dark" />
+                  </motion.button>
+                  <motion.button
+                    onClick={() => setImageIndex((prev) => (prev + 1) % imagens.length)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="pointer-events-auto w-10 h-10 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-lg transition-colors"
+                  >
+                    <ChevronRight className="w-5 h-5 text-brown-dark" />
+                  </motion.button>
+                </div>
+              )}
+
+              {/* Dots Indicator */}
+              {imagens.length > 1 && (
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+                  {imagens.map((_, idx) => (
+                    <motion.button
+                      key={idx}
+                      onClick={() => setImageIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        idx === imageIndex ? "bg-white w-8" : "bg-white/50"
+                      }`}
+                      whileHover={{ scale: 1.2 }}
+                    />
+                  ))}
+                </div>
+              )}
               
               {/* Overlay Card */}
               <motion.div

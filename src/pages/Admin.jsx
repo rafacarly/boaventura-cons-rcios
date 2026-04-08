@@ -78,6 +78,7 @@ export default function Admin() {
   const [editingDepoimento, setEditingDepoimento] = useState(null);
   const [editingHeroImage, setEditingHeroImage] = useState(null);
   const [editingConfig, setEditingConfig] = useState(null);
+  const [editingCarrossel, setEditingCarrossel] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -109,6 +110,11 @@ export default function Admin() {
   const { data: configs = [] } = useQuery({
     queryKey: ["configs"],
     queryFn: () => base44.entities.ConfiguracaoSite.list("-created_date", 100),
+  });
+
+  const { data: imagensCarrossel = [] } = useQuery({
+    queryKey: ["imagensCarrossel"],
+    queryFn: () => base44.entities.ImagemCarrossel.list("ordem", 100),
   });
 
   const updateMutation = useMutation({
@@ -173,6 +179,27 @@ export default function Admin() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["configs"] }),
   });
 
+  const updateCarrosselMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.ImagemCarrossel.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["imagensCarrossel"] });
+      setEditingCarrossel(null);
+    },
+  });
+
+  const deleteCarrosselMutation = useMutation({
+    mutationFn: (id) => base44.entities.ImagemCarrossel.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["imagensCarrossel"] }),
+  });
+
+  const createCarrosselMutation = useMutation({
+    mutationFn: (data) => base44.entities.ImagemCarrossel.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["imagensCarrossel"] });
+      setEditingCarrossel(null);
+    },
+  });
+
   const filtered = leads.filter((lead) => {
     const matchSearch = !search || 
       lead.nome?.toLowerCase().includes(search.toLowerCase()) ||
@@ -229,6 +256,7 @@ export default function Admin() {
             <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
             <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
             <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
+            <TabsTrigger value="carrossel">🎠 Carrossel Formulário</TabsTrigger>
             <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>
           </TabsList>
 
@@ -661,6 +689,123 @@ export default function Admin() {
                   </Button>
                   <Button
                     onClick={() => setEditingHeroImage(null)}
+                    variant="outline"
+                    className="rounded-lg"
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
+            </TabsContent>
+
+            {/* ABA CARROSSEL FORMULÁRIO */}
+            <TabsContent value="carrossel" className="space-y-6">
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="p-6 border-b border-brown-caramel/10">
+                <h3 className="text-lg font-heading text-brown-dark">Imagens do Carrossel (Ao lado do Formulário)</h3>
+                <p className="text-sm font-body text-brown-medium mt-1">Adicione imagens de casa, carro e moto que aparecem no carrossel</p>
+              </div>
+
+              {imagensCarrossel.length === 0 ? (
+                <div className="p-8 text-center text-brown-medium font-body">Nenhuma imagem no carrossel.</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
+                  {imagensCarrossel.map((img) => (
+                    <div key={img.id} className="border border-brown-caramel/15 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                      <div className="aspect-square bg-brown-sand/30 overflow-hidden">
+                        <img src={img.url} alt={img.tipo} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="p-3 flex justify-between items-center">
+                        <div>
+                          <span className="text-sm font-body text-brown-dark capitalize">{img.tipo}</span>
+                          <p className="text-xs font-body text-brown-medium">Ordem: {img.ordem}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setEditingCarrossel(img)}
+                            className="text-blue-accent hover:bg-blue-accent/10"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => deleteCarrosselMutation.mutate(img.id)}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="p-6 border-t border-brown-caramel/10">
+                <Button
+                  onClick={() => setEditingCarrossel({ tipo: "casa", url: "", ordem: imagensCarrossel.length + 1 })}
+                  className="bg-green-600 hover:bg-green-700 text-white rounded-lg gap-2"
+                >
+                  ➕ Nova Imagem
+                </Button>
+              </div>
+            </div>
+
+            {editingCarrossel && (
+              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">
+                  {editingCarrossel.id ? "✏️ Editando" : "➕ Adicionar imagem ao carrossel"}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Select
+                    value={editingCarrossel.tipo}
+                    onValueChange={(value) => setEditingCarrossel({ ...editingCarrossel, tipo: value })}
+                  >
+                    <SelectTrigger className="border-blue-accent/20 font-body">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="casa">🏠 Casa</SelectItem>
+                      <SelectItem value="carro">🚗 Carro</SelectItem>
+                      <SelectItem value="moto">🏍️ Moto</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    placeholder="Ordem"
+                    type="number"
+                    value={editingCarrossel.ordem}
+                    onChange={(e) => setEditingCarrossel({ ...editingCarrossel, ordem: Number(e.target.value) })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Input
+                    placeholder="URL da imagem"
+                    value={editingCarrossel.url}
+                    onChange={(e) => setEditingCarrossel({ ...editingCarrossel, url: e.target.value })}
+                    className="border-blue-accent/20 font-body md:col-span-2"
+                  />
+                  <div className="aspect-video rounded-lg overflow-hidden bg-brown-sand/30 md:col-span-2">
+                    <img src={editingCarrossel.url} alt="preview" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={() => {
+                      if (editingCarrossel.id) {
+                        updateCarrosselMutation.mutate({ id: editingCarrossel.id, data: editingCarrossel });
+                      } else {
+                        createCarrosselMutation.mutate(editingCarrossel);
+                      }
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  >
+                    💾 Salvar
+                  </Button>
+                  <Button
+                    onClick={() => setEditingCarrossel(null)}
                     variant="outline"
                     className="rounded-lg"
                   >
