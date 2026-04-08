@@ -6,7 +6,7 @@ import ComoFunciona from "../components/landing/ComoFunciona";
 import Modalidades from "../components/landing/Modalidades";
 import Vantagens from "../components/landing/Vantagens";
 import FormularioMultietapas from "../components/landing/FormularioMultietapas";
-import PlanosDestaque from "../components/landing/PlanosDestaque";
+import Planos from "../components/landing/Planos";
 import ProvaSocial from "../components/landing/ProvaSocial";
 import Comparativo from "../components/landing/Comparativo";
 import FAQ from "../components/landing/FAQ";
@@ -23,7 +23,7 @@ export default function Home() {
       <Modalidades />
       <Vantagens />
       <FormularioMultietapas />
-      <PlanosDestaque />
+      <Planos />
       <ProvaSocial />
       <Comparativo />
       <FAQ />
