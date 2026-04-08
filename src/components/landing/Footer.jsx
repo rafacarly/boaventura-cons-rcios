@@ -1,7 +1,7 @@
 import React from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
 
-const WHATSAPP_NUMBER = "5511999999999";
+const WHATSAPP_NUMBER = "5571992764466";
 
 export default function Footer() {
   return (
@@ -34,15 +34,15 @@ export default function Footer() {
                 className="flex items-center gap-3 text-sm font-body text-brown-sand/60 hover:text-brown-caramel transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                (11) 99999-9999
+                (71) 99276-4466
               </a>
               <div className="flex items-center gap-3 text-sm font-body text-brown-sand/60">
                 <Mail className="w-4 h-4" />
-                contato@boaventuraconsorcio.com.br
+                boaventurapaula67@gmail.com
               </div>
               <div className="flex items-center gap-3 text-sm font-body text-brown-sand/60">
                 <MapPin className="w-4 h-4" />
-                São Paulo, SP
+                Salvador, Bahia
               </div>
             </div>
           </div>
