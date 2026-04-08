@@ -19,11 +19,11 @@ module.exports = {
         brown: {
           dark: '#21180F',
           graphite: '#3B3125',
-          medium: '#73583A',
-          caramel: '#D4924D',
+          medium: '#836442',
+          caramel: '#f98227',
           sand: '#FEF7F2',
         },
-        'blue-accent': '#46B8E8',
+        'blue-accent': '#00cbf7',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
