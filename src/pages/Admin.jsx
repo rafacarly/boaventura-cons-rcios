@@ -440,12 +440,10 @@ export default function Admin() {
                 </div>
               </div>
             )}
-          </TabsContent>
-        </Tabs>
-      </div>
+            </TabsContent>
 
-          {/* ABA DEPOIMENTOS */}
-          <TabsContent value="depoimentos" className="space-y-6">
+            {/* ABA DEPOIMENTOS */}
+            <TabsContent value="depoimentos" className="space-y-6">
             <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
               <div className="p-6 border-b border-brown-caramel/10">
                 <h3 className="text-lg font-heading text-brown-dark">Depoimentos (Exibidos na Home)</h3>
@@ -548,11 +546,11 @@ export default function Admin() {
                 </div>
               </div>
             )}
-          </TabsContent>
-        </Tabs>
-      </div>
+            </TabsContent>
+            </Tabs>
+            </div>
 
-      <LeadDetailDialog
+            <LeadDetailDialog
         lead={selectedLead}
         open={!!selectedLead}
         onOpenChange={(open) => !open && setSelectedLead(null)}
