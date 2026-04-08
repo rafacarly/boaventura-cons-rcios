@@ -126,11 +126,6 @@ export default function Admin() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Link to="/admin-settings">
-              <Button variant="ghost" className="text-brown-sand/70 hover:text-brown-sand hover:bg-brown-graphite gap-2 rounded-lg">
-                <Settings className="w-4 h-4" />
-              </Button>
-            </Link>
             <Button
               variant="ghost"
               onClick={() => {
