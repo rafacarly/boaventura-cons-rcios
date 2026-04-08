@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/landing/Navbar";
 import HeroSection from "../components/landing/HeroSection";
+import TabelaPrecosHome from "../components/landing/TabelaPrecosHome";
 import PorQueBoaventura from "../components/landing/PorQueBoaventura";
 import ComoFunciona from "../components/landing/ComoFunciona";
 import Modalidades from "../components/landing/Modalidades";
@@ -18,6 +19,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
       <HeroSection />
+      <TabelaPrecosHome />
       <PorQueBoaventura />
       <ComoFunciona />
       <Modalidades />
