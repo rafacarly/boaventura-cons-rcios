@@ -127,6 +127,7 @@ export default function FormularioMultietapas() {
 
   const handleSubmit = async () => {
     setLoading(true);
+    const isComplete = form.nome && form.whatsapp && form.objetivo && form.faixa_credito && form.prazo && form.conhecimento;
     await base44.entities.Lead.create({
       nome: form.nome,
       whatsapp: form.whatsapp,
@@ -134,7 +135,8 @@ export default function FormularioMultietapas() {
       faixa_credito: form.faixa_credito,
       prazo: form.prazo,
       conhecimento: form.conhecimento,
-      status: "novo"
+      status: "novo",
+      completude: isComplete ? "completo" : "incompleto"
     });
 
     setDone(true);

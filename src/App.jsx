@@ -7,6 +7,9 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
+import AdminLogin from './pages/AdminLogin';
+import AdminSettings from './pages/AdminSettings';
+import TabelaPrecos from './pages/TabelaPrecos';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -35,7 +38,10 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/tabela-precos" element={<TabelaPrecos />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/admin-settings" element={<AdminSettings />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

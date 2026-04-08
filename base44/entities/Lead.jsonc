@@ -49,24 +49,6 @@
       ],
       "description": "N\u00edvel de conhecimento sobre cons\u00f3rcio"
     },
-    "lance": {
-      "type": "string",
-      "enum": [
-        "sim",
-        "talvez",
-        "nao"
-      ],
-      "description": "Interesse em dar lance"
-    },
-    "momento": {
-      "type": "string",
-      "enum": [
-        "contratar_logo",
-        "analisando",
-        "so_pesquisando"
-      ],
-      "description": "Momento de compra"
-    },
     "status": {
       "type": "string",
       "enum": [
@@ -77,6 +59,15 @@
       ],
       "default": "novo",
       "description": "Status do lead"
+    },
+    "completude": {
+      "type": "string",
+      "enum": [
+        "incompleto",
+        "completo"
+      ],
+      "default": "incompleto",
+      "description": "Se o lead preencheu todos os campos"
     }
   },
   "required": [

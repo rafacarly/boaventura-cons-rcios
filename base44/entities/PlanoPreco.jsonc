@@ -1,0 +1,42 @@
+{
+  "name": "PlanoPreco",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string",
+      "description": "T\u00edtulo do plano"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "carro",
+        "imovel",
+        "investimento"
+      ],
+      "description": "Tipo de cons\u00f3rcio"
+    },
+    "credito": {
+      "type": "string",
+      "description": "Valor do cr\u00e9dito"
+    },
+    "prazo": {
+      "type": "string",
+      "description": "Prazo em meses"
+    },
+    "parcela": {
+      "type": "string",
+      "description": "Valor da parcela"
+    },
+    "foto_url": {
+      "type": "string",
+      "description": "URL da foto de capa"
+    }
+  },
+  "required": [
+    "titulo",
+    "tipo",
+    "credito",
+    "prazo",
+    "parcela"
+  ]
+}

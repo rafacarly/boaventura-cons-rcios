@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
@@ -19,9 +19,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle, LogOut, Settings } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import LeadDetailDialog from "../components/admin/LeadDetailDialog";
+import { isAdminAuthenticated, logoutAdmin } from "@/lib/adminAuth";
 
 const STATUS_OPTIONS = [
   { value: "all", label: "Todos" },
@@ -39,6 +40,12 @@ const OBJETIVO_OPTIONS = [
   { value: "moto", label: "Moto" }
 ];
 
+const COMPLETUDE_OPTIONS = [
+  { value: "all", label: "Todos" },
+  { value: "completo", label: "Completo" },
+  { value: "incompleto", label: "Incompleto" }
+];
+
 const STATUS_COLORS = {
   novo: "bg-blue-accent/20 text-blue-accent",
   em_atendimento: "bg-brown-caramel/20 text-brown-caramel",
@@ -46,19 +53,33 @@ const STATUS_COLORS = {
   perdido: "bg-red-100 text-red-600"
 };
 
+const COMPLETUDE_COLORS = {
+  completo: "bg-green-100 text-green-700",
+  incompleto: "bg-red-100 text-red-600"
+};
+
 const OBJETIVO_LABELS = { carro: "Carro", imovel: "Imóvel", investimento: "Investimento", moto: "Moto" };
 const STATUS_LABELS = { novo: "Novo", em_atendimento: "Em atendimento", fechado: "Fechado", perdido: "Perdido" };
+const COMPLETUDE_LABELS = { completo: "Completo", incompleto: "Incompleto" };
 
 function cleanPhone(phone) {
   return phone?.replace(/\D/g, "") || "";
 }
 
 export default function Admin() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [objetivoFilter, setObjetivoFilter] = useState("all");
+  const [completudeFilter, setCompletudeFilter] = useState("all");
   const [selectedLead, setSelectedLead] = useState(null);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!isAdminAuthenticated()) {
+      navigate("/admin-login");
+    }
+  }, [navigate]);
 
   const { data: leads = [], isLoading } = useQuery({
     queryKey: ["leads"],
@@ -76,7 +97,8 @@ export default function Admin() {
       lead.whatsapp?.includes(search);
     const matchStatus = statusFilter === "all" || lead.status === statusFilter;
     const matchObjetivo = objetivoFilter === "all" || lead.objetivo === objetivoFilter;
-    return matchSearch && matchStatus && matchObjetivo;
+    const matchCompletuде = completudeFilter === "all" || lead.completude === completudeFilter;
+    return matchSearch && matchStatus && matchObjetivo && matchCompletuде;
   });
 
   const stats = {
@@ -102,6 +124,23 @@ export default function Admin() {
               <h1 className="text-xl font-heading text-brown-sand">Painel de Leads</h1>
               <p className="text-xs font-body text-brown-sand/50">Boaventura | Consórcios</p>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link to="/admin-settings">
+              <Button variant="ghost" className="text-brown-sand/70 hover:text-brown-sand hover:bg-brown-graphite gap-2 rounded-lg">
+                <Settings className="w-4 h-4" />
+              </Button>
+            </Link>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                logoutAdmin();
+                navigate("/admin-login");
+              }}
+              className="text-brown-sand/70 hover:text-brown-sand hover:bg-brown-graphite gap-2 rounded-lg"
+            >
+              <LogOut className="w-4 h-4" />
+            </Button>
           </div>
         </div>
       </div>
@@ -149,6 +188,17 @@ export default function Admin() {
                 ))}
               </SelectContent>
             </Select>
+            <Select value={completudeFilter} onValueChange={setCompletudeFilter}>
+              <SelectTrigger className="w-full sm:w-44 h-10 rounded-lg border-brown-caramel/20 font-body">
+                <Filter className="w-4 h-4 mr-2 text-brown-medium" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {COMPLETUDE_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -167,6 +217,7 @@ export default function Admin() {
                     <TableHead className="font-body font-semibold text-brown-dark">WhatsApp</TableHead>
                     <TableHead className="font-body font-semibold text-brown-dark">Objetivo</TableHead>
                     <TableHead className="font-body font-semibold text-brown-dark">Status</TableHead>
+                    <TableHead className="font-body font-semibold text-brown-dark">Completude</TableHead>
                     <TableHead className="font-body font-semibold text-brown-dark">Data</TableHead>
                     <TableHead className="font-body font-semibold text-brown-dark">Ações</TableHead>
                   </TableRow>
@@ -215,6 +266,11 @@ export default function Admin() {
                             <SelectItem value="perdido">Perdido</SelectItem>
                           </SelectContent>
                         </Select>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={`${COMPLETUDE_COLORS[lead.completude || "incompleto"]} text-xs`}>
+                          {COMPLETUDE_LABELS[lead.completude || "incompleto"]}
+                        </Badge>
                       </TableCell>
                       <TableCell className="font-body text-sm text-brown-medium">
                         {lead.created_date ? new Date(lead.created_date).toLocaleDateString("pt-BR") : "—"}
