@@ -11,7 +11,7 @@ export default function AdminSettings() {
   const queryClient = useQueryClient();
   const [editingPlano, setEditingPlano] = useState(null);
   const [editingDepoimento, setEditingDepoimento] = useState(null);
-  const [newPlano, setNewPlano] = useState({ titulo: "", tipo: "carro", credito: "", prazo: "", parcela: "", foto_url: "" });
+  const [newPlano, setNewPlano] = useState({ titulo: "", tipo: "carro", credito: "", prazo: "", parcela: "", valor_reducao: "", foto_url: "" });
   const [newDepoimento, setNewDepoimento] = useState({ nome: "", tipo_aquisicao: "carro", localizacao: "", texto: "", foto_url: "" });
 
   const { data: planos = [] } = useQuery({
@@ -28,7 +28,7 @@ export default function AdminSettings() {
     mutationFn: (data) => base44.entities.PlanoPreco.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["planos"] });
-      setNewPlano({ titulo: "", tipo: "carro", credito: "", prazo: "", parcela: "", foto_url: "" });
+      setNewPlano({ titulo: "", tipo: "carro", credito: "", prazo: "", parcela: "", valor_reducao: "", foto_url: "" });
     },
   });
 
@@ -97,11 +97,67 @@ export default function AdminSettings() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="planos" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 bg-white rounded-lg border border-brown-caramel/10">
-            <TabsTrigger value="planos" className="font-body">Planos de Preço</TabsTrigger>
+        <Tabs defaultValue="tabela" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 mb-8 bg-white rounded-lg border border-brown-caramel/10">
+            <TabsTrigger value="tabela" className="font-body">Tabela de Preços</TabsTrigger>
+            <TabsTrigger value="planos" className="font-body">Gerenciar Planos</TabsTrigger>
             <TabsTrigger value="depoimentos" className="font-body">Depoimentos</TabsTrigger>
           </TabsList>
+
+          {/* TABELA DE PREÇOS */}
+          <TabsContent value="tabela" className="space-y-6">
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-brown-dark/5 border-b border-brown-caramel/10">
+                      <th className="px-4 py-3 text-left font-heading text-brown-dark">Plano</th>
+                      <th className="px-4 py-3 text-left font-heading text-brown-dark">Tipo</th>
+                      <th className="px-4 py-3 text-left font-heading text-brown-dark">Crédito</th>
+                      <th className="px-4 py-3 text-left font-heading text-brown-dark">Prazo</th>
+                      <th className="px-4 py-3 text-left font-heading text-brown-dark">Parcela</th>
+                      <th className="px-4 py-3 text-left font-heading text-brown-dark">Redução</th>
+                      <th className="px-4 py-3 text-center font-heading text-brown-dark">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {planos.map((plano) => (
+                      <tr key={plano.id} className="border-b border-brown-caramel/10 hover:bg-brown-sand/50">
+                        <td className="px-4 py-3 font-body text-brown-dark">{plano.titulo}</td>
+                        <td className="px-4 py-3 font-body text-brown-medium text-xs">
+                          <span className="bg-brown-caramel/20 text-brown-caramel px-2 py-1 rounded">
+                            {plano.tipo === "carro" ? "🚗 Carro" : plano.tipo === "imovel" ? "🏠 Imóvel" : "💰 Investimento"}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 font-body text-brown-dark">{plano.credito}</td>
+                        <td className="px-4 py-3 font-body text-brown-dark">{plano.prazo}</td>
+                        <td className="px-4 py-3 font-body text-brown-dark">{plano.parcela}</td>
+                        <td className="px-4 py-3 font-body text-brown-dark">{plano.valor_reducao || "—"}</td>
+                        <td className="px-4 py-3 text-center flex gap-2 justify-center">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setEditingPlano(plano)}
+                            className="text-blue-accent hover:bg-blue-accent/10"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => deletePlanoMutation.mutate(plano.id)}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </TabsContent>
 
           {/* PLANOS */}
           <TabsContent value="planos" className="space-y-6">
@@ -139,6 +195,12 @@ export default function AdminSettings() {
                   placeholder="Parcela (ex: a partir de R$ 650/mês)"
                   value={newPlano.parcela}
                   onChange={(e) => setNewPlano({ ...newPlano, parcela: e.target.value })}
+                  className="border-brown-caramel/20 font-body"
+                />
+                <Input
+                  placeholder="Redução na parcela (opcional)"
+                  value={newPlano.valor_reducao}
+                  onChange={(e) => setNewPlano({ ...newPlano, valor_reducao: e.target.value })}
                   className="border-brown-caramel/20 font-body"
                 />
                 <Input
@@ -183,6 +245,12 @@ export default function AdminSettings() {
                     placeholder="Parcela"
                     value={editingPlano.parcela}
                     onChange={(e) => setEditingPlano({ ...editingPlano, parcela: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Input
+                    placeholder="Redução na parcela"
+                    value={editingPlano.valor_reducao || ""}
+                    onChange={(e) => setEditingPlano({ ...editingPlano, valor_reducao: e.target.value })}
                     className="border-blue-accent/20 font-body"
                   />
                   <Input
