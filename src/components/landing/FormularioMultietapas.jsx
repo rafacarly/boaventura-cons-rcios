@@ -35,18 +35,6 @@ const CONHECIMENTO = [
   { value: "quero_entender", label: "Quero entender melhor" }
 ];
 
-const LANCE = [
-  { value: "sim", label: "Sim" },
-  { value: "talvez", label: "Talvez" },
-  { value: "nao", label: "Não" }
-];
-
-const MOMENTO = [
-  { value: "contratar_logo", label: "Quero contratar logo" },
-  { value: "analisando", label: "Estou analisando" },
-  { value: "so_pesquisando", label: "Só pesquisando" }
-];
-
 function SelectOption({ options, value, onChange, cols = 2 }) {
   return (
     <div className={`grid gap-3 ${cols === 4 ? "grid-cols-2 sm:grid-cols-4" : cols === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
@@ -92,17 +80,32 @@ export default function FormularioMultietapas() {
     objetivo: "",
     faixa_credito: "",
     prazo: "",
-    conhecimento: "",
-    lance: "",
-    momento: ""
+    conhecimento: ""
   });
+
+  const [whatsappError, setWhatsappError] = useState("");
 
   const totalSteps = 3;
 
+  const validateWhatsapp = (phone) => {
+    const cleaned = phone.replace(/\D/g, "");
+    return cleaned.length === 11 && cleaned.startsWith("55");
+  };
+
+  const handleWhatsappChange = (e) => {
+    const value = e.target.value;
+    setForm({ ...form, whatsapp: value });
+    if (value.trim()) {
+      setWhatsappError(validateWhatsapp(value) ? "" : "Número inválido. Use: 55 + DDD + 9 dígitos");
+    } else {
+      setWhatsappError("");
+    }
+  };
+
   const canNext = () => {
-    if (step === 0) return form.nome.trim() && form.whatsapp.trim();
+    if (step === 0) return form.nome.trim() && form.whatsapp.trim() && validateWhatsapp(form.whatsapp);
     if (step === 1) return !!form.objetivo;
-    if (step === 2) return form.faixa_credito && form.prazo && form.conhecimento && form.lance && form.momento;
+    if (step === 2) return form.faixa_credito && form.prazo && form.conhecimento;
     return false;
   };
 
@@ -110,8 +113,6 @@ export default function FormularioMultietapas() {
   const getFaixaLabel = (v) => FAIXAS.find(o => o.value === v)?.label || v;
   const getPrazoLabel = (v) => PRAZOS.find(o => o.value === v)?.label || v;
   const getConhecimentoLabel = (v) => CONHECIMENTO.find(o => o.value === v)?.label || v;
-  const getLanceLabel = (v) => LANCE.find(o => o.value === v)?.label || v;
-  const getMomentoLabel = (v) => MOMENTO.find(o => o.value === v)?.label || v;
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -122,8 +123,6 @@ export default function FormularioMultietapas() {
       faixa_credito: form.faixa_credito,
       prazo: form.prazo,
       conhecimento: form.conhecimento,
-      lance: form.lance,
-      momento: form.momento,
       status: "novo"
     });
 
@@ -131,7 +130,7 @@ export default function FormularioMultietapas() {
     setLoading(false);
 
     const msg = encodeURIComponent(
-      `Olá, meu nome é ${form.nome}. Acabei de preencher o formulário no site da Boaventura | Consórcios.\n\nMeu interesse é em: ${getObjetivoLabel(form.objetivo)}\nFaixa de crédito: ${getFaixaLabel(form.faixa_credito)}\nPrazo: ${getPrazoLabel(form.prazo)}\nConhecimento sobre consórcio: ${getConhecimentoLabel(form.conhecimento)}\nInteresse em lance: ${getLanceLabel(form.lance)}\nMomento: ${getMomentoLabel(form.momento)}\n\nQuero falar com um atendente.`
+      `Olá, meu nome é ${form.nome}. Acabei de preencher o formulário no site da Boaventura | Consórcios.\n\nMeu interesse é em: ${getObjetivoLabel(form.objetivo)}\nFaixa de crédito: ${getFaixaLabel(form.faixa_credito)}\nPrazo: ${getPrazoLabel(form.prazo)}\nConhecimento sobre consórcio: ${getConhecimentoLabel(form.conhecimento)}\n\nQuero falar com um atendente.`
     );
 
     setTimeout(() => {
@@ -339,10 +338,15 @@ export default function FormularioMultietapas() {
                           <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">WhatsApp</Label>
                           <Input
                             value={form.whatsapp}
-                            onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-                            placeholder="(11) 99999-9999"
-                            className="h-11 rounded-xl border-2 border-brown-caramel/20 focus:border-blue-accent focus:bg-blue-accent/5 font-body"
+                            onChange={handleWhatsappChange}
+                            placeholder="55 11 99999-9999"
+                            className={`h-11 rounded-xl border-2 font-body transition-colors ${
+                              whatsappError
+                                ? "border-red-400 focus:border-red-500 focus:bg-red-50"
+                                : "border-brown-caramel/20 focus:border-blue-accent focus:bg-blue-accent/5"
+                            }`}
                           />
+                          {whatsappError && <p className="text-xs text-red-500 mt-1">{whatsappError}</p>}
                         </div>
                       </div>
                     </motion.div>
@@ -383,16 +387,6 @@ export default function FormularioMultietapas() {
                       <div>
                         <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Conhece consórcio?</Label>
                         <SelectOption options={CONHECIMENTO} value={form.conhecimento} onChange={(v) => setForm({ ...form, conhecimento: v })} cols={3} />
-                      </div>
-
-                      <div>
-                        <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Pretende dar lance?</Label>
-                        <SelectOption options={LANCE} value={form.lance} onChange={(v) => setForm({ ...form, lance: v })} cols={3} />
-                      </div>
-
-                      <div>
-                        <Label className="text-brown-graphite font-heading font-semibold text-sm mb-2 block">Seu momento?</Label>
-                        <SelectOption options={MOMENTO} value={form.momento} onChange={(v) => setForm({ ...form, momento: v })} cols={3} />
                       </div>
                     </motion.div>
                   )}

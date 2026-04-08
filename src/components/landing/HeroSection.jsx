@@ -10,8 +10,8 @@ const TABS = [
     icon: Car,
     images: [
       "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/51c474cb1_generated_035ec33b.png",
-      "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=800&q=80",
-      "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&q=80"
+      "https://images.unsplash.com/photo-1605559424843-9e4c3ff86e00?w=800&q=80",
+      "https://images.unsplash.com/photo-1493195671595-30a332807d4a?w=800&q=80"
     ],
     headline: "Seu próximo carro com planejamento e sem juros.",
     sub: "Parcelas acessíveis e poder de compra à vista. O caminho mais inteligente para seu veículo."
@@ -22,8 +22,8 @@ const TABS = [
     icon: Home,
     images: [
       "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/366912ea4_generated_dfaacabd.png",
-      "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80",
-      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80"
+      "https://images.unsplash.com/photo-1570129477492-45433003ed2e?w=800&q=80",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80"
     ],
     headline: "A casa dos seus sonhos, sem juros de financiamento.",
     sub: "Planejamento inteligente para conquistar seu imóvel com parcelas que cabem no bolso."
@@ -34,8 +34,8 @@ const TABS = [
     icon: TrendingUp,
     images: [
       "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/b2406dd9d_generated_37d09505.png",
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80"
+      "https://images.unsplash.com/photo-1611974519253-c6b0eab8f597?w=800&q=80",
+      "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=80"
     ],
     headline: "Multiplique seu patrimônio com estratégia.",
     sub: "Use o consórcio como ferramenta de investimento inteligente e conquiste mais."
@@ -76,7 +76,7 @@ export default function HeroSection() {
           {/* Left */}
           <div className="text-brown-sand">
             {/* Tabs */}
-            <div className="flex gap-2 mb-8">
+            <div className="flex flex-wrap gap-2 mb-8">
               {TABS.map((t, i) => (
                 <button
                   key={t.id}
@@ -84,14 +84,14 @@ export default function HeroSection() {
                     setActiveTab(i);
                     setImageIndex(0);
                   }}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-body font-medium transition-all border-2 ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-body font-medium transition-all border-2 whitespace-nowrap ${
                     activeTab === i
                       ? "bg-blue-accent text-white border-blue-accent"
                       : "bg-transparent text-brown-sand/70 border-brown-sand/30 hover:border-blue-accent hover:text-blue-accent"
                   }`}
                 >
-                  <t.icon className="w-4 h-4" />
-                  {t.label}
+                  <t.icon className="w-4 h-4 flex-shrink-0" />
+                  <span>{t.label}</span>
                 </button>
               ))}
             </div>
