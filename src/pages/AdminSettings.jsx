@@ -106,6 +106,19 @@ export default function AdminSettings() {
 
           {/* TABELA DE PREÇOS */}
           <TabsContent value="tabela" className="space-y-6">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg font-heading text-brown-dark">Tabela de Preços</h3>
+              <button
+                onClick={() => {
+                  const tabsButton = document.querySelector('[value="planos"]');
+                  tabsButton?.click();
+                }}
+                className="bg-brown-caramel hover:bg-brown-medium text-white px-4 py-2 rounded-lg font-body font-semibold flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                Criar Novo Plano
+              </button>
+            </div>
             <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
