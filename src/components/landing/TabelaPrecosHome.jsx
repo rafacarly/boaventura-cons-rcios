@@ -14,8 +14,25 @@ export default function TabelaPrecosHome() {
   const carroPlanos = planos.filter(p => p.tipo === "carro");
   const imovelPlanos = planos.filter(p => p.tipo === "imovel");
 
-  if (isLoading) return null;
-  if (carroPlanos.length === 0 && imovelPlanos.length === 0) return null;
+  if (isLoading) {
+    return (
+      <section className="py-20 md:py-28 bg-gradient-to-b from-brown-sand to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-brown-medium font-body">Carregando tabela de preços...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (carroPlanos.length === 0 && imovelPlanos.length === 0) {
+    return (
+      <section className="py-20 md:py-28 bg-gradient-to-b from-brown-sand to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-brown-medium font-body">Nenhum plano disponível no momento.</p>
+        </div>
+      </section>
+    );
+  }
 
   const parseValue = (val) => {
     if (!val) return 0;
