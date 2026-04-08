@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/landing/Navbar";
 import HeroSection from "../components/landing/HeroSection";
 import PorQueBoaventura from "../components/landing/PorQueBoaventura";
@@ -14,6 +14,10 @@ import CTAFinal from "../components/landing/CTAFinal";
 import Footer from "../components/landing/Footer";
 
 export default function Home() {
+  useEffect(() => {
+    document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Navbar />
