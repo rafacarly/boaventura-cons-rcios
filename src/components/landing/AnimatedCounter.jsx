@@ -6,10 +6,11 @@ export default function AnimatedCounter({ value, suffix = "", prefix = "", durat
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [count, setCount] = useState(0);
 
-  // Parse numeric value from string like "+2.000", "15+", "100%"
-  const numericValue = parseInt(value.replace(/\D/g, "")) || 0;
-  const hasPlus = value.includes("+");
-  const hasPercent = value.includes("%");
+  // Convert to string and parse numeric value
+  const valueStr = String(value);
+  const numericValue = parseInt(valueStr.replace(/\D/g, "")) || 0;
+  const hasPlus = valueStr.includes("+");
+  const hasPercent = valueStr.includes("%");
 
   useEffect(() => {
     if (!isInView) return;
