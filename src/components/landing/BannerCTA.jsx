@@ -94,8 +94,8 @@ export default function BannerCTA() {
 
       {/* ── MOBILE layout ── */}
       <div className="lg:hidden absolute inset-0 z-10">
-        {/* Texto no topo */}
-        <div className="px-6 pt-8 text-center">
+        {/* Texto acima da caixa */}
+        <div className="px-6 pt-[28%] text-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
