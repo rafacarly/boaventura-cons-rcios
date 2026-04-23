@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
+import { Play, Pause } from "lucide-react";
 
 export default function VideoSection() {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const { data: videos = [] } = useQuery({
     queryKey: ["videos"],
     queryFn: () => base44.entities.Video.list("-created_date", 1),
@@ -13,6 +17,24 @@ export default function VideoSection() {
   const video = videos.find(v => v.ativo !== false);
 
   if (!video) return null;
+
+  const handlePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (videoRef.current && !isPlaying) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
 
   const getEmbedUrl = (tipo, url) => {
     if (tipo === "youtube") {
@@ -50,14 +72,31 @@ export default function VideoSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="rounded-3xl overflow-hidden shadow-2xl aspect-video bg-brown-dark"
+          className="rounded-3xl overflow-hidden shadow-2xl aspect-video bg-brown-dark relative"
+          onMouseEnter={handleMouseEnter}
         >
           {video.tipo === "upload" ? (
-            <video
-              src={video.url}
-              controls
-              className="w-full h-full object-cover"
-            />
+            <>
+              <video
+                ref={videoRef}
+                src={video.url}
+                className="w-full h-full object-cover"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+              />
+              <button
+                onClick={handlePlayPause}
+                className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/40 transition-colors group"
+              >
+                <div className="bg-brown-caramel/90 group-hover:bg-brown-caramel p-4 rounded-full transition-all">
+                  {isPlaying ? (
+                    <Pause className="w-8 h-8 text-white" fill="white" />
+                  ) : (
+                    <Play className="w-8 h-8 text-white" fill="white" />
+                  )}
+                </div>
+              </button>
+            </>
           ) : video.tipo === "instagram" ? (
             <iframe
               src={`${video.url}embed/`}
