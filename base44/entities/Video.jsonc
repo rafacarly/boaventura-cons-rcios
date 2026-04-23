@@ -1,0 +1,36 @@
+{
+  "name": "Video",
+  "type": "object",
+  "properties": {
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "youtube",
+        "instagram",
+        "upload"
+      ],
+      "description": "Tipo de v\u00eddeo"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL do v\u00eddeo (YouTube, Instagram ou arquivo enviado)"
+    },
+    "titulo": {
+      "type": "string",
+      "description": "T\u00edtulo do v\u00eddeo"
+    },
+    "descricao": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o breve do v\u00eddeo"
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true,
+      "description": "Se o v\u00eddeo est\u00e1 ativo"
+    }
+  },
+  "required": [
+    "tipo",
+    "url"
+  ]
+}

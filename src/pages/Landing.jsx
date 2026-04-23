@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import FormularioMultietapas from "../components/landing/FormularioMultietapas";
+import VideoSection from "../components/landing/VideoSection";
 import SobrePaula from "../components/landing/SobrePaula";
 import Planos from "../components/landing/Planos";
 import Comparativo from "../components/landing/Comparativo";
@@ -18,6 +19,9 @@ export default function Landing() {
           <FormularioMultietapas />
         </div>
       </section>
+
+      {/* Seção de Vídeo */}
+      <VideoSection />
 
       {/* Quem Somos */}
       <SobrePaula />

@@ -83,6 +83,7 @@ export default function Admin() {
   const [editingCarrossel, setEditingCarrossel] = useState(null);
   const [editingBanner, setEditingBanner] = useState(null);
   const [editingSobrePaula, setEditingSobrePaula] = useState(null);
+  const [editingVideo, setEditingVideo] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -214,6 +215,11 @@ export default function Admin() {
     queryFn: () => base44.entities.SobrePaula.list("-created_date", 1),
   });
 
+  const { data: videos = [] } = useQuery({
+    queryKey: ["videos"],
+    queryFn: () => base44.entities.Video.list("-created_date", 10),
+  });
+
   const updateBannerMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.BannerSlide.update(id, data),
     onSuccess: () => {
@@ -248,6 +254,27 @@ export default function Admin() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sobrePaula"] });
       setEditingSobrePaula(null);
+    },
+  });
+
+  const updateVideoMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.Video.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos"] });
+      setEditingVideo(null);
+    },
+  });
+
+  const deleteVideoMutation = useMutation({
+    mutationFn: (id) => base44.entities.Video.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["videos"] }),
+  });
+
+  const createVideoMutation = useMutation({
+    mutationFn: (data) => base44.entities.Video.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos"] });
+      setEditingVideo(null);
     },
   });
 
@@ -311,6 +338,7 @@ export default function Admin() {
              <TabsTrigger value="leads">📋 Leads</TabsTrigger>
              <TabsTrigger value="sobre-paula">👤 Sobre Paula</TabsTrigger>
              <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>
+             <TabsTrigger value="video">🎬 Vídeo da Converter</TabsTrigger>
              <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
              <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
              <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
@@ -648,6 +676,157 @@ export default function Admin() {
                 </div>
               )}
             </div>
+          </TabsContent>
+
+          {/* ABA VÍDEO DA CONVERTER */}
+          <TabsContent value="video" className="space-y-6">
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="p-6 border-b border-brown-caramel/10 flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-heading text-brown-dark">Vídeo da Página Converter</h3>
+                  <p className="text-sm font-body text-brown-medium mt-1">Adicione YouTube, Instagram ou envie um vídeo curto</p>
+                </div>
+                <Button
+                  onClick={() => setEditingVideo({ tipo: "youtube", url: "", titulo: "", descricao: "", ativo: true })}
+                  className="bg-green-600 hover:bg-green-700 text-white rounded-lg gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Novo Vídeo
+                </Button>
+              </div>
+
+              {videos.length === 0 ? (
+                <div className="p-8 text-center text-brown-medium font-body">Nenhum vídeo criado.</div>
+              ) : (
+                <div className="space-y-4 p-6">
+                  {videos.map((video) => (
+                    <div key={video.id} className="border border-brown-caramel/15 rounded-lg p-4 hover:bg-brown-sand/30 transition-colors">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-heading text-brown-dark font-semibold">{video.titulo || "Sem título"}</h4>
+                            <span className="text-xs bg-brown-caramel/20 text-brown-caramel px-2 py-1 rounded">
+                              {video.tipo === "youtube" ? "▶️ YouTube" : video.tipo === "instagram" ? "📷 Instagram" : "📹 Upload"}
+                            </span>
+                            {!video.ativo && <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">Inativo</span>}
+                          </div>
+                          {video.descricao && <p className="text-sm font-body text-brown-medium">{video.descricao}</p>}
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => setEditingVideo(video)}
+                            className="text-blue-accent hover:bg-blue-accent/10"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => deleteVideoMutation.mutate(video.id)}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {editingVideo && (
+              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">
+                  {editingVideo.id ? "✏️ Editando vídeo" : "➕ Novo vídeo"}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Select
+                    value={editingVideo.tipo}
+                    onValueChange={(value) => setEditingVideo({ ...editingVideo, tipo: value })}
+                  >
+                    <SelectTrigger className="border-blue-accent/20 font-body">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="youtube">▶️ YouTube</SelectItem>
+                      <SelectItem value="instagram">📷 Instagram</SelectItem>
+                      <SelectItem value="upload">📹 Upload de arquivo</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  <Input
+                    placeholder="Título (opcional)"
+                    value={editingVideo.titulo || ""}
+                    onChange={(e) => setEditingVideo({ ...editingVideo, titulo: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+
+                  {editingVideo.tipo === "upload" ? (
+                    <div>
+                      <label className="text-sm font-body text-brown-dark block mb-2">Arquivo de vídeo</label>
+                      <input
+                        type="file"
+                        accept="video/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const { file_url } = await base44.integrations.Core.UploadFile({ file });
+                            setEditingVideo({ ...editingVideo, url: file_url });
+                          }
+                        }}
+                        className="border border-blue-accent/20 rounded-md p-2 font-body text-sm w-full"
+                      />
+                    </div>
+                  ) : (
+                    <Input
+                      placeholder={editingVideo.tipo === "youtube" ? "Link ou ID do YouTube" : "Link do Instagram Reels"}
+                      value={editingVideo.url || ""}
+                      onChange={(e) => setEditingVideo({ ...editingVideo, url: e.target.value })}
+                      className="border-blue-accent/20 font-body md:col-span-2"
+                    />
+                  )}
+
+                  <textarea
+                    placeholder="Descrição (opcional)"
+                    value={editingVideo.descricao || ""}
+                    onChange={(e) => setEditingVideo({ ...editingVideo, descricao: e.target.value })}
+                    className="border border-blue-accent/20 rounded-md p-3 font-body text-sm md:col-span-2"
+                    rows="2"
+                  />
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="ativo"
+                      checked={editingVideo.ativo !== false}
+                      onChange={(e) => setEditingVideo({ ...editingVideo, ativo: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    <label htmlFor="ativo" className="font-body text-sm text-brown-dark">Vídeo ativo</label>
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={() => {
+                      if (editingVideo.id) {
+                        updateVideoMutation.mutate({ id: editingVideo.id, data: editingVideo });
+                      } else {
+                        createVideoMutation.mutate(editingVideo);
+                      }
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  >
+                    💾 Salvar
+                  </Button>
+                  <Button onClick={() => setEditingVideo(null)} variant="outline" className="rounded-lg">
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
           </TabsContent>
 
           {/* ABA BANNER DA CAPA */}

@@ -259,7 +259,7 @@ export default function FormularioMultietapas() {
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="grid md:grid-cols-2 gap-6 lg:gap-10 items-center"
+          className="grid md:grid-cols-2 gap-6 lg:gap-10 items-stretch md:items-center"
         >
           {/* Left Side - Image Carousel */}
           <div className="hidden md:block relative">
