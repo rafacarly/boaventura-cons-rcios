@@ -102,7 +102,7 @@ export default function BannerCTA() {
       <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-2 lg:py-0" style={{paddingTop: "10%", paddingBottom: "5%"}}>
 
         {/* Left - Text */}
-        <div className="flex-1 w-full lg:mt-0">
+        <div className="flex-1 w-full lg:mt-0 text-center lg:text-left">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -134,7 +134,7 @@ export default function BannerCTA() {
         </div>
 
         {/* Right - CTA Card (visible on all screens) */}
-        <div className="flex flex-shrink-0 w-full lg:w-auto justify-center">
+        <div className="flex flex-shrink-0 w-full lg:w-auto justify-center items-center">
           <div className="bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-4 lg:p-8 text-center shadow-2xl w-[160px] h-[160px] lg:w-[300px] lg:h-auto">
 
             {/* WhatsApp Online badge */}
