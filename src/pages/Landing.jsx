@@ -15,20 +15,6 @@ export default function Landing() {
       {/* Formulário como Hero Principal */}
       <section className="py-12 md:py-20 bg-brown-sand">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-8 md:mb-12"
-          >
-            <h1 className="text-4xl md:text-5xl font-heading text-brown-dark leading-tight mb-3">
-              Descubra seu melhor
-              <span className="text-brown-caramel"> consórcio</span>
-            </h1>
-            <p className="text-lg font-body text-brown-medium">
-              Sem compromisso, 100% gratuito.
-            </p>
-          </motion.div>
           <FormularioMultietapas />
         </div>
       </section>
