@@ -63,8 +63,8 @@ export default function BannerCTA() {
 
   return (
     <section
-      className="relative overflow-hidden bg-brown-dark"
-      style={{ height: "480px", marginTop: "80px" }}
+      className="relative overflow-hidden bg-brown-dark md:h-[480px] h-[calc(100svh-64px)]"
+      style={{ marginTop: "64px" }}
     >
       {/* Background images */}
       <AnimatePresence mode="sync">

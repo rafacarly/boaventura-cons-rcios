@@ -49,13 +49,14 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Logo - centered */}
+          {/* Logo - centered absolutely on all screen sizes */}
           <motion.img
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/fadd51044_APRESENTACAOPAULApdf.png"
+            src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/eb16c2ad6_fadd51044_APRESENTACAOPAULApdf.png"
             alt="Boaventura Consórcios"
-            className="h-10 md:h-12 object-contain absolute left-1/2 -translate-x-1/2"
+            className="h-10 md:h-12 object-contain absolute left-0 right-0 mx-auto"
+            style={{ left: 0, right: 0, marginLeft: "auto", marginRight: "auto" }}
           />
 
           {/* Nav links (right on desktop) */}

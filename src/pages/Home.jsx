@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/landing/Navbar";
+import SplashScreen from "../components/SplashScreen";
 import HeroSection from "../components/landing/HeroSection";
 import PorQueBoaventura from "../components/landing/PorQueBoaventura";
 import ComoFunciona from "../components/landing/ComoFunciona";
@@ -16,8 +17,11 @@ import BannerCTA from "../components/landing/BannerCTA";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
 
 export default function Home() {
+  const [splashDone, setSplashDone] = useState(false);
+
   return (
     <div className="min-h-screen">
+      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
       <Navbar />
       <WhatsAppFloat />
       <BannerCTA />
