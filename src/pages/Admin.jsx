@@ -333,10 +333,13 @@ export default function Admin() {
                 sobrePaulaData.map((item) => (
                   <div key={item.id} className="p-6 border-b border-brown-caramel/10 last:border-b-0">
                     <div className="flex gap-4 mb-4">
-                      <img src={item.foto_url} alt={item.nome} className="w-24 h-24 rounded-lg object-cover" />
+                      <div className={`w-24 h-24 ${item.background_color || 'bg-brown-caramel'} flex items-center justify-center flex-shrink-0 ${item.background_shape === 'circle' ? 'rounded-full' : item.background_shape === 'oval' ? 'rounded-3xl' : item.background_shape === 'rounded' ? 'rounded-2xl' : ''}`}>
+                        <img src={item.foto_url} alt={item.nome} className={`w-20 h-20 object-cover ${item.background_shape === 'circle' ? 'rounded-full' : item.background_shape === 'oval' ? 'rounded-2xl' : item.background_shape === 'rounded' ? 'rounded-lg' : ''}`} />
+                      </div>
                       <div className="flex-1">
                         <h4 className="font-heading text-brown-dark font-semibold">{item.nome}</h4>
                         <p className="text-sm font-body text-brown-medium mt-2">{item.texto}</p>
+                        <p className="text-xs font-body text-brown-medium/60 mt-2">Shape: {item.background_shape || 'circle'} • Cor: {item.background_color || 'bg-brown-caramel'}</p>
                       </div>
                     </div>
                     <Button
@@ -399,9 +402,49 @@ export default function Admin() {
                       className="border border-blue-accent/20 rounded-md p-2 font-body text-sm w-full"
                     />
                   </div>
-                  {editingSobrePaula.foto_url && (
-                    <img src={editingSobrePaula.foto_url} alt="preview" className="w-32 h-32 rounded-lg object-cover" />
-                  )}
+
+                  <div>
+                    <label className="text-sm font-body text-brown-dark block mb-2">Forma do fundo</label>
+                    <Select value={editingSobrePaula.background_shape || "circle"} onValueChange={(value) => setEditingSobrePaula({ ...editingSobrePaula, background_shape: value })}>
+                      <SelectTrigger className="border-blue-accent/20">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="circle">🔵 Círculo</SelectItem>
+                        <SelectItem value="oval">⭕ Óvalo</SelectItem>
+                        <SelectItem value="rounded">⬜ Arredondado</SelectItem>
+                        <SelectItem value="square">▪️ Quadrado</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-body text-brown-dark block mb-2">Cor do fundo</label>
+                    <div className="grid grid-cols-4 gap-2">
+                      {["bg-brown-caramel", "bg-brown-dark", "bg-blue-accent", "bg-brown-medium", "bg-brown-sand"].map((color) => (
+                        <button
+                          key={color}
+                          onClick={() => setEditingSobrePaula({ ...editingSobrePaula, background_color: color })}
+                          className={`h-10 rounded-lg border-2 ${color} ${(editingSobrePaula.background_color || "bg-brown-caramel") === color ? "border-gray-800" : "border-transparent"}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 p-4 bg-white rounded-lg border border-blue-accent/20">
+                    <p className="text-xs font-body text-brown-medium mb-3">Preview:</p>
+                    {editingSobrePaula.foto_url && (
+                      <div className="flex justify-center">
+                        <div className={`w-40 h-40 ${editingSobrePaula.background_color || 'bg-brown-caramel'} flex items-center justify-center ${editingSobrePaula.background_shape === 'circle' ? 'rounded-full' : editingSobrePaula.background_shape === 'oval' ? 'rounded-3xl' : editingSobrePaula.background_shape === 'rounded' ? 'rounded-2xl' : ''}`}>
+                          <img 
+                            src={editingSobrePaula.foto_url} 
+                            alt="preview" 
+                            className={`w-32 h-32 object-cover ${editingSobrePaula.background_shape === 'circle' ? 'rounded-full' : editingSobrePaula.background_shape === 'oval' ? 'rounded-2xl' : editingSobrePaula.background_shape === 'rounded' ? 'rounded-lg' : ''}`} 
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="flex gap-2 mt-4">
                   <Button

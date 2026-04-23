@@ -26,13 +26,15 @@ export default function SobrePaula() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative"
+            className="relative flex justify-center"
           >
-            <img
-              src={dados.foto_url}
-              alt={dados.nome}
-              className="w-full rounded-3xl shadow-2xl object-cover aspect-square"
-            />
+            <div className={`w-96 h-96 ${dados.background_color || 'bg-brown-caramel'} flex items-center justify-center ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-3xl' : dados.background_shape === 'rounded' ? 'rounded-2xl' : ''} shadow-2xl`}>
+              <img
+                src={dados.foto_url}
+                alt={dados.nome}
+                className={`w-80 h-80 object-cover ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-2xl' : dados.background_shape === 'rounded' ? 'rounded-lg' : ''}`}
+              />
+            </div>
           </motion.div>
 
           {/* Texto */}
