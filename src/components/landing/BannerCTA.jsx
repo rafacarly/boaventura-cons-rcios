@@ -55,7 +55,7 @@ export default function BannerCTA() {
   const slide = SLIDES[current];
 
   return (
-    <section className="relative overflow-hidden bg-brown-dark" style={{ height: "560px" }}>
+    <section className="relative overflow-hidden bg-brown-dark" style={{ height: "520px", marginTop: "0", paddingTop: "72px" }}>
 
       {/* Background images with crossfade */}
       <AnimatePresence mode="sync">
@@ -78,7 +78,7 @@ export default function BannerCTA() {
 
       {/* Content */}
       <div className="relative z-10 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-10 w-full">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 w-full">
 
           {/* Left - Animated Text */}
           <div className="flex-1">
@@ -123,44 +123,37 @@ export default function BannerCTA() {
             </div>
           </div>
 
-          {/* Right - CTA Card (fixed, doesn't change) */}
-          <div className="w-full lg:w-auto flex-shrink-0">
-            <div className="bg-brown-caramel rounded-3xl p-8 shadow-2xl shadow-brown-caramel/40 w-full lg:w-[320px] relative">
+          {/* Right - CTA Card compact square */}
+          <div className="hidden lg:flex flex-shrink-0 self-stretch items-center">
+            <div className="bg-brown-caramel rounded-2xl shadow-2xl shadow-brown-caramel/40 w-[260px] h-[260px] relative flex flex-col items-center justify-center p-6 text-center">
               {/* WhatsApp badge */}
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="absolute -top-4 -right-4 bg-green-500 text-white flex items-center gap-2 px-4 py-2 rounded-full font-heading font-bold text-sm shadow-lg hover:bg-green-600 transition-colors"
+                className="absolute -top-3 -right-3 bg-green-500 text-white flex items-center gap-1.5 px-3 py-1.5 rounded-full font-heading font-bold text-xs shadow-lg hover:bg-green-600 transition-colors"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-3 h-3" />
                 Online
               </a>
 
-              <p className="text-white/80 font-body text-lg leading-snug mb-6">
-                o <span className="font-bold text-white">primeiro passo</span> é<br />
-                o mais <span className="font-bold text-white">importante</span>
+              <p className="text-white/80 font-body text-sm leading-snug mb-4">
+                o <span className="font-bold text-white">primeiro passo</span> é o mais <span className="font-bold text-white">importante</span>
               </p>
 
               <motion.button
                 onClick={scrollToForm}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="w-full flex items-center justify-center gap-3 bg-brown-dark text-white rounded-full px-8 py-4 font-heading font-bold text-lg border-2 border-white/10 hover:border-white/30 transition-all mb-6"
+                className="w-full flex items-center justify-center gap-2 bg-brown-dark text-white rounded-full px-5 py-3 font-heading font-bold text-base border-2 border-white/10 hover:border-white/30 transition-all mb-4"
               >
                 <span><span className="font-light">iniciar</span> simulação</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
               </motion.button>
 
-              <div className="border-t border-white/20 pt-5">
-                <p className="text-white font-heading font-bold text-xs uppercase tracking-widest mb-1">
-                  simulação gratuita
-                </p>
-                <p className="text-white/70 font-body text-sm">
-                  em menos de <span className="font-bold text-white">UM minuto</span> você descobre<br />
-                  sua <span className="font-bold text-white">estratégia</span> personalizada
-                </p>
-              </div>
+              <p className="text-white/60 font-body text-xs">
+                em menos de <span className="font-bold text-white">1 minuto</span> você descobre sua <span className="font-bold text-white">estratégia</span>
+              </p>
             </div>
           </div>
 
