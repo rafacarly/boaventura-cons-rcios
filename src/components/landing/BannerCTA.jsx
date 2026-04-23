@@ -118,7 +118,7 @@ export default function BannerCTA() {
 
         {/* Caixa CTA absolutamente centralizada na tela */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="pointer-events-auto bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-5 text-center shadow-2xl w-[200px]">
+          <div className="pointer-events-auto bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-6 text-center shadow-2xl w-[280px]">
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
@@ -129,7 +129,7 @@ export default function BannerCTA() {
               <MessageCircle className="w-3 h-3" />
               Online
             </a>
-            <p className="text-white text-sm leading-snug mb-4" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}>
+            <p className="text-white text-lg leading-snug mb-5" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}>
               o <strong style={{ fontWeight: 900 }}>primeiro</strong> passo é o mais <strong style={{ fontWeight: 900 }}>importante</strong>
             </p>
             <motion.button
@@ -138,12 +138,12 @@ export default function BannerCTA() {
               transition={{ repeat: Infinity, duration: 1.6, ease: "easeOut" }}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full flex items-center justify-center gap-1 bg-[#111] text-white rounded-full px-4 py-2.5 border-2 border-white/20 hover:border-white/50 transition-all"
+              className="w-full flex items-center justify-center gap-2 bg-[#111] text-white rounded-full px-5 py-3.5 border-2 border-white/20 hover:border-white/50 transition-all"
               style={{ fontFamily: "'Poppins', sans-serif" }}
             >
-              <span className="text-sm" style={{ fontWeight: 900 }}>iniciar</span>
-              <span className="text-sm" style={{ fontWeight: 300 }}>simulação</span>
-              <PlayCircle className="w-4 h-4" />
+              <span className="text-base" style={{ fontWeight: 900 }}>iniciar</span>
+              <span className="text-base" style={{ fontWeight: 300 }}>simulação</span>
+              <PlayCircle className="w-5 h-5" />
             </motion.button>
           </div>
         </div>
