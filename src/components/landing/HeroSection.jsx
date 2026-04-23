@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import AnimatedCounter from "@/components/landing/AnimatedCounter";
 import { Button } from "@/components/ui/button";
 import { Car, Home, TrendingUp, Bike, ArrowRight, Shield, Users, Award, ChevronDown } from "lucide-react";
 
@@ -178,7 +179,9 @@ export default function HeroSection() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + i * 0.1 }}
                 >
-                  <p className="text-2xl font-heading font-bold text-brown-caramel">{stat.value}</p>
+                  <p className="text-2xl font-heading font-bold text-brown-caramel">
+                    <AnimatedCounter value={stat.value} />
+                  </p>
                   <p className="text-xs font-body text-brown-sand/50">{stat.label}</p>
                 </motion.div>
               ))}

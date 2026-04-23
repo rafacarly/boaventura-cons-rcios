@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Handshake, Target, Eye, HeartHandshake, TrendingUp, Star, Car } from "lucide-react";
+import AnimatedCounter from "@/components/landing/AnimatedCounter";
 
 const ITEMS = [
   {
@@ -97,7 +98,9 @@ export default function PorQueBoaventura() {
           >
             {NUMBERS.map((n, i) => (
               <div key={i} className="text-center">
-                <p className="text-3xl md:text-4xl font-heading font-bold text-brown-caramel">{n.value}</p>
+                <p className="text-3xl md:text-4xl font-heading font-bold text-brown-caramel">
+                  <AnimatedCounter value={n.value} />
+                </p>
                 <p className="text-xs font-body text-brown-medium mt-1">{n.label}</p>
               </div>
             ))}
