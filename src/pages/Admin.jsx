@@ -667,6 +667,23 @@ export default function Admin() {
                                 <MessageCircle className="w-4 h-4" />
                               </Button>
                             </a>
+                            {isCeo && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50 gap-1 rounded-lg"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (confirm(`Tem certeza que deseja deletar o lead ${lead.nome}?`)) {
+                                    base44.entities.Lead.delete(lead.id).then(() => {
+                                      queryClient.invalidateQueries({ queryKey: ["leads"] });
+                                    });
+                                  }
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))}
