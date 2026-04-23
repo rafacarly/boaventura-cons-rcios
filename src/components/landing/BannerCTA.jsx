@@ -93,7 +93,7 @@ export default function BannerCTA() {
       </div>
 
       {/* ── MOBILE layout ── */}
-      <div className="lg:hidden absolute inset-0 z-10 flex flex-col">
+      <div className="lg:hidden absolute inset-0 z-10">
         {/* Texto no topo */}
         <div className="px-6 pt-8 text-center">
           <AnimatePresence mode="wait">
@@ -116,9 +116,9 @@ export default function BannerCTA() {
           </AnimatePresence>
         </div>
 
-        {/* Caixa CTA centralizada verticalmente no espaço restante */}
-        <div className="flex-1 flex items-center justify-center">
-          <div className="bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-5 text-center shadow-2xl w-[200px]">
+        {/* Caixa CTA absolutamente centralizada na tela */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="pointer-events-auto bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-5 text-center shadow-2xl w-[200px]">
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
@@ -147,7 +147,7 @@ export default function BannerCTA() {
             </motion.button>
           </div>
         </div>
-      </div>
+        </div>
 
       {/* ── DESKTOP layout ── */}
       <div className="hidden lg:flex relative z-10 h-full max-w-7xl mx-auto px-12 flex-row items-center justify-between">
