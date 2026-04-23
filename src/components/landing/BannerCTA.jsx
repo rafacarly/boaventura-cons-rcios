@@ -6,25 +6,25 @@ const WHATSAPP_NUMBER = "5571992764466";
 
 const SLIDES = [
   {
-    image: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=80",
     tag: "Realize seus sonhos",
     headline: "a melhor configuração",
     highlight: "de consórcio do país",
   },
   {
-    image: "https://images.unsplash.com/photo-1609587312208-cea54be969e7?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1400&q=80",
     tag: "Consórcio de Carro",
     headline: "família feliz",
     highlight: "no carro novo",
   },
   {
-    image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80",
     tag: "Consórcio de Imóvel",
     headline: "a casa dos sonhos",
     highlight: "da sua família",
   },
   {
-    image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80",
     tag: "Qualidade de vida",
     headline: "viaje com quem",
     highlight: "você mais ama",
