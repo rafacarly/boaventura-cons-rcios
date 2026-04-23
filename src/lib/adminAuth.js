@@ -1,18 +1,33 @@
-// Simple admin auth
-const ADMIN_PASSWORD = "Paula2026";
+// Multi-user admin auth
+const DEFAULT_PASSWORDS = {
+  ceo: "88462020",
+  paula: "paula123",
+};
+
+function getPassword(user) {
+  return localStorage.getItem(`override_${user}_pass`) || DEFAULT_PASSWORDS[user];
+}
 
 export function isAdminAuthenticated() {
-  return localStorage.getItem("adminAuth") === "true";
+  return !!localStorage.getItem("adminRole");
+}
+
+export function getAdminRole() {
+  return localStorage.getItem("adminRole"); // "ceo" or "user"
 }
 
 export function loginAdmin(password) {
-  if (password === ADMIN_PASSWORD) {
-    localStorage.setItem("adminAuth", "true");
-    return true;
+  if (password === getPassword("ceo")) {
+    localStorage.setItem("adminRole", "ceo");
+    return "ceo";
   }
-  return false;
+  if (password === getPassword("paula")) {
+    localStorage.setItem("adminRole", "user");
+    return "user";
+  }
+  return null;
 }
 
 export function logoutAdmin() {
-  localStorage.removeItem("adminAuth");
+  localStorage.removeItem("adminRole");
 }

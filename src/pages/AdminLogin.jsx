@@ -12,7 +12,8 @@ export default function AdminLogin() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (loginAdmin(password)) {
+    const role = loginAdmin(password);
+    if (role) {
       navigate("/admin");
     } else {
       setError("Senha incorreta");

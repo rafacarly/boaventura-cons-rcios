@@ -23,7 +23,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle, LogOut, Edit2, Trash2, Image as ImageIcon, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import LeadDetailDialog from "../components/admin/LeadDetailDialog";
-import { isAdminAuthenticated, logoutAdmin } from "@/lib/adminAuth";
+import { isAdminAuthenticated, getAdminRole, logoutAdmin } from "@/lib/adminAuth";
 
 const STATUS_OPTIONS = [
   { value: "all", label: "Todos" },
@@ -69,6 +69,8 @@ function cleanPhone(phone) {
 
 export default function Admin() {
   const navigate = useNavigate();
+  const role = getAdminRole(); // "ceo" or "user"
+  const isCeo = role === "ceo";
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [objetivoFilter, setObjetivoFilter] = useState("all");
@@ -258,7 +260,12 @@ export default function Admin() {
             </Link>
             <div>
               <h1 className="text-xl font-heading text-brown-sand">Painel de Leads</h1>
-              <p className="text-xs font-body text-brown-sand/50">Boaventura | Consórcios</p>
+              <p className="text-xs font-body text-brown-sand/50">
+                Boaventura | Consórcios &nbsp;•&nbsp;
+                <span className={isCeo ? "text-brown-caramel font-bold" : "text-blue-accent font-bold"}>
+                  {isCeo ? "👑 CEO" : "👤 Paula"}
+                </span>
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -280,12 +287,13 @@ export default function Admin() {
         <Tabs defaultValue="leads" className="space-y-6">
           <TabsList className="bg-white border border-brown-caramel/10 flex-wrap">
             <TabsTrigger value="leads">📋 Leads</TabsTrigger>
-            <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>
-            <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
-            <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
-            <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
-            <TabsTrigger value="carrossel">🎠 Carrossel Formulário</TabsTrigger>
-            <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>
+            {isCeo && <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>}
+            {isCeo && <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>}
+            {isCeo && <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>}
+            {isCeo && <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>}
+            {isCeo && <TabsTrigger value="carrossel">🎠 Carrossel Formulário</TabsTrigger>}
+            {isCeo && <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>}
+            {isCeo && <TabsTrigger value="senha">🔑 Alterar Senhas</TabsTrigger>}
           </TabsList>
 
           {/* ABA LEADS */}
@@ -1065,6 +1073,13 @@ export default function Admin() {
               </div>
             )}
             </TabsContent>
+
+            {/* ABA ALTERAR SENHAS - apenas CEO */}
+            {isCeo && (
+              <TabsContent value="senha" className="space-y-6">
+                <AlterarSenhas />
+              </TabsContent>
+            )}
             </Tabs>
             </div>
 
@@ -1073,6 +1088,54 @@ export default function Admin() {
         open={!!selectedLead}
         onOpenChange={(open) => !open && setSelectedLead(null)}
       />
+    </div>
+  );
+}
+
+function AlterarSenhas() {
+  const [ceoNova, setCeoNova] = useState("");
+  const [paulaNova, setPaulaNova] = useState("");
+  const [msg, setMsg] = useState("");
+
+  const salvar = () => {
+    // Salva no localStorage para persistência simples
+    if (ceoNova) localStorage.setItem("override_ceo_pass", ceoNova);
+    if (paulaNova) localStorage.setItem("override_paula_pass", paulaNova);
+    setMsg("Senhas atualizadas! As mudanças valem a partir do próximo login.");
+    setCeoNova("");
+    setPaulaNova("");
+  };
+
+  return (
+    <div className="bg-white rounded-xl border border-brown-caramel/10 p-6 max-w-lg">
+      <h3 className="text-lg font-heading text-brown-dark mb-1">🔑 Alterar Senhas de Acesso</h3>
+      <p className="text-sm font-body text-brown-medium mb-6">Deixe em branco para manter a senha atual.</p>
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-body font-semibold text-brown-dark mb-1">Nova senha do CEO</label>
+          <Input
+            type="password"
+            placeholder="Nova senha CEO..."
+            value={ceoNova}
+            onChange={(e) => setCeoNova(e.target.value)}
+            className="border-brown-caramel/20 font-body"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-body font-semibold text-brown-dark mb-1">Nova senha da Paula</label>
+          <Input
+            type="password"
+            placeholder="Nova senha Paula..."
+            value={paulaNova}
+            onChange={(e) => setPaulaNova(e.target.value)}
+            className="border-brown-caramel/20 font-body"
+          />
+        </div>
+        {msg && <p className="text-sm text-green-600 font-body">{msg}</p>}
+        <Button onClick={salvar} className="bg-brown-caramel hover:bg-brown-medium text-white rounded-lg font-heading font-semibold">
+          💾 Salvar Senhas
+        </Button>
+      </div>
     </div>
   );
 }
