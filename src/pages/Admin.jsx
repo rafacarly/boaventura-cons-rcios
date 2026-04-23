@@ -298,53 +298,52 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-brown-sand">
       {/* Header */}
-      <div className="bg-brown-dark py-6 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
+      <div className="bg-brown-dark py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0">
             <Link to="/">
-              <Button variant="ghost" className="text-brown-sand/70 hover:text-brown-sand hover:bg-brown-graphite gap-2 rounded-lg">
-                <ArrowLeft className="w-4 h-4" />
-                Voltar ao site
+              <Button variant="ghost" className="text-brown-sand/70 hover:text-brown-sand hover:bg-brown-graphite gap-1 sm:gap-2 rounded-lg text-xs sm:text-sm py-2 h-auto px-2 sm:px-3">
+                <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                <span className="hidden sm:inline">Voltar ao site</span>
               </Button>
             </Link>
-            <div>
-              <h1 className="text-xl font-heading text-brown-sand">Painel de Leads</h1>
-              <p className="text-xs font-body text-brown-sand/50">
-                Boaventura | Consórcios &nbsp;•&nbsp;
+            <div className="min-w-0">
+              <h1 className="text-lg sm:text-xl font-heading text-brown-sand truncate">Painel de Leads</h1>
+              <p className="text-xs font-body text-brown-sand/50 truncate">
+                Boaventura | Consórcios •
                 <span className={isCeo ? "text-brown-caramel font-bold" : "text-blue-accent font-bold"}>
-                  {isCeo ? "👑 CEO" : "👤 Paula"}
+                  {isCeo ? " 👑 CEO" : " 👤 Paula"}
                 </span>
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                logoutAdmin();
-                navigate("/admin-login");
-              }}
-              className="text-brown-sand/70 hover:text-brown-sand hover:bg-brown-graphite gap-2 rounded-lg"
-            >
-              <LogOut className="w-4 h-4" />
-            </Button>
-          </div>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              logoutAdmin();
+              navigate("/admin-login");
+            }}
+            className="text-brown-sand/70 hover:text-brown-sand hover:bg-brown-graphite rounded-lg h-auto py-2 px-2"
+            title="Logout"
+          >
+            <LogOut className="w-4 h-4" />
+          </Button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="leads" className="space-y-6">
-          <TabsList className="bg-white border border-brown-caramel/10 flex-wrap">
-             <TabsTrigger value="leads">📋 Leads</TabsTrigger>
-             <TabsTrigger value="sobre-paula">👤 Sobre Paula</TabsTrigger>
-             <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>
-             <TabsTrigger value="video">🎬 Vídeo da Converter</TabsTrigger>
-             <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
-             <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
-             <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
-             <TabsTrigger value="carrossel">🎠 Carrossel Formulário</TabsTrigger>
-             <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>
-             {isCeo && <TabsTrigger value="senha">🔑 Alterar Senhas</TabsTrigger>}
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-8">
+        <Tabs defaultValue="leads" className="space-y-4 sm:space-y-6">
+          <TabsList className="bg-white border border-brown-caramel/10 flex-wrap gap-1 p-2 h-auto justify-start">
+             <TabsTrigger value="leads" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">📋 Leads</TabsTrigger>
+             <TabsTrigger value="sobre-paula" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">👤 Paula</TabsTrigger>
+             <TabsTrigger value="banner" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">🖼️ Banner</TabsTrigger>
+             <TabsTrigger value="video" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">🎬 Vídeo</TabsTrigger>
+             <TabsTrigger value="planos" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">💰 Planos</TabsTrigger>
+             <TabsTrigger value="depoimentos" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">⭐ Depo.</TabsTrigger>
+             <TabsTrigger value="hero-images" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden md:inline-flex">🖼️ Hero</TabsTrigger>
+             <TabsTrigger value="carrossel" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden md:inline-flex">🎠 Carr.</TabsTrigger>
+             <TabsTrigger value="configs" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">⚙️ Config</TabsTrigger>
+             {isCeo && <TabsTrigger value="senha" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden sm:inline-flex">🔑 Senhas</TabsTrigger>}
            </TabsList>
 
           {/* ABA SOBRE PAULA */}
