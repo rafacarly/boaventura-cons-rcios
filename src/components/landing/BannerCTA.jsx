@@ -55,7 +55,7 @@ export default function BannerCTA() {
   const slide = SLIDES[current];
 
   return (
-    <section className="relative overflow-hidden bg-brown-dark" style={{ height: "520px", marginTop: "0", paddingTop: "72px" }}>
+    <section className="relative overflow-hidden bg-brown-dark" style={{ height: "600px", marginTop: "72px" }}>
 
       {/* Background images with crossfade */}
       <AnimatePresence mode="sync">
