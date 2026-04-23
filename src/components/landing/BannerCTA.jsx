@@ -99,7 +99,7 @@ export default function BannerCTA() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-4 lg:py-0" style={{paddingTop: "8%", paddingBottom: "8%"}}>
+      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-4 lg:py-0">
 
         {/* Left - Text */}
         <div className="flex-1 w-full lg:mt-0 text-center lg:text-left">
