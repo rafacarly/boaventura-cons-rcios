@@ -7,6 +7,8 @@ export default function SobrePaula() {
   const { data: paula } = useQuery({
     queryKey: ["sobrePaula"],
     queryFn: () => base44.entities.SobrePaula.list("-created_date", 1),
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 
   const dados = paula?.[0] || {
