@@ -220,7 +220,7 @@ export default function FormularioMultietapas() {
   }
 
   return (
-    <section id="formulario" className="py-16 md:py-24 bg-gradient-to-br from-brown-sand via-brown-sand to-blue-accent/5 relative overflow-hidden">
+    <section id="formulario" className="py-20 md:py-32 bg-gradient-to-br from-brown-sand via-brown-sand to-blue-accent/5 relative overflow-hidden">
       {/* Decorative blobs */}
       <motion.div
         animate={{ y: [0, -20, 0] }}
@@ -238,17 +238,17 @@ export default function FormularioMultietapas() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16 md:mb-20"
         >
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-xs font-heading font-bold text-brown-caramel tracking-widest uppercase mb-3"
+            className="text-xs font-heading font-bold text-brown-caramel tracking-widest uppercase mb-4"
           >
             ✨ Simulação em 2 minutos
           </motion.p>
-          <h2 className="text-3xl md:text-5xl font-heading text-brown-dark mb-4 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-heading text-brown-dark mb-6 leading-tight">
             Descubra seu melhor <span className="text-transparent bg-clip-text bg-gradient-to-r from-brown-caramel to-blue-accent">consórcio</span>.
           </h2>
           <p className="text-brown-medium font-body text-lg">Sem compromisso, 100% gratuito.</p>
