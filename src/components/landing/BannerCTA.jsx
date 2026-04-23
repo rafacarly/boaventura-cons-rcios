@@ -55,7 +55,7 @@ export default function BannerCTA() {
   const slide = SLIDES[current];
 
   return (
-    <section className="relative overflow-hidden bg-brown-dark" style={{ height: "600px", marginTop: "72px" }}>
+    <section className="relative overflow-hidden bg-brown-dark" style={{ height: "480px", marginTop: "80px" }}>
 
       {/* Background images with crossfade */}
       <AnimatePresence mode="sync">
@@ -124,8 +124,8 @@ export default function BannerCTA() {
           </div>
 
           {/* Right - CTA Card compact square */}
-          <div className="hidden lg:flex flex-shrink-0 self-stretch items-center">
-            <div className="bg-brown-caramel rounded-2xl shadow-2xl shadow-brown-caramel/40 w-[260px] h-[260px] relative flex flex-col items-center justify-center p-6 text-center">
+          <div className="hidden lg:flex flex-shrink-0 items-center">
+            <div className="bg-brown-caramel rounded-2xl shadow-2xl shadow-brown-caramel/40 w-[220px] h-[220px] relative flex flex-col items-center justify-center p-5 text-center">
               {/* WhatsApp badge */}
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
