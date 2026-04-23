@@ -384,12 +384,21 @@ export default function Admin() {
                     className="border border-blue-accent/20 rounded-md p-3 font-body text-sm w-full"
                     rows="3"
                   />
-                  <Input
-                    placeholder="URL da foto"
-                    value={editingSobrePaula.foto_url}
-                    onChange={(e) => setEditingSobrePaula({ ...editingSobrePaula, foto_url: e.target.value })}
-                    className="border-blue-accent/20 font-body"
-                  />
+                  <div>
+                    <label className="text-sm font-body text-brown-dark block mb-2">Foto</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const { file_url } = await base44.integrations.Core.UploadFile({ file });
+                          setEditingSobrePaula({ ...editingSobrePaula, foto_url: file_url });
+                        }
+                      }}
+                      className="border border-blue-accent/20 rounded-md p-2 font-body text-sm w-full"
+                    />
+                  </div>
                   {editingSobrePaula.foto_url && (
                     <img src={editingSobrePaula.foto_url} alt="preview" className="w-32 h-32 rounded-lg object-cover" />
                   )}
