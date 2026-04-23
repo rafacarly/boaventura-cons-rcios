@@ -35,7 +35,7 @@ export default function ProvaSocial() {
   return (
     <section className="py-20 md:py-32 bg-white relative overflow-hidden">
       {/* Background accent */}
-      <div className="absolute left-0 top-0 bottom-0 w-1/3 bg-brown-dark hidden lg:block" />
+      <div className="absolute left-0 top-0 bottom-0 w-1/2 bg-brown-dark hidden lg:block" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -44,13 +44,13 @@ export default function ProvaSocial() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:pr-8"
+            className="lg:pr-8 overflow-hidden"
           >
             <p className="text-sm font-body text-brown-caramel font-bold tracking-widest uppercase mb-3 flex items-center gap-2">
               <span className="w-6 h-px bg-brown-caramel" />
               Conquistas reais
             </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading text-brown-dark lg:text-brown-sand leading-tight mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-4xl font-heading text-brown-dark lg:text-brown-sand leading-tight mb-6">
               Histórias de quem já conquistou.
             </h2>
             <p className="text-brown-medium lg:text-brown-sand/60 font-body leading-relaxed mb-8">
