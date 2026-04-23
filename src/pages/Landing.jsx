@@ -13,7 +13,7 @@ export default function Landing() {
       <WhatsAppFloat />
 
       {/* Formulário como Hero Principal */}
-      <section className="pt-4 pb-12 md:pb-20 bg-brown-sand">
+      <section className="pt-0 pb-12 md:pb-20 bg-brown-sand">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <FormularioMultietapas />
         </div>
