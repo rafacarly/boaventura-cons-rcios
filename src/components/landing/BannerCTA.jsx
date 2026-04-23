@@ -33,6 +33,57 @@ const DEFAULT_SLIDES = [
   },
 ];
 
+function CtaCard({ scrollToForm, whatsappNumber, desktop }) {
+  return (
+    <div className="bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-4 lg:p-8 text-center shadow-2xl w-[180px] lg:w-[300px] lg:h-auto">
+      <a
+        href={`https://wa.me/${whatsappNumber}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute -top-3 -right-3 bg-green-500 text-white flex items-center gap-1 px-2 py-1 rounded-full font-bold text-xs shadow-xl hover:bg-green-600 transition-colors"
+        style={{ fontFamily: "'Poppins', sans-serif" }}
+      >
+        <MessageCircle className="w-3 h-3" />
+        Online
+      </a>
+      <p
+        className="text-white text-sm leading-snug mb-4 lg:text-xl lg:mb-6"
+        style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}
+      >
+        o <strong style={{ fontWeight: 900 }}>primeiro</strong> passo é
+        o mais <strong style={{ fontWeight: 900 }}>importante</strong>
+      </p>
+      <motion.button
+        onClick={scrollToForm}
+        animate={{
+          boxShadow: [
+            "0 0 0px 0px rgba(255,255,255,0.5)",
+            "0 0 0px 12px rgba(255,255,255,0)",
+          ],
+        }}
+        transition={{ repeat: Infinity, duration: 1.6, ease: "easeOut" }}
+        whileHover={{ scale: 1.04 }}
+        whileTap={{ scale: 0.97 }}
+        className="w-full flex items-center justify-center gap-1 bg-[#111] text-white rounded-full px-4 py-2 lg:px-6 lg:py-4 lg:mb-5 border-2 border-white/20 hover:border-white/50 transition-all"
+        style={{ fontFamily: "'Poppins', sans-serif" }}
+      >
+        <span className="text-xs lg:text-base" style={{ fontWeight: 900 }}>iniciar</span>
+        <span className="text-xs lg:text-base" style={{ fontWeight: 300 }}>simulação</span>
+        <PlayCircle className="w-3 h-3 lg:w-5 lg:h-5" />
+      </motion.button>
+      {desktop && (
+        <p
+          className="text-white/60 text-xs leading-relaxed mt-5"
+          style={{ fontFamily: "'Poppins', sans-serif" }}
+        >
+          em menos de <strong className="text-white">UM minuto</strong> você monta<br />
+          sua <strong className="text-white">estratégia</strong> personalizada
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function BannerCTA() {
   const [current, setCurrent] = useState(0);
 
@@ -98,11 +149,34 @@ export default function BannerCTA() {
         ))}
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-4 lg:py-0">
+      {/* Text - top on mobile, left on desktop */}
+      <div className="relative z-10 absolute top-0 left-0 right-0 px-6 lg:hidden pt-8">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            className="text-center"
+          >
+            <p className="text-white/60 text-xs uppercase tracking-widest mb-2" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}>
+              {slide.tag}
+            </p>
+            <h2 className="text-white leading-tight" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300, fontSize: "clamp(1.6rem, 7vw, 2.2rem)" }}>
+              {slide.headline}
+              <br />
+              <span style={{ fontWeight: 900 }}>{slide.highlight}</span>
+            </h2>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
-        {/* Left - Text */}
-        <div className="flex-1 w-full lg:mt-0 text-center lg:text-left">
+      {/* Content - desktop layout */}
+      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 hidden lg:flex flex-row items-center justify-between">
+
+        {/* Left - Text (desktop only) */}
+        <div className="flex-1 w-full text-left">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
@@ -111,20 +185,10 @@ export default function BannerCTA() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
             >
-              <p
-                className="text-white/60 text-xs uppercase tracking-widest mb-2"
-                style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}
-              >
+              <p className="text-white/60 text-xs uppercase tracking-widest mb-2" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}>
                 {slide.tag}
               </p>
-              <h2
-                className="text-white leading-tight"
-                style={{
-                  fontFamily: "'Poppins', sans-serif",
-                  fontWeight: 300,
-                  fontSize: "clamp(1.6rem, 4vw, 3.5rem)",
-                }}
-              >
+              <h2 className="text-white leading-tight" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300, fontSize: "clamp(1.6rem, 4vw, 3.5rem)" }}>
                 {slide.headline}
                 <br />
                 <span style={{ fontWeight: 900 }}>{slide.highlight}</span>
@@ -133,62 +197,20 @@ export default function BannerCTA() {
           </AnimatePresence>
         </div>
 
-        {/* Right - CTA Card (visible on all screens) */}
-        <div className="flex flex-shrink-0 w-full lg:w-auto justify-center items-center">
-          <div className="bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-4 lg:p-8 text-center shadow-2xl w-[160px] h-[160px] lg:w-[300px] lg:h-auto">
-
-            {/* WhatsApp Online badge */}
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute -top-3 -right-3 bg-green-500 text-white flex items-center gap-1 px-2 py-1 rounded-full font-bold text-xs shadow-xl hover:bg-green-600 transition-colors"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              <MessageCircle className="w-3 h-3" />
-              Online
-            </a>
-
-            {/* Text */}
-            <p
-              className="text-white text-xs leading-snug mb-3 lg:text-xl lg:mb-6"
-              style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}
-            >
-              o <strong style={{ fontWeight: 900 }}>primeiro</strong> passo é
-              o mais <strong style={{ fontWeight: 900 }}>importante</strong>
-            </p>
-
-            {/* Pulsing button */}
-            <motion.button
-              onClick={scrollToForm}
-              animate={{
-                boxShadow: [
-                  "0 0 0px 0px rgba(255,255,255,0.5)",
-                  "0 0 0px 12px rgba(255,255,255,0)",
-                ],
-              }}
-              transition={{ repeat: Infinity, duration: 1.6, ease: "easeOut" }}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="w-full flex items-center justify-center gap-1 bg-[#111] text-white rounded-full px-3 py-2 lg:px-6 lg:py-4 lg:mb-5 border-2 border-white/20 hover:border-white/50 transition-all"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              <span className="text-xs lg:text-base" style={{ fontWeight: 900 }}>iniciar</span>
-              <span className="text-xs lg:text-base" style={{ fontWeight: 300 }}>simulação</span>
-              <PlayCircle className="w-3 h-3 lg:w-5 lg:h-5" />
-            </motion.button>
-
-            <p
-              className="hidden lg:block text-white/60 text-xs leading-relaxed mt-5"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              em menos de <strong className="text-white">UM minuto</strong> você monta<br />
-              sua <strong className="text-white">estratégia</strong> personalizada
-            </p>
-          </div>
+        {/* Right - CTA Card (desktop) */}
+        <div className="flex flex-shrink-0 justify-center items-center">
+          <CtaCard scrollToForm={scrollToForm} whatsappNumber={WHATSAPP_NUMBER} desktop />
         </div>
 
       </div>
+
+      {/* CTA Card - mobile only, absolutely centered */}
+      <div className="lg:hidden absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+        <div className="pointer-events-auto">
+          <CtaCard scrollToForm={scrollToForm} whatsappNumber={WHATSAPP_NUMBER} />
+        </div>
+      </div>
+
     </section>
   );
 }
