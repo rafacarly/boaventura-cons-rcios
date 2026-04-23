@@ -99,10 +99,10 @@ export default function BannerCTA() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-4 pt-10 pb-12 lg:py-0">
+      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-2 pt-16 pb-8 lg:py-0">
 
         {/* Left - Text */}
-        <div className="flex-1 w-full">
+        <div className="flex-1 w-full mt-6 lg:mt-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
