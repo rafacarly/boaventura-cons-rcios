@@ -12,6 +12,7 @@ import Comparativo from "../components/landing/Comparativo";
 import FAQ from "../components/landing/FAQ";
 import CTAFinal from "../components/landing/CTAFinal";
 import Footer from "../components/landing/Footer";
+import BannerCTA from "../components/landing/BannerCTA";
 
 export default function Home() {
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Navbar />
+      <BannerCTA />
       <HeroSection />
       <PorQueBoaventura />
       <ComoFunciona />
