@@ -81,7 +81,7 @@ export default function BannerCTA() {
             alt={slide.tag}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-brown-caramel/90 via-brown-caramel/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-black/5" style={{backgroundImage: "linear-gradient(to right, rgba(30,10,0,0.82), rgba(80,30,0,0.35) 50%, rgba(0,0,0,0.05))"}} />
         </motion.div>
       </AnimatePresence>
 
