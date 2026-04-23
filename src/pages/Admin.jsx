@@ -308,16 +308,16 @@ export default function Admin() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="leads" className="space-y-6">
           <TabsList className="bg-white border border-brown-caramel/10 flex-wrap">
-            <TabsTrigger value="leads">📋 Leads</TabsTrigger>
-            {isCeo && <TabsTrigger value="sobre-paula">👤 Sobre Paula</TabsTrigger>}
-            {isCeo && <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>}
-            {isCeo && <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>}
-            {isCeo && <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>}
-            {isCeo && <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>}
-            {isCeo && <TabsTrigger value="carrossel">🎠 Carrossel Formulário</TabsTrigger>}
-            {isCeo && <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>}
-            {isCeo && <TabsTrigger value="senha">🔑 Alterar Senhas</TabsTrigger>}
-          </TabsList>
+             <TabsTrigger value="leads">📋 Leads</TabsTrigger>
+             <TabsTrigger value="sobre-paula">👤 Sobre Paula</TabsTrigger>
+             <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>
+             <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
+             <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
+             <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
+             <TabsTrigger value="carrossel">🎠 Carrossel Formulário</TabsTrigger>
+             <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>
+             {isCeo && <TabsTrigger value="senha">🔑 Alterar Senhas</TabsTrigger>}
+           </TabsList>
 
           {/* ABA SOBRE PAULA */}
           <TabsContent value="sobre-paula" className="space-y-6">
