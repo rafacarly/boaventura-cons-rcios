@@ -28,11 +28,16 @@ export default function SobrePaula() {
             viewport={{ once: true }}
             className="relative flex justify-center"
           >
-            <div className={`w-96 h-96 ${dados.background_color || 'bg-brown-caramel'} flex items-center justify-center ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-3xl' : dados.background_shape === 'rounded' ? 'rounded-2xl' : ''} shadow-2xl`}>
+            <div className={`w-96 h-96 ${dados.background_color || 'bg-brown-caramel'} flex items-center justify-center overflow-hidden ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-3xl' : dados.background_shape === 'rounded' ? 'rounded-2xl' : ''} shadow-2xl`}>
               <img
                 src={dados.foto_url}
                 alt={dados.nome}
-                className={`w-80 h-80 object-cover ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-2xl' : dados.background_shape === 'rounded' ? 'rounded-lg' : ''}`}
+                style={{
+                  width: `${dados.foto_zoom || 100}%`,
+                  height: `${dados.foto_zoom || 100}%`,
+                  objectFit: 'cover',
+                  objectPosition: `center ${dados.foto_posicao_y || 50}%`
+                }}
               />
             </div>
           </motion.div>

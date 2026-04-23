@@ -431,15 +431,46 @@ export default function Admin() {
                     </div>
                   </div>
 
+                  <div>
+                    <label className="text-sm font-body text-brown-dark block mb-2">Zoom da foto</label>
+                    <input
+                      type="range"
+                      min="100"
+                      max="200"
+                      value={editingSobrePaula.foto_zoom || 100}
+                      onChange={(e) => setEditingSobrePaula({ ...editingSobrePaula, foto_zoom: Number(e.target.value) })}
+                      className="w-full"
+                    />
+                    <p className="text-xs font-body text-brown-medium mt-1">{editingSobrePaula.foto_zoom || 100}%</p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-body text-brown-dark block mb-2">Posição vertical da foto</label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={editingSobrePaula.foto_posicao_y || 50}
+                      onChange={(e) => setEditingSobrePaula({ ...editingSobrePaula, foto_posicao_y: Number(e.target.value) })}
+                      className="w-full"
+                    />
+                    <p className="text-xs font-body text-brown-medium mt-1">0% = topo, 50% = centro, 100% = base</p>
+                  </div>
+
                   <div className="mt-6 p-4 bg-white rounded-lg border border-blue-accent/20">
                     <p className="text-xs font-body text-brown-medium mb-3">Preview:</p>
                     {editingSobrePaula.foto_url && (
                       <div className="flex justify-center">
-                        <div className={`w-40 h-40 ${editingSobrePaula.background_color || 'bg-brown-caramel'} flex items-center justify-center ${editingSobrePaula.background_shape === 'circle' ? 'rounded-full' : editingSobrePaula.background_shape === 'oval' ? 'rounded-3xl' : editingSobrePaula.background_shape === 'rounded' ? 'rounded-2xl' : ''}`}>
+                        <div className={`w-40 h-40 ${editingSobrePaula.background_color || 'bg-brown-caramel'} flex items-center justify-center overflow-hidden ${editingSobrePaula.background_shape === 'circle' ? 'rounded-full' : editingSobrePaula.background_shape === 'oval' ? 'rounded-3xl' : editingSobrePaula.background_shape === 'rounded' ? 'rounded-2xl' : ''}`}>
                           <img 
                             src={editingSobrePaula.foto_url} 
                             alt="preview" 
-                            className={`w-32 h-32 object-cover ${editingSobrePaula.background_shape === 'circle' ? 'rounded-full' : editingSobrePaula.background_shape === 'oval' ? 'rounded-2xl' : editingSobrePaula.background_shape === 'rounded' ? 'rounded-lg' : ''}`} 
+                            style={{
+                              width: `${editingSobrePaula.foto_zoom || 100}%`,
+                              height: `${editingSobrePaula.foto_zoom || 100}%`,
+                              objectFit: 'cover',
+                              objectPosition: `center ${editingSobrePaula.foto_posicao_y || 50}%`
+                            }}
                           />
                         </div>
                       </div>

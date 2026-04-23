@@ -29,6 +29,16 @@
       "type": "string",
       "default": "bg-brown-caramel",
       "description": "Cor do fundo (ex: bg-brown-caramel, bg-blue-accent)"
+    },
+    "foto_zoom": {
+      "type": "number",
+      "default": 100,
+      "description": "Zoom da foto em percentual (100-200)"
+    },
+    "foto_posicao_y": {
+      "type": "number",
+      "default": 50,
+      "description": "Posi\u00e7\u00e3o vertical da foto em percentual (0-100)"
     }
   },
   "required": [
