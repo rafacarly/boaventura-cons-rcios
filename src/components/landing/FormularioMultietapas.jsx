@@ -220,7 +220,7 @@ export default function FormularioMultietapas() {
   }
 
   return (
-    <section id="formulario" className="py-20 md:py-32 bg-gradient-to-br from-brown-sand via-brown-sand to-blue-accent/5 relative overflow-hidden">
+    <section id="formulario" className="py-8 md:py-12 bg-gradient-to-br from-brown-sand via-brown-sand to-blue-accent/5 relative overflow-hidden">
       {/* Decorative blobs */}
       <motion.div
         animate={{ y: [0, -20, 0] }}
