@@ -1,37 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { PlayCircle, MessageCircle } from "lucide-react";
 
 const WHATSAPP_NUMBER = "5571992764466";
 
 const SLIDES = [
   {
-    image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1400&q=80",
     tag: "Realize seus sonhos",
-    headline: "o primeiro passo para",
-    highlight: "sua grande conquista",
-    sub: "começa aqui.",
+    headline: "a melhor configuração",
+    highlight: "de consórcio do país",
   },
   {
-    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1400&q=80",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=80",
+    tag: "Consórcio de Carro",
+    headline: "família feliz",
+    highlight: "no carro novo",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1400&q=80",
     tag: "Consórcio de Imóvel",
     headline: "a casa dos sonhos",
     highlight: "da sua família",
-    sub: "sem juros, com planejamento.",
   },
   {
-    image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1400&q=80",
-    tag: "Liberdade e conquista",
+    image: "https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=1400&q=80",
+    tag: "Qualidade de vida",
     headline: "viaje com quem",
-    highlight: "você ama",
-    sub: "com o carro que sempre quis.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1400&q=80",
-    tag: "Consórcio de Carro",
-    headline: "família unida",
-    highlight: "no carro novo",
-    sub: "sem entrada, sem juros.",
+    highlight: "você mais ama",
   },
 ];
 
@@ -49,15 +45,14 @@ export default function BannerCTA() {
     document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const prev = () => setCurrent((p) => (p - 1 + SLIDES.length) % SLIDES.length);
-  const next = () => setCurrent((p) => (p + 1) % SLIDES.length);
-
   const slide = SLIDES[current];
 
   return (
-    <section className="relative overflow-hidden bg-brown-dark" style={{ height: "480px", marginTop: "80px" }}>
-
-      {/* Background images with crossfade */}
+    <section
+      className="relative overflow-hidden bg-brown-dark"
+      style={{ height: "480px", marginTop: "80px" }}
+    >
+      {/* Background images */}
       <AnimatePresence mode="sync">
         <motion.div
           key={current}
@@ -72,92 +67,113 @@ export default function BannerCTA() {
             alt={slide.tag}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-brown-dark/85 via-brown-dark/55 to-brown-dark/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/10" />
         </motion.div>
       </AnimatePresence>
 
+      {/* Slide dots */}
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`rounded-full transition-all duration-300 ${
+              i === current ? "bg-white w-8 h-2" : "bg-white/40 w-2 h-2"
+            }`}
+          />
+        ))}
+      </div>
+
       {/* Content */}
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 w-full">
+      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-8">
 
-          {/* Left - Animated Text */}
-          <div className="flex-1">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.55, ease: "easeOut" }}
+        {/* Left - Text */}
+        <div className="flex-1">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
+            >
+              <p
+                className="text-white/60 text-sm uppercase tracking-widest mb-3"
+                style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}
               >
-                <p className="text-brown-caramel font-heading font-bold text-xs tracking-widest uppercase mb-4 flex items-center gap-2">
-                  <span className="w-6 h-px bg-brown-caramel" />
-                  {slide.tag}
-                </p>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading text-white leading-tight mb-2">
-                  {slide.headline}
-                  <br />
-                  <span className="text-brown-caramel font-black">{slide.highlight}</span>
-                </h2>
-                <p className="text-xl md:text-2xl font-heading text-white/60 mt-1">{slide.sub}</p>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Dots + arrows */}
-            <div className="flex items-center gap-4 mt-8">
-              <button onClick={prev} className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition-colors">
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <div className="flex gap-2">
-                {SLIDES.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrent(i)}
-                    className={`rounded-full transition-all duration-300 ${i === current ? "bg-brown-caramel w-8 h-2" : "bg-white/30 w-2 h-2"}`}
-                  />
-                ))}
-              </div>
-              <button onClick={next} className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/10 transition-colors">
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right - CTA Card compact square */}
-          <div className="hidden lg:flex flex-shrink-0 items-center">
-            <div className="bg-brown-caramel rounded-2xl shadow-2xl shadow-brown-caramel/40 w-[220px] h-[220px] relative flex flex-col items-center justify-center p-5 text-center">
-              {/* WhatsApp badge */}
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute -top-3 -right-3 bg-green-500 text-white flex items-center gap-1.5 px-3 py-1.5 rounded-full font-heading font-bold text-xs shadow-lg hover:bg-green-600 transition-colors"
-              >
-                <MessageCircle className="w-3 h-3" />
-                Online
-              </a>
-
-              <p className="text-white/80 font-body text-sm leading-snug mb-4">
-                o <span className="font-bold text-white">primeiro passo</span> é o mais <span className="font-bold text-white">importante</span>
+                {slide.tag}
               </p>
-
-              <motion.button
-                onClick={scrollToForm}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full flex items-center justify-center gap-2 bg-brown-dark text-white rounded-full px-5 py-3 font-heading font-bold text-base border-2 border-white/10 hover:border-white/30 transition-all mb-4"
+              <h2
+                className="text-white leading-tight"
+                style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: 300,
+                  fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                }}
               >
-                <span><span className="font-light">iniciar</span> simulação</span>
-                <ArrowRight className="w-4 h-4" />
-              </motion.button>
-
-              <p className="text-white/60 font-body text-xs">
-                em menos de <span className="font-bold text-white">1 minuto</span> você descobre sua <span className="font-bold text-white">estratégia</span>
-              </p>
-            </div>
-          </div>
-
+                {slide.headline}
+                <br />
+                <span style={{ fontWeight: 900 }}>{slide.highlight}</span>
+              </h2>
+            </motion.div>
+          </AnimatePresence>
         </div>
+
+        {/* Right - Red CTA Card */}
+        <div className="hidden lg:flex flex-shrink-0">
+          <div className="bg-[#E8291A] rounded-2xl w-[300px] relative flex flex-col items-center justify-center p-8 text-center shadow-2xl">
+
+            {/* WhatsApp Online badge */}
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute -top-4 -right-4 bg-green-500 text-white flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm shadow-xl hover:bg-green-600 transition-colors"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              <MessageCircle className="w-4 h-4" />
+              Online
+            </a>
+
+            {/* Text */}
+            <p
+              className="text-white text-xl leading-snug mb-6"
+              style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}
+            >
+              o <strong style={{ fontWeight: 900 }}>primeiro</strong> passo é<br />
+              o mais <strong style={{ fontWeight: 900 }}>importante</strong>
+            </p>
+
+            {/* Pulsing button */}
+            <motion.button
+              onClick={scrollToForm}
+              animate={{
+                boxShadow: [
+                  "0 0 0px 0px rgba(255,255,255,0.5)",
+                  "0 0 0px 12px rgba(255,255,255,0)",
+                ],
+              }}
+              transition={{ repeat: Infinity, duration: 1.6, ease: "easeOut" }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="w-full flex items-center justify-center gap-3 bg-[#111] text-white rounded-full px-6 py-4 mb-5 border-2 border-white/20 hover:border-white/50 transition-all"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              <span style={{ fontWeight: 900 }}>iniciar</span>
+              <span style={{ fontWeight: 300 }}>simulação</span>
+              <PlayCircle className="w-5 h-5" />
+            </motion.button>
+
+            <p
+              className="text-white/60 text-xs leading-relaxed"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              em menos de <strong className="text-white">UM minuto</strong> você monta<br />
+              sua <strong className="text-white">estratégia</strong> personalizada
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
   );
