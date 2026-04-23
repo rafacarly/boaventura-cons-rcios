@@ -220,20 +220,20 @@ export default function FormularioMultietapas() {
   }
 
   return (
-    <section id="formulario" className="py-20 md:py-28 bg-gradient-to-br from-brown-sand via-brown-sand to-blue-accent/5 relative overflow-hidden">
+    <section id="formulario" className="py-16 md:py-24 bg-gradient-to-br from-brown-sand via-brown-sand to-blue-accent/5 relative overflow-hidden">
       {/* Decorative blobs */}
       <motion.div
         animate={{ y: [0, -20, 0] }}
         transition={{ repeat: Infinity, duration: 8 }}
-        className="absolute top-20 right-10 w-40 h-40 rounded-full bg-blue-accent/8 blur-3xl"
+        className="absolute top-10 -right-20 w-40 h-40 rounded-full bg-blue-accent/8 blur-3xl"
       />
       <motion.div
         animate={{ y: [0, 20, 0] }}
         transition={{ repeat: Infinity, duration: 10, delay: 1 }}
-        className="absolute bottom-32 left-10 w-32 h-32 rounded-full bg-brown-caramel/8 blur-3xl"
+        className="absolute -bottom-10 -left-20 w-32 h-32 rounded-full bg-brown-caramel/8 blur-3xl"
       />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 relative z-10 w-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

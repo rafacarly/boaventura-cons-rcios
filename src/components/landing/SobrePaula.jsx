@@ -18,17 +18,17 @@ export default function SobrePaula() {
   };
 
   return (
-    <section className="py-20 md:py-32 bg-brown-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+    <section className="py-16 md:py-28 bg-brown-dark overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center w-full">
           {/* Foto */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative flex justify-center"
+            className="relative flex justify-center w-full"
           >
-            <div className={`w-96 h-96 ${dados.background_color || 'bg-brown-caramel'} flex items-center justify-center overflow-hidden ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-3xl' : dados.background_shape === 'rounded' ? 'rounded-2xl' : ''} shadow-2xl`}>
+            <div className={`w-64 h-64 md:w-80 md:h-80 ${dados.background_color || 'bg-brown-caramel'} flex items-center justify-center overflow-hidden ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-3xl' : dados.background_shape === 'rounded' ? 'rounded-2xl' : ''} shadow-2xl flex-shrink-0`}>
               <img
                 src={dados.foto_url}
                 alt={dados.nome}
