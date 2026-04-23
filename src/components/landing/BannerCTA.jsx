@@ -99,7 +99,7 @@ export default function BannerCTA() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-6 py-8 lg:py-0">
+      <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-between gap-4 pt-10 pb-12 lg:py-0">
 
         {/* Left - Text */}
         <div className="flex-1 w-full">
@@ -112,7 +112,7 @@ export default function BannerCTA() {
               transition={{ duration: 0.55, ease: "easeOut" }}
             >
               <p
-                className="text-white/60 text-sm uppercase tracking-widest mb-3"
+                className="text-white/60 text-xs uppercase tracking-widest mb-2"
                 style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}
               >
                 {slide.tag}
@@ -122,7 +122,7 @@ export default function BannerCTA() {
                 style={{
                   fontFamily: "'Poppins', sans-serif",
                   fontWeight: 300,
-                  fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                  fontSize: "clamp(1.6rem, 4vw, 3.5rem)",
                 }}
               >
                 {slide.headline}
@@ -135,26 +135,26 @@ export default function BannerCTA() {
 
         {/* Right - CTA Card (visible on all screens) */}
         <div className="flex flex-shrink-0 w-full lg:w-auto justify-center">
-          <div className="bg-[#18b0e1] rounded-2xl w-full max-w-[220px] lg:max-w-[300px] relative flex flex-col items-center justify-center p-4 lg:p-8 text-center shadow-2xl">
+          <div className="bg-[#18b0e1] rounded-2xl relative flex flex-col items-center justify-center p-4 lg:p-8 text-center shadow-2xl w-[160px] h-[160px] lg:w-[300px] lg:h-auto">
 
             {/* WhatsApp Online badge */}
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute -top-4 -right-4 bg-green-500 text-white flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm shadow-xl hover:bg-green-600 transition-colors"
+              className="absolute -top-3 -right-3 bg-green-500 text-white flex items-center gap-1 px-2 py-1 rounded-full font-bold text-xs shadow-xl hover:bg-green-600 transition-colors"
               style={{ fontFamily: "'Poppins', sans-serif" }}
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-3 h-3" />
               Online
             </a>
 
             {/* Text */}
             <p
-              className="text-white text-xl leading-snug mb-6"
+              className="text-white text-xs leading-snug mb-3 lg:text-xl lg:mb-6"
               style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}
             >
-              o <strong style={{ fontWeight: 900 }}>primeiro</strong> passo é<br />
+              o <strong style={{ fontWeight: 900 }}>primeiro</strong> passo é
               o mais <strong style={{ fontWeight: 900 }}>importante</strong>
             </p>
 
@@ -170,16 +170,16 @@ export default function BannerCTA() {
               transition={{ repeat: Infinity, duration: 1.6, ease: "easeOut" }}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full flex items-center justify-center gap-3 bg-[#111] text-white rounded-full px-6 py-4 mb-5 border-2 border-white/20 hover:border-white/50 transition-all"
+              className="w-full flex items-center justify-center gap-1 bg-[#111] text-white rounded-full px-3 py-2 lg:px-6 lg:py-4 lg:mb-5 border-2 border-white/20 hover:border-white/50 transition-all"
               style={{ fontFamily: "'Poppins', sans-serif" }}
             >
-              <span style={{ fontWeight: 900 }}>iniciar</span>
-              <span style={{ fontWeight: 300 }}>simulação</span>
-              <PlayCircle className="w-5 h-5" />
+              <span className="text-xs lg:text-base" style={{ fontWeight: 900 }}>iniciar</span>
+              <span className="text-xs lg:text-base" style={{ fontWeight: 300 }}>simulação</span>
+              <PlayCircle className="w-3 h-3 lg:w-5 lg:h-5" />
             </motion.button>
 
             <p
-              className="text-white/60 text-xs leading-relaxed"
+              className="hidden lg:block text-white/60 text-xs leading-relaxed mt-5"
               style={{ fontFamily: "'Poppins', sans-serif" }}
             >
               em menos de <strong className="text-white">UM minuto</strong> você monta<br />
