@@ -135,7 +135,7 @@ export default function BannerCTA() {
 
         {/* Right - Red CTA Card */}
         <div className="hidden lg:flex flex-shrink-0">
-          <div className="bg-[#E8291A] rounded-2xl w-[300px] relative flex flex-col items-center justify-center p-8 text-center shadow-2xl">
+          <div className="bg-[#18b0e1] rounded-2xl w-[300px] relative flex flex-col items-center justify-center p-8 text-center shadow-2xl">
 
             {/* WhatsApp Online badge */}
             <a
