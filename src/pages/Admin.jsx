@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle, LogOut, Edit2, Trash2, Image as ImageIcon } from "lucide-react";
+import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle, LogOut, Edit2, Trash2, Image as ImageIcon, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import LeadDetailDialog from "../components/admin/LeadDetailDialog";
 import { isAdminAuthenticated, logoutAdmin } from "@/lib/adminAuth";
@@ -79,6 +79,7 @@ export default function Admin() {
   const [editingHeroImage, setEditingHeroImage] = useState(null);
   const [editingConfig, setEditingConfig] = useState(null);
   const [editingCarrossel, setEditingCarrossel] = useState(null);
+  const [editingBanner, setEditingBanner] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -200,6 +201,32 @@ export default function Admin() {
     },
   });
 
+  const { data: bannerSlides = [] } = useQuery({
+    queryKey: ["bannerSlides"],
+    queryFn: () => base44.entities.BannerSlide.list("ordem", 100),
+  });
+
+  const updateBannerMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.BannerSlide.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bannerSlides"] });
+      setEditingBanner(null);
+    },
+  });
+
+  const deleteBannerMutation = useMutation({
+    mutationFn: (id) => base44.entities.BannerSlide.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["bannerSlides"] }),
+  });
+
+  const createBannerMutation = useMutation({
+    mutationFn: (data) => base44.entities.BannerSlide.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bannerSlides"] });
+      setEditingBanner(null);
+    },
+  });
+
   const filtered = leads.filter((lead) => {
     const matchSearch = !search || 
       lead.nome?.toLowerCase().includes(search.toLowerCase()) ||
@@ -251,8 +278,9 @@ export default function Admin() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="leads" className="space-y-6">
-          <TabsList className="bg-white border border-brown-caramel/10">
+          <TabsList className="bg-white border border-brown-caramel/10 flex-wrap">
             <TabsTrigger value="leads">📋 Leads</TabsTrigger>
+            <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>
             <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>
             <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>
             <TabsTrigger value="hero-images">🖼️ Imagens do Hero</TabsTrigger>
@@ -410,6 +438,131 @@ export default function Admin() {
                 </div>
               )}
             </div>
+          </TabsContent>
+
+          {/* ABA BANNER DA CAPA */}
+          <TabsContent value="banner" className="space-y-6">
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="p-6 border-b border-brown-caramel/10 flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-heading text-brown-dark">Banner da Capa</h3>
+                  <p className="text-sm font-body text-brown-medium mt-1">Edite os slides do banner principal do site</p>
+                </div>
+                <Button
+                  onClick={() => setEditingBanner({ ordem: bannerSlides.length + 1, tag: "", headline: "", highlight: "", imagem_url: "", ativo: true })}
+                  className="bg-green-600 hover:bg-green-700 text-white rounded-lg gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Novo Slide
+                </Button>
+              </div>
+
+              {bannerSlides.length === 0 ? (
+                <div className="p-8 text-center text-brown-medium font-body">Nenhum slide criado. Os slides padrão estão sendo usados.</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+                  {bannerSlides.sort((a, b) => a.ordem - b.ordem).map((slide) => (
+                    <div key={slide.id} className="border border-brown-caramel/15 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                      <div className="aspect-video bg-brown-sand/30 overflow-hidden relative">
+                        <img src={slide.imagem_url} alt={slide.tag} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex flex-col justify-end p-4">
+                          <p className="text-white/60 text-xs uppercase tracking-widest">{slide.tag}</p>
+                          <p className="text-white text-sm font-light">{slide.headline}</p>
+                          <p className="text-white text-sm font-black">{slide.highlight}</p>
+                        </div>
+                        {slide.ativo === false && (
+                          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">Inativo</div>
+                        )}
+                      </div>
+                      <div className="p-3 flex justify-between items-center">
+                        <span className="text-sm font-body text-brown-medium">Slide {slide.ordem}</span>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="ghost" onClick={() => setEditingBanner(slide)} className="text-blue-accent hover:bg-blue-accent/10">
+                            <Edit2 className="w-4 h-4" />
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={() => deleteBannerMutation.mutate(slide.id)} className="text-red-600 hover:bg-red-50">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {editingBanner && (
+              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">
+                  {editingBanner.id ? "✏️ Editando Slide" : "➕ Novo Slide"}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Input
+                    placeholder="Ordem (1, 2, 3...)"
+                    type="number"
+                    value={editingBanner.ordem}
+                    onChange={(e) => setEditingBanner({ ...editingBanner, ordem: Number(e.target.value) })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Input
+                    placeholder="Tag (ex: Consórcio de Carro)"
+                    value={editingBanner.tag}
+                    onChange={(e) => setEditingBanner({ ...editingBanner, tag: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Input
+                    placeholder="Título (linha 1, ex: família feliz)"
+                    value={editingBanner.headline}
+                    onChange={(e) => setEditingBanner({ ...editingBanner, headline: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Input
+                    placeholder="Destaque em negrito (linha 2, ex: no carro novo)"
+                    value={editingBanner.highlight}
+                    onChange={(e) => setEditingBanner({ ...editingBanner, highlight: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <Input
+                    placeholder="URL da imagem de fundo"
+                    value={editingBanner.imagem_url}
+                    onChange={(e) => setEditingBanner({ ...editingBanner, imagem_url: e.target.value })}
+                    className="border-blue-accent/20 font-body md:col-span-2"
+                  />
+                  {editingBanner.imagem_url && (
+                    <div className="aspect-video rounded-lg overflow-hidden bg-brown-sand/30 md:col-span-2">
+                      <img src={editingBanner.imagem_url} alt="preview" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="ativo"
+                      checked={editingBanner.ativo !== false}
+                      onChange={(e) => setEditingBanner({ ...editingBanner, ativo: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    <label htmlFor="ativo" className="font-body text-sm text-brown-dark">Slide ativo</label>
+                  </div>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={() => {
+                      if (editingBanner.id) {
+                        updateBannerMutation.mutate({ id: editingBanner.id, data: editingBanner });
+                      } else {
+                        createBannerMutation.mutate(editingBanner);
+                      }
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  >
+                    💾 Salvar
+                  </Button>
+                  <Button onClick={() => setEditingBanner(null)} variant="outline" className="rounded-lg">
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
           </TabsContent>
 
           {/* ABA PLANOS */}

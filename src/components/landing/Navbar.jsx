@@ -54,9 +54,9 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-3">
             <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
-              <Button className="bg-brown-caramel hover:bg-brown-medium text-white gap-2 rounded-full px-6 font-heading font-bold shadow-md shadow-brown-caramel/20 transition-all hover:scale-105">
-                <Phone className="w-4 h-4" />
-                Falar no WhatsApp
+              <Button className="bg-brown-caramel hover:bg-brown-medium text-white gap-1.5 rounded-full px-4 py-1.5 text-xs font-heading font-bold shadow-md shadow-brown-caramel/20 transition-all hover:scale-105 h-8">
+                <Phone className="w-3 h-3" />
+                WhatsApp
               </Button>
             </a>
           </div>

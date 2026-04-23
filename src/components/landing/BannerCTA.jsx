@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PlayCircle, MessageCircle } from "lucide-react";
+import { base44 } from "@/api/base44Client";
+import { useQuery } from "@tanstack/react-query";
 
 const WHATSAPP_NUMBER = "5571992764466";
 
-const SLIDES = [
+const DEFAULT_SLIDES = [
   {
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=80",
     tag: "Realize seus sonhos",
     headline: "a melhor configuração",
     highlight: "de consórcio do país",
   },
   {
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1400&q=80",
     tag: "Consórcio de Carro",
     headline: "família feliz",
     highlight: "no carro novo",
   },
   {
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80",
     tag: "Consórcio de Imóvel",
     headline: "a casa dos sonhos",
     highlight: "da sua família",
   },
   {
-    image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80",
     tag: "Qualidade de vida",
     headline: "viaje com quem",
     highlight: "você mais ama",
@@ -34,18 +36,30 @@ const SLIDES = [
 export default function BannerCTA() {
   const [current, setCurrent] = useState(0);
 
+  const { data: dbSlides = [] } = useQuery({
+    queryKey: ["bannerSlides"],
+    queryFn: () => base44.entities.BannerSlide.list("ordem", 100),
+  });
+
+  const slides = dbSlides.filter(s => s.ativo !== false).length > 0
+    ? dbSlides.filter(s => s.ativo !== false).sort((a, b) => a.ordem - b.ordem)
+    : DEFAULT_SLIDES;
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % SLIDES.length);
+      setCurrent((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const scrollToForm = () => {
     document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const slide = SLIDES[current];
+  const slide = slides[current];
+  if (!slide) return null;
+
+  const imageUrl = slide.imagem_url || slide.image;
 
   return (
     <section
@@ -63,7 +77,7 @@ export default function BannerCTA() {
           className="absolute inset-0"
         >
           <img
-            src={slide.image}
+            src={imageUrl}
             alt={slide.tag}
             className="w-full h-full object-cover"
           />
@@ -73,7 +87,7 @@ export default function BannerCTA() {
 
       {/* Slide dots */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {SLIDES.map((_, i) => (
+        {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
