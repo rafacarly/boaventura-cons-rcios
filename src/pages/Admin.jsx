@@ -82,6 +82,7 @@ export default function Admin() {
   const [editingConfig, setEditingConfig] = useState(null);
   const [editingCarrossel, setEditingCarrossel] = useState(null);
   const [editingBanner, setEditingBanner] = useState(null);
+  const [editingSobrePaula, setEditingSobrePaula] = useState(null);
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -208,6 +209,11 @@ export default function Admin() {
     queryFn: () => base44.entities.BannerSlide.list("ordem", 100),
   });
 
+  const { data: sobrePaulaData = [] } = useQuery({
+    queryKey: ["sobrePaula"],
+    queryFn: () => base44.entities.SobrePaula.list("-created_date", 1),
+  });
+
   const updateBannerMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.BannerSlide.update(id, data),
     onSuccess: () => {
@@ -226,6 +232,22 @@ export default function Admin() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bannerSlides"] });
       setEditingBanner(null);
+    },
+  });
+
+  const updateSobrePaulaMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.SobrePaula.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sobrePaula"] });
+      setEditingSobrePaula(null);
+    },
+  });
+
+  const createSobrePaulaMutation = useMutation({
+    mutationFn: (data) => base44.entities.SobrePaula.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sobrePaula"] });
+      setEditingSobrePaula(null);
     },
   });
 
@@ -287,6 +309,7 @@ export default function Admin() {
         <Tabs defaultValue="leads" className="space-y-6">
           <TabsList className="bg-white border border-brown-caramel/10 flex-wrap">
             <TabsTrigger value="leads">📋 Leads</TabsTrigger>
+            {isCeo && <TabsTrigger value="sobre-paula">👤 Sobre Paula</TabsTrigger>}
             {isCeo && <TabsTrigger value="banner">🖼️ Banner da Capa</TabsTrigger>}
             {isCeo && <TabsTrigger value="planos">💰 Planos em Destaque</TabsTrigger>}
             {isCeo && <TabsTrigger value="depoimentos">⭐ Depoimentos</TabsTrigger>}
@@ -295,6 +318,102 @@ export default function Admin() {
             {isCeo && <TabsTrigger value="configs">⚙️ Configurações</TabsTrigger>}
             {isCeo && <TabsTrigger value="senha">🔑 Alterar Senhas</TabsTrigger>}
           </TabsList>
+
+          {/* ABA SOBRE PAULA */}
+          <TabsContent value="sobre-paula" className="space-y-6">
+            <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+              <div className="p-6 border-b border-brown-caramel/10">
+                <h3 className="text-lg font-heading text-brown-dark">Sobre Paula</h3>
+                <p className="text-sm font-body text-brown-medium mt-1">Edite as informações e foto de Paula que aparecem na seção de apresentação</p>
+              </div>
+
+              {sobrePaulaData.length === 0 ? (
+                <div className="p-8 text-center text-brown-medium font-body">Nenhuma informação criada.</div>
+              ) : (
+                sobrePaulaData.map((item) => (
+                  <div key={item.id} className="p-6 border-b border-brown-caramel/10 last:border-b-0">
+                    <div className="flex gap-4 mb-4">
+                      <img src={item.foto_url} alt={item.nome} className="w-24 h-24 rounded-lg object-cover" />
+                      <div className="flex-1">
+                        <h4 className="font-heading text-brown-dark font-semibold">{item.nome}</h4>
+                        <p className="text-sm font-body text-brown-medium mt-2">{item.texto}</p>
+                      </div>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setEditingSobrePaula(item)}
+                      className="text-blue-accent hover:bg-blue-accent/10"
+                    >
+                      <Edit2 className="w-4 h-4 mr-2" />
+                      Editar
+                    </Button>
+                  </div>
+                ))
+              )}
+
+              {sobrePaulaData.length === 0 && (
+                <div className="p-6 border-t border-brown-caramel/10">
+                  <Button
+                    onClick={() => setEditingSobrePaula({ nome: "", texto: "", foto_url: "" })}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Criar
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {editingSobrePaula && (
+              <div className="bg-blue-accent/10 rounded-xl border border-blue-accent/30 p-6">
+                <h3 className="text-lg font-heading text-brown-dark mb-4">
+                  {editingSobrePaula.id ? "✏️ Editando" : "➕ Criar apresentação"}
+                </h3>
+                <div className="space-y-4">
+                  <Input
+                    placeholder="Nome"
+                    value={editingSobrePaula.nome}
+                    onChange={(e) => setEditingSobrePaula({ ...editingSobrePaula, nome: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  <textarea
+                    placeholder="Texto de apresentação"
+                    value={editingSobrePaula.texto}
+                    onChange={(e) => setEditingSobrePaula({ ...editingSobrePaula, texto: e.target.value })}
+                    className="border border-blue-accent/20 rounded-md p-3 font-body text-sm w-full"
+                    rows="3"
+                  />
+                  <Input
+                    placeholder="URL da foto"
+                    value={editingSobrePaula.foto_url}
+                    onChange={(e) => setEditingSobrePaula({ ...editingSobrePaula, foto_url: e.target.value })}
+                    className="border-blue-accent/20 font-body"
+                  />
+                  {editingSobrePaula.foto_url && (
+                    <img src={editingSobrePaula.foto_url} alt="preview" className="w-32 h-32 rounded-lg object-cover" />
+                  )}
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    onClick={() => {
+                      if (editingSobrePaula.id) {
+                        updateSobrePaulaMutation.mutate({ id: editingSobrePaula.id, data: editingSobrePaula });
+                      } else {
+                        createSobrePaulaMutation.mutate(editingSobrePaula);
+                      }
+                    }}
+                    className="bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                  >
+                    💾 Salvar
+                  </Button>
+                  <Button onClick={() => setEditingSobrePaula(null)} variant="outline" className="rounded-lg">
+                    Cancelar
+                  </Button>
+                </div>
+              </div>
+            )}
+          </TabsContent>
 
           {/* ABA LEADS */}
           <TabsContent value="leads" className="space-y-6">

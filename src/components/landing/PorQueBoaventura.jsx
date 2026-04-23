@@ -33,7 +33,7 @@ const ITEMS = [
 ];
 
 const NUMBERS = [
-  { value: "+2.000", label: "Clientes satisfeitos" },
+  { value: 2000, label: "Clientes satisfeitos", prefix: "+" },
   { value: "15+", label: "Anos de experiência" },
   { value: "100%", label: "Dedicação ao cliente" },
 ];
@@ -99,7 +99,14 @@ export default function PorQueBoaventura() {
             {NUMBERS.map((n, i) => (
               <div key={i} className="text-center">
                 <p className="text-3xl md:text-4xl font-heading font-bold text-brown-caramel">
-                  <AnimatedCounter value={n.value} />
+                  {typeof n.value === "number" ? (
+                    <>
+                      {n.prefix}
+                      <AnimatedCounter value={n.value} />
+                    </>
+                  ) : (
+                    n.value
+                  )}
                 </p>
                 <p className="text-xs font-body text-brown-medium mt-1">{n.label}</p>
               </div>

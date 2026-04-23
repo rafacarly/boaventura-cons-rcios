@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/landing/Navbar";
 import SplashScreen from "../components/SplashScreen";
 import HeroSection from "../components/landing/HeroSection";
+import SobrePaula from "../components/landing/SobrePaula";
 import PorQueBoaventura from "../components/landing/PorQueBoaventura";
 import ComoFunciona from "../components/landing/ComoFunciona";
 import Modalidades from "../components/landing/Modalidades";
@@ -26,6 +27,7 @@ export default function Home() {
       <WhatsAppFloat />
       <BannerCTA />
       <HeroSection />
+      <SobrePaula />
       <PorQueBoaventura />
       <ComoFunciona />
       <Modalidades />
