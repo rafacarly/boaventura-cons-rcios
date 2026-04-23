@@ -44,14 +44,14 @@ export default function WhatsAppFloat() {
         onMouseLeave={() => setShowTooltip(false)}
         animate={{
           boxShadow: [
-            "0 0 0px 0px rgba(34,197,94,0.4)",
-            "0 0 0px 12px rgba(34,197,94,0)",
+            "0 0 0px 0px rgba(249,130,39,0.5)",
+            "0 0 0px 14px rgba(249,130,39,0)",
           ],
         }}
         transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="w-16 h-16 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/40 transition-colors"
+        className="w-16 h-16 bg-brown-caramel hover:bg-brown-medium rounded-full flex items-center justify-center shadow-2xl shadow-brown-caramel/40 transition-colors"
       >
         <MessageCircle className="w-8 h-8 text-white" fill="white" />
       </motion.a>
