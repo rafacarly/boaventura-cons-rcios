@@ -1,6 +1,6 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Handshake, Target, Eye, HeartHandshake, TrendingUp, Star } from "lucide-react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Handshake, Target, Eye, HeartHandshake, TrendingUp, Star, Car } from "lucide-react";
 
 const ITEMS = [
   {
@@ -37,6 +37,31 @@ const NUMBERS = [
   { value: "100%", label: "Dedicação ao cliente" },
 ];
 
+function CarTrackDark() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const carX = useTransform(scrollYProgress, [0, 0.7], ["0%", "85%"]);
+
+  return (
+    <div ref={ref} className="relative flex items-center w-full max-w-sm mb-4">
+      <div className="flex-1 flex items-center gap-1 overflow-hidden">
+        {[...Array(14)].map((_, i) => (
+          <div key={i} className="h-0.5 flex-1 bg-brown-caramel/50 rounded-full" />
+        ))}
+      </div>
+      <motion.div style={{ left: carX }} className="absolute top-1/2 -translate-y-1/2">
+        <motion.div
+          animate={{ y: [0, -2, 0] }}
+          transition={{ repeat: Infinity, duration: 0.35, ease: "easeInOut" }}
+          className="w-9 h-9 rounded-full bg-brown-caramel flex items-center justify-center shadow-md shadow-brown-caramel/40"
+        >
+          <Car className="w-4 h-4 text-white" />
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function PorQueBoaventura() {
   return (
     <section id="por-que" className="py-20 md:py-32 bg-brown-sand relative overflow-hidden">
@@ -55,6 +80,8 @@ export default function PorQueBoaventura() {
               <span className="w-6 h-px bg-brown-caramel" />
               Por que a Boaventura
             </p>
+            {/* Car Track */}
+            <CarTrackDark />
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading text-brown-dark leading-tight">
               Mais do que consórcio.{" "}
               <span className="text-brown-caramel">Estratégia para sua vida.</span>

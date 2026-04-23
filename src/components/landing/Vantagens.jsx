@@ -59,10 +59,10 @@ export default function Vantagens() {
           {ITEMS.map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ delay: i * 0.12, duration: 0.6, ease: "easeOut" }}
               whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
               className="group bg-white rounded-3xl p-8 border border-brown-caramel/10 hover:border-brown-caramel/30 transition-all duration-300 cursor-default"
             >

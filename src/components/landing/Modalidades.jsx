@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Car, Home, TrendingUp, Bike } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -43,6 +43,31 @@ const CARDS = [
   },
 ];
 
+function CarTrack() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const carX = useTransform(scrollYProgress, [0, 0.8], ["0%", "88%"]);
+
+  return (
+    <div ref={ref} className="relative flex items-center w-full max-w-lg mx-auto mb-2">
+      <div className="flex-1 flex items-center gap-1 overflow-hidden">
+        {[...Array(16)].map((_, i) => (
+          <div key={i} className="h-0.5 flex-1 bg-brown-caramel/30 rounded-full" />
+        ))}
+      </div>
+      <motion.div style={{ left: carX }} className="absolute top-1/2 -translate-y-1/2">
+        <motion.div
+          animate={{ y: [0, -2, 0] }}
+          transition={{ repeat: Infinity, duration: 0.35, ease: "easeInOut" }}
+          className="w-9 h-9 rounded-full bg-brown-caramel flex items-center justify-center shadow-md shadow-brown-caramel/40"
+        >
+          <Car className="w-4 h-4 text-white" />
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
 export default function Modalidades() {
   const scrollToForm = () => {
     document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
@@ -63,7 +88,11 @@ export default function Modalidades() {
             Modalidades
             <span className="w-6 h-px bg-brown-caramel" />
           </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading text-brown-dark">
+
+          {/* Car Track Animation */}
+          <CarTrack />
+
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading text-brown-dark mt-4">
             Escolha o caminho para sua{" "}
             <span className="text-brown-caramel">próxima conquista.</span>
           </h2>

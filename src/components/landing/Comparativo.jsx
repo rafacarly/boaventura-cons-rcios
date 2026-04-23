@@ -71,10 +71,10 @@ export default function Comparativo() {
           {ROWS.map((row, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, x: -20 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.07 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
               className={`grid grid-cols-3 border-b border-brown-graphite/50 ${i % 2 === 0 ? "bg-brown-graphite/30" : "bg-brown-graphite/10"}`}
             >
               <div className="p-4 sm:p-5 font-body font-bold text-brown-sand text-sm flex items-center">

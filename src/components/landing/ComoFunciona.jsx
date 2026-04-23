@@ -82,10 +82,10 @@ export default function ComoFunciona() {
             {STEPS.map((step, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
+                initial={{ opacity: 0, y: 60, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ delay: i * 0.18, duration: 0.7, ease: "easeOut" }}
                 className="text-center group"
               >
                 {/* Icon circle */}
