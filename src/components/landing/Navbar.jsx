@@ -1,12 +1,27 @@
-import React, { useState } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WHATSAPP_NUMBER = "5571992764466";
 
+const NAV_LINKS = [
+  { label: "Por que Boaventura?", id: "por-que" },
+  { label: "Modalidades", id: "modalidades" },
+  { label: "Como Funciona", id: "como-funciona" },
+  { label: "Planos", id: "planos" },
+  { label: "FAQ", id: "faq" },
+];
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -14,36 +29,39 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-brown-sand/90 backdrop-blur-md border-b border-brown-caramel/20">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur-md"}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <img 
-            src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/fadd51044_APRESENTACAOPAULApdf.png" 
-            alt="Boaventura" 
-            className="h-12 md:h-14 object-contain"
+          <motion.img
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            src="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/fadd51044_APRESENTACAOPAULApdf.png"
+            alt="Boaventura Consórcios"
+            className="h-10 md:h-12 object-contain"
           />
 
-          <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollTo("vantagens")} className="text-sm font-body text-brown-graphite hover:text-brown-caramel transition-colors">Vantagens</button>
-            <button onClick={() => scrollTo("modalidades")} className="text-sm font-body text-brown-graphite hover:text-brown-caramel transition-colors">Modalidades</button>
-            <button onClick={() => scrollTo("planos")} className="text-sm font-body text-brown-graphite hover:text-brown-caramel transition-colors">Planos</button>
-            <button onClick={() => scrollTo("faq")} className="text-sm font-body text-brown-graphite hover:text-brown-caramel transition-colors">FAQ</button>
+          <div className="hidden lg:flex items-center gap-6">
+            {NAV_LINKS.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className="text-sm font-body text-brown-dark hover:text-brown-caramel transition-colors font-medium"
+              >
+                {link.label}
+              </button>
+            ))}
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button className="bg-blue-accent hover:bg-cyan-400 text-white gap-2 rounded-full px-6 shadow-lg shadow-blue-accent/30">
+            <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
+              <Button className="bg-brown-caramel hover:bg-brown-medium text-white gap-2 rounded-full px-6 font-heading font-bold shadow-md shadow-brown-caramel/20 transition-all hover:scale-105">
                 <Phone className="w-4 h-4" />
                 Falar no WhatsApp
               </Button>
             </a>
           </div>
 
-          <button className="md:hidden text-brown-dark" onClick={() => setOpen(!open)}>
+          <button className="lg:hidden text-brown-dark p-2" onClick={() => setOpen(!open)}>
             {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -55,15 +73,20 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-brown-sand border-t border-brown-caramel/20"
+            className="lg:hidden bg-white border-t border-brown-caramel/10 shadow-xl"
           >
-            <div className="px-4 py-4 flex flex-col gap-3">
-              <button onClick={() => scrollTo("vantagens")} className="text-left py-2 text-brown-graphite font-body">Vantagens</button>
-              <button onClick={() => scrollTo("modalidades")} className="text-left py-2 text-brown-graphite font-body">Modalidades</button>
-              <button onClick={() => scrollTo("planos")} className="text-left py-2 text-brown-graphite font-body">Planos</button>
-              <button onClick={() => scrollTo("faq")} className="text-left py-2 text-brown-graphite font-body">FAQ</button>
-              <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-blue-accent hover:bg-cyan-400 text-white gap-2 rounded-full">
+            <div className="px-4 py-5 flex flex-col gap-2">
+              {NAV_LINKS.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => scrollTo(link.id)}
+                  className="text-left py-2 px-3 rounded-lg text-brown-dark font-body font-medium hover:bg-brown-sand transition-colors"
+                >
+                  {link.label}
+                </button>
+              ))}
+              <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="mt-2">
+                <Button className="w-full bg-brown-caramel hover:bg-brown-medium text-white gap-2 rounded-full font-heading font-bold">
                   <Phone className="w-4 h-4" />
                   Falar no WhatsApp
                 </Button>
