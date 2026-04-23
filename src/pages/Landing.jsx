@@ -33,6 +33,9 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Quem Somos */}
+      <SobrePaula />
+
       {/* Planos em Destaque */}
       <section className="py-20 md:py-32 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,9 +57,6 @@ export default function Landing() {
           <Planos />
         </div>
       </section>
-
-      {/* Quem Somos */}
-      <SobrePaula />
 
       {/* Comparativo */}
       <Comparativo />
