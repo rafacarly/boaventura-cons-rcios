@@ -39,7 +39,7 @@ export default function VideoSection() {
   const getEmbedUrl = (tipo, url) => {
     if (tipo === "youtube") {
       const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/)?.[1];
-      return `https://www.youtube.com/embed/${videoId}`;
+      return `https://www.youtube.com/embed/${videoId}?controls=0&modestbranding=1`;
     }
     if (tipo === "instagram") {
       return url;

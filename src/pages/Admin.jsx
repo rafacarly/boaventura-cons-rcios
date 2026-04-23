@@ -786,6 +786,17 @@ export default function Admin() {
                       onChange={(e) => setEditingVideo({ ...editingVideo, url: e.target.value })}
                       className="border-blue-accent/20 font-body md:col-span-2"
                     />
+
+                    {editingVideo.tipo !== "upload" && <div className="flex items-center gap-2 md:col-span-2">
+                      <input
+                        type="checkbox"
+                        id="bordas"
+                        checked={editingVideo.bordas !== false}
+                        onChange={(e) => setEditingVideo({ ...editingVideo, bordas: e.target.checked })}
+                        className="w-4 h-4"
+                      />
+                      <label htmlFor="bordas" className="font-body text-sm text-brown-dark">Mostrar bordas/controles do vídeo</label>
+                    </div>}
                   )}
 
                   <textarea
