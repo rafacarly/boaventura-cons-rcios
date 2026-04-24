@@ -1,7 +1,6 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { useInjectTag } from "@/hooks/useInjectTag";
 import Navbar from "../components/landing/Navbar";
-import SplashScreen from "../components/SplashScreen";
 import BannerCTA from "../components/landing/BannerCTA";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
 
@@ -22,13 +21,11 @@ const Footer = lazy(() => import("../components/landing/Footer"));
 const BlogSection = lazy(() => import("../components/landing/BlogSection"));
 
 export default function Home() {
-  const [splashDone, setSplashDone] = useState(false);
   useInjectTag("google_tag_home");
   useInjectTag("meta_pixel_id");
 
   return (
     <div className="min-h-screen">
-      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
       <Navbar />
       <WhatsAppFloat />
       <BannerCTA />

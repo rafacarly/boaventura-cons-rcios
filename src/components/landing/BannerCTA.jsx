@@ -39,8 +39,10 @@ export default function BannerCTA() {
   const { data: dbSlides = [] } = useQuery({
     queryKey: ["bannerSlides"],
     queryFn: () => base44.entities.BannerSlide.list("ordem", 100),
+    staleTime: 5 * 60 * 1000, // cache por 5 minutos
   });
 
+  // Usa slides padrão imediatamente, substitui quando API retornar
   const slides = dbSlides.filter(s => s.ativo !== false).length > 0
     ? dbSlides.filter(s => s.ativo !== false).sort((a, b) => a.ordem - b.ordem)
     : DEFAULT_SLIDES;
