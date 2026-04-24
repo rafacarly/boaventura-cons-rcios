@@ -34,8 +34,8 @@ export default function SobrePaula() {
                 alt={`${dados.nome} - Consultora de Consórcios Boaventura`}
                 width="320"
                 height="320"
-                loading="lazy"
-                decoding="async"
+                loading="eager"
+                fetchpriority="high"
                 style={{
                   width: `${dados.foto_zoom || 100}%`,
                   height: `${dados.foto_zoom || 100}%`,
