@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { useInjectTag } from "@/hooks/useInjectTag";
 import Navbar from "../components/landing/Navbar";
 import SplashScreen from "../components/SplashScreen";
-import HeroSection from "../components/landing/HeroSection";
-import SobrePaula from "../components/landing/SobrePaula";
-import PorQueBoaventura from "../components/landing/PorQueBoaventura";
-import ComoFunciona from "../components/landing/ComoFunciona";
-import Modalidades from "../components/landing/Modalidades";
-import Vantagens from "../components/landing/Vantagens";
-import FormularioMultietapas from "../components/landing/FormularioMultietapas";
-import Planos from "../components/landing/Planos";
-import ProvaSocial from "../components/landing/ProvaSocial";
-import Comparativo from "../components/landing/Comparativo";
-import FAQ from "../components/landing/FAQ";
-import CTAFinal from "../components/landing/CTAFinal";
-import Footer from "../components/landing/Footer";
 import BannerCTA from "../components/landing/BannerCTA";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
-import BlogSection from "../components/landing/BlogSection";
+
+// Lazy load de seções abaixo da dobra
+const HeroSection = lazy(() => import("../components/landing/HeroSection"));
+const SobrePaula = lazy(() => import("../components/landing/SobrePaula"));
+const PorQueBoaventura = lazy(() => import("../components/landing/PorQueBoaventura"));
+const ComoFunciona = lazy(() => import("../components/landing/ComoFunciona"));
+const Modalidades = lazy(() => import("../components/landing/Modalidades"));
+const Vantagens = lazy(() => import("../components/landing/Vantagens"));
+const FormularioMultietapas = lazy(() => import("../components/landing/FormularioMultietapas"));
+const Planos = lazy(() => import("../components/landing/Planos"));
+const ProvaSocial = lazy(() => import("../components/landing/ProvaSocial"));
+const Comparativo = lazy(() => import("../components/landing/Comparativo"));
+const FAQ = lazy(() => import("../components/landing/FAQ"));
+const CTAFinal = lazy(() => import("../components/landing/CTAFinal"));
+const Footer = lazy(() => import("../components/landing/Footer"));
+const BlogSection = lazy(() => import("../components/landing/BlogSection"));
 
 export default function Home() {
   const [splashDone, setSplashDone] = useState(false);
@@ -30,20 +32,22 @@ export default function Home() {
       <Navbar />
       <WhatsAppFloat />
       <BannerCTA />
-      <HeroSection />
-      <SobrePaula />
-      <PorQueBoaventura />
-      <ComoFunciona />
-      <Modalidades />
-      <Vantagens />
-      <FormularioMultietapas />
-      <Planos />
-      <ProvaSocial />
-      <Comparativo />
-      <BlogSection />
-      <FAQ />
-      <CTAFinal />
-      <Footer />
+      <Suspense fallback={null}>
+        <HeroSection />
+        <SobrePaula />
+        <PorQueBoaventura />
+        <ComoFunciona />
+        <Modalidades />
+        <Vantagens />
+        <FormularioMultietapas />
+        <Planos />
+        <ProvaSocial />
+        <Comparativo />
+        <BlogSection />
+        <FAQ />
+        <CTAFinal />
+        <Footer />
+      </Suspense>
     </div>
   );
 }
