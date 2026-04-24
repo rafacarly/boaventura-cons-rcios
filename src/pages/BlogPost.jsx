@@ -7,6 +7,7 @@ import { Heart, Tag, ArrowLeft, ArrowRight, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Footer from "../components/landing/Footer";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
+import { useSEO } from "@/hooks/useSEO";
 
 const WHATSAPP_NUMBER = "5571992764466";
 
@@ -20,6 +21,32 @@ export default function BlogPost() {
     queryFn: () => base44.entities.BlogPost.filter({ id }, "-created_date", 1).then((r) => r[0]),
     enabled: !!id,
   });
+
+  // SEO dinâmico por artigo
+  useSEO(post ? {
+    title: post.titulo,
+    description: post.resumo || post.conteudo?.slice(0, 160),
+    image: post.capa_url || undefined,
+    url: `https://boaventuraconsorcio.com.br/blog/${id}`,
+    type: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": post.titulo,
+      "description": post.resumo || post.conteudo?.slice(0, 160),
+      "image": post.capa_url || "",
+      "url": `https://boaventuraconsorcio.com.br/blog/${id}`,
+      "datePublished": post.created_date,
+      "dateModified": post.updated_date || post.created_date,
+      "keywords": post.tags || "",
+      "author": { "@type": "Person", "name": "Paula Boaventura" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Boaventura Consórcios",
+        "url": "https://boaventuraconsorcio.com.br"
+      }
+    }
+  } : {});
 
   const { data: proximoPost } = useQuery({
     queryKey: ["blogPost_proximo", post?.proximo_post_id],

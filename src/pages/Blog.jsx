@@ -7,10 +7,29 @@ import { Heart, Tag, Search, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Footer from "../components/landing/Footer";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
+import { useSEO } from "@/hooks/useSEO";
 
 export default function Blog() {
   const [search, setSearch] = useState("");
   const [tagFiltro, setTagFiltro] = useState("");
+
+  useSEO({
+    title: "Blog — Tudo sobre Consórcios",
+    description: "Artigos, dicas e novidades sobre consórcio de imóvel, carro, moto e investimento. Aprenda a realizar seus sonhos com mais inteligência financeira.",
+    url: "https://boaventuraconsorcio.com.br/blog",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Blog Boaventura Consórcios",
+      "description": "Artigos sobre consórcio de imóvel, carro, moto e investimento.",
+      "url": "https://boaventuraconsorcio.com.br/blog",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Boaventura Consórcios",
+        "url": "https://boaventuraconsorcio.com.br"
+      }
+    }
+  });
 
   const { data: posts = [] } = useQuery({
     queryKey: ["blogPosts_all"],
