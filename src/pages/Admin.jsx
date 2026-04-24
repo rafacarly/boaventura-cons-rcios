@@ -23,6 +23,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XCircle, LogOut, Edit2, Trash2, Image as ImageIcon, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import LeadDetailDialog from "../components/admin/LeadDetailDialog";
+import RastreamentoTags from "../components/admin/RastreamentoTags";
 import { isAdminAuthenticated, getAdminRole, logoutAdmin } from "@/lib/adminAuth";
 
 const STATUS_OPTIONS = [
@@ -343,6 +344,7 @@ export default function Admin() {
              <TabsTrigger value="hero-images" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden md:inline-flex">🖼️ Hero</TabsTrigger>
              <TabsTrigger value="carrossel" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden md:inline-flex">🎠 Carr.</TabsTrigger>
              <TabsTrigger value="configs" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">⚙️ Config</TabsTrigger>
+             <TabsTrigger value="rastreamento" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">📊 Tags</TabsTrigger>
              {isCeo && <TabsTrigger value="senha" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden sm:inline-flex">🔑 Senhas</TabsTrigger>}
            </TabsList>
 
@@ -1484,6 +1486,11 @@ export default function Admin() {
                 </div>
               </div>
             )}
+            </TabsContent>
+
+            {/* ABA RASTREAMENTO */}
+            <TabsContent value="rastreamento" className="space-y-6">
+              <RastreamentoTags />
             </TabsContent>
 
             {/* ABA ALTERAR SENHAS - apenas CEO */}

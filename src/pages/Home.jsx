@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useInjectTag } from "@/hooks/useInjectTag";
 import Navbar from "../components/landing/Navbar";
 import SplashScreen from "../components/SplashScreen";
 import HeroSection from "../components/landing/HeroSection";
@@ -19,6 +20,8 @@ import WhatsAppFloat from "../components/landing/WhatsAppFloat";
 
 export default function Home() {
   const [splashDone, setSplashDone] = useState(false);
+  useInjectTag("google_tag_home");
+  useInjectTag("meta_pixel_id");
 
   return (
     <div className="min-h-screen">

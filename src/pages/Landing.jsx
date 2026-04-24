@@ -1,4 +1,5 @@
 import React from "react";
+import { useInjectTag } from "@/hooks/useInjectTag";
 import { motion } from "framer-motion";
 import FormularioMultietapas from "../components/landing/FormularioMultietapas";
 import VideoSection from "../components/landing/VideoSection";
@@ -9,6 +10,8 @@ import Footer from "../components/landing/Footer";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
 
 export default function Landing() {
+  useInjectTag("google_tag_converter");
+  useInjectTag("meta_pixel_id");
   return (
     <div className="min-h-screen">
       <WhatsAppFloat />
