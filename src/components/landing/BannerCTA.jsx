@@ -8,25 +8,25 @@ const WHATSAPP_NUMBER = "5571992764466";
 
 const DEFAULT_SLIDES = [
   {
-    imagem_url: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=65&fm=webp&auto=format",
     tag: "Realize seus sonhos",
     headline: "a melhor configuração",
     highlight: "de consórcio do país",
   },
   {
-    imagem_url: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=1400&q=65&fm=webp&auto=format",
     tag: "Consórcio de Carro",
     headline: "família feliz",
     highlight: "no carro novo",
   },
   {
-    imagem_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=65&fm=webp&auto=format",
     tag: "Consórcio de Imóvel",
     headline: "a casa dos sonhos",
     highlight: "da sua família",
   },
   {
-    imagem_url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80",
+    imagem_url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=65&fm=webp&auto=format",
     tag: "Qualidade de vida",
     headline: "viaje com quem",
     highlight: "você mais ama",
@@ -77,14 +77,14 @@ export default function BannerCTA() {
           className="absolute inset-0"
         >
           <img
-            src={imageUrl}
+            src={current === 0 ? imageUrl : imageUrl}
             alt={slide.tag}
             className="w-full h-full object-cover"
             width="1400"
             height="480"
             loading={current === 0 ? "eager" : "lazy"}
             fetchpriority={current === 0 ? "high" : "low"}
-            decoding="async"
+            decoding={current === 0 ? "sync" : "async"}
           />
           <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(to right, rgba(30,10,0,0.82), rgba(80,30,0,0.35) 50%, rgba(0,0,0,0.05))" }} />
         </motion.div>

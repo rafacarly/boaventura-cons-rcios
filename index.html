@@ -7,17 +7,20 @@
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Preconnect para recursos externos críticos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://media.base44.com" />
-    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="preconnect" href="https://media.base44.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
 
-    <!-- Fonte com display=swap para evitar texto invisível -->
+    <!-- Fonte com display=swap para evitar texto invisível e não bloquear renderização -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Lato:wght@300;400;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Lato:wght@300;400;700&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Lato:wght@300;400;700&display=swap" /></noscript>
 
-    <!-- Preload da imagem hero (LCP) -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=80" fetchpriority="high" />
+    <!-- Preload da imagem hero LCP (banner principal) -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=75" fetchpriority="high" />
+    <!-- Preload da imagem hero HeroSection (carro - primeiro slide) -->
+    <link rel="preload" as="image" href="https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/51c474cb1_generated_035ec33b.png" fetchpriority="high" />
 
     <!-- SEO Principal -->
     <title>Boaventura Consórcios | Consórcio de Imóvel, Carro e Investimento – Salvador, BA</title>

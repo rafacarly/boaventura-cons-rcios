@@ -27,7 +27,7 @@ const SLIDES = [
     id: "moto",
     label: "Motos",
     icon: Bike,
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=665&q=75&fm=webp&auto=format",
     headline: "Liberdade em cada curva,",
     highlight: "sem juros.",
     sub: "Conquiste sua moto do seu jeito, com parcelas flexíveis e suporte consultivo.",
@@ -203,6 +203,11 @@ export default function HeroSection() {
                   <img
                     src={slide.image}
                     alt={slide.label}
+                    width="530"
+                    height="500"
+                    loading={active === 0 ? "eager" : "lazy"}
+                    fetchpriority={active === 0 ? "high" : "auto"}
+                    decoding="async"
                     className="w-full h-[500px] object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/40 to-transparent" />
