@@ -1,0 +1,62 @@
+{
+  "name": "BlogPost",
+  "type": "object",
+  "properties": {
+    "titulo": {
+      "type": "string",
+      "description": "T\u00edtulo do post"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL amig\u00e1vel (ex: como-funciona-consorcio)"
+    },
+    "resumo": {
+      "type": "string",
+      "description": "Resumo curto para o card na home"
+    },
+    "conteudo": {
+      "type": "string",
+      "description": "Conte\u00fado completo do post (HTML/texto)"
+    },
+    "capa_url": {
+      "type": "string",
+      "description": "URL da imagem de capa"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Tags separadas por v\u00edrgula (ex: consorcio,carro,financiamento)"
+    },
+    "curtidas": {
+      "type": "number",
+      "default": 0,
+      "description": "N\u00famero de curtidas"
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true,
+      "description": "Se o post est\u00e1 publicado"
+    },
+    "cta_tipo": {
+      "type": "string",
+      "enum": [
+        "formulario",
+        "whatsapp",
+        "proximo_post"
+      ],
+      "default": "formulario",
+      "description": "Tipo de CTA no final do post"
+    },
+    "cta_texto": {
+      "type": "string",
+      "description": "Texto do bot\u00e3o CTA (opcional)"
+    },
+    "proximo_post_id": {
+      "type": "string",
+      "description": "ID do pr\u00f3ximo post (quando cta_tipo=proximo_post)"
+    }
+  },
+  "required": [
+    "titulo",
+    "conteudo"
+  ]
+}

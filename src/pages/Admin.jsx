@@ -24,6 +24,7 @@ import { Search, MessageCircle, Filter, ArrowLeft, Users, Clock, CheckCircle, XC
 import { Link, useNavigate } from "react-router-dom";
 import LeadDetailDialog from "../components/admin/LeadDetailDialog";
 import RastreamentoTags from "../components/admin/RastreamentoTags";
+import BlogAdmin from "../components/admin/BlogAdmin";
 import { isAdminAuthenticated, getAdminRole, logoutAdmin } from "@/lib/adminAuth";
 
 const STATUS_OPTIONS = [
@@ -344,6 +345,7 @@ export default function Admin() {
              <TabsTrigger value="hero-images" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden md:inline-flex">🖼️ Hero</TabsTrigger>
              <TabsTrigger value="carrossel" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden md:inline-flex">🎠 Carr.</TabsTrigger>
              <TabsTrigger value="configs" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">⚙️ Config</TabsTrigger>
+             <TabsTrigger value="blog" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">📝 Blog</TabsTrigger>
              <TabsTrigger value="rastreamento" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">📊 Tags</TabsTrigger>
              {isCeo && <TabsTrigger value="senha" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden sm:inline-flex">🔑 Senhas</TabsTrigger>}
            </TabsList>
@@ -1486,6 +1488,11 @@ export default function Admin() {
                 </div>
               </div>
             )}
+            </TabsContent>
+
+            {/* ABA BLOG */}
+            <TabsContent value="blog" className="space-y-6">
+              <BlogAdmin />
             </TabsContent>
 
             {/* ABA RASTREAMENTO */}

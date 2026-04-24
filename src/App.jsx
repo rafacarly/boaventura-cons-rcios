@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import Landing from './pages/Landing';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -40,6 +42,8 @@ const AuthenticatedApp = () => {
       <Route path="/converter" element={<Landing />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:id" element={<BlogPost />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

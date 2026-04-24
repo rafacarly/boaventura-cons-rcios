@@ -17,6 +17,7 @@ import CTAFinal from "../components/landing/CTAFinal";
 import Footer from "../components/landing/Footer";
 import BannerCTA from "../components/landing/BannerCTA";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
+import BlogSection from "../components/landing/BlogSection";
 
 export default function Home() {
   const [splashDone, setSplashDone] = useState(false);
@@ -39,6 +40,7 @@ export default function Home() {
       <Planos />
       <ProvaSocial />
       <Comparativo />
+      <BlogSection />
       <FAQ />
       <CTAFinal />
       <Footer />
