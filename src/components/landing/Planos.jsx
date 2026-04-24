@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
@@ -6,25 +6,19 @@ import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Planos() {
-  const [plans, setPlans] = useState([]);
-
   const { data: planosFromDB = [] } = useQuery({
     queryKey: ["planosHome"],
     queryFn: () => base44.entities.PlanoPreco.list("-created_date", 100),
   });
 
-  // Mapear PlanoPreco para formato da página, destacando o primeiro
-  useEffect(() => {
-    const mapped = planosFromDB.map((plano, i) => ({
-      id: plano.id,
-      title: plano.titulo,
-      credito: plano.credito,
-      prazo: plano.prazo,
-      parcela: plano.parcela,
-      featured: i === 1 // Destaca o segundo plano
-    }));
-    setPlans(mapped);
-  }, [planosFromDB]);
+  const plans = planosFromDB.map((plano, i) => ({
+    id: plano.id,
+    title: plano.titulo,
+    credito: plano.credito,
+    prazo: plano.prazo,
+    parcela: plano.parcela,
+    featured: i === 1,
+  }));
 
   const scrollToForm = () => {
     document.getElementById("formulario")?.scrollIntoView({ behavior: "smooth" });
