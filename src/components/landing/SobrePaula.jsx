@@ -14,7 +14,7 @@ export default function SobrePaula() {
   const dados = paula?.[0] || {
     nome: "Paula Boaventura",
     texto: "Meu nome é Paula, e já ajudei mais de 2.000 clientes a realizar os seus sonhos.",
-    foto_url: "https://media.base44.com/images/public/69d64dae29b83dcc9fe91dc8/eb16c2ad6_fadd51044_APRESENTACAOPAULApdf.png"
+    foto_url: ""
   };
 
   return (
