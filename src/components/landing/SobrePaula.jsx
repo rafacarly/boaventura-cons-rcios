@@ -31,7 +31,11 @@ export default function SobrePaula() {
             <div className={`w-64 h-64 md:w-80 md:h-80 ${dados.background_color || 'bg-brown-caramel'} flex items-center justify-center overflow-hidden ${dados.background_shape === 'circle' ? 'rounded-full' : dados.background_shape === 'oval' ? 'rounded-3xl' : dados.background_shape === 'rounded' ? 'rounded-2xl' : ''} shadow-2xl flex-shrink-0`}>
               <img
                 src={dados.foto_url}
-                alt={dados.nome}
+                alt={`${dados.nome} - Consultora de Consórcios Boaventura`}
+                width="320"
+                height="320"
+                loading="eager"
+                fetchpriority="high"
                 style={{
                   width: `${dados.foto_zoom || 100}%`,
                   height: `${dados.foto_zoom || 100}%`,
