@@ -155,6 +155,9 @@ export default function FormularioMultietapas() {
       completude: isComplete ? "completo" : "incompleto"
     });
 
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'form_sucesso' });
+
     setDone(true);
     setLoading(false);
 
