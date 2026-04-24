@@ -38,7 +38,7 @@ const CONHECIMENTO = [
 
 function SelectOption({ options, value, onChange, cols = 2 }) {
   return (
-    <div className={`grid gap-3 ${cols === 4 ? "grid-cols-2 sm:grid-cols-4" : cols === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
+    <div className={`grid gap-3 ${cols === 4 ? "grid-cols-2" : cols === 3 ? "grid-cols-3" : "grid-cols-2"}`}>
       {options.map((opt, idx) => (
         <motion.button
           key={opt.value}
@@ -49,13 +49,13 @@ function SelectOption({ options, value, onChange, cols = 2 }) {
           transition={{ delay: idx * 0.05 }}
           whileHover={{ scale: 1.03, y: -2 }}
           whileTap={{ scale: 0.98 }}
-          className={`p-4 rounded-2xl border-2 text-left transition-all duration-200 font-body text-sm font-medium group ${
+          className={`p-3 rounded-2xl border-2 text-center transition-all duration-200 font-body text-sm font-medium group ${
             value === opt.value
               ? "border-blue-accent bg-gradient-to-br from-blue-accent/20 to-blue-accent/5 text-brown-dark shadow-lg shadow-blue-accent/20"
               : "border-brown-caramel/20 hover:border-brown-caramel/50 text-brown-graphite hover:bg-brown-caramel/5"
           }`}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center gap-2">
             {opt.icon && (
               <motion.div
                 animate={value === opt.value ? { scale: 1.1 } : { scale: 1 }}
@@ -63,7 +63,7 @@ function SelectOption({ options, value, onChange, cols = 2 }) {
                 <opt.icon className={`w-5 h-5 transition-colors ${value === opt.value ? "text-blue-accent" : "text-brown-medium group-hover:text-brown-caramel"}`} />
               </motion.div>
             )}
-            <span>{opt.label}</span>
+            <span className="leading-tight">{opt.label}</span>
           </div>
         </motion.button>
       ))}
