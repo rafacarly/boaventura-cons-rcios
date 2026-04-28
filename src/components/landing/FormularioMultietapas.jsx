@@ -158,16 +158,12 @@ export default function FormularioMultietapas() {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'form_sucesso' });
 
-    setDone(true);
-    setLoading(false);
-
     const msg = encodeURIComponent(
       `Olá, meu nome é ${form.nome}. Acabei de preencher o formulário no site da Boaventura | Consórcios.\n\nMeu interesse é em: ${getObjetivoLabel(form.objetivo)}\nFaixa de crédito: ${getFaixaLabel(form.faixa_credito)}\nPrazo: ${getPrazoLabel(form.prazo)}\nConhecimento sobre consórcio: ${getConhecimentoLabel(form.conhecimento)}\n\nQuero falar com um atendente.`
     );
 
-    setTimeout(() => {
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
-    }, 1500);
+    setDone(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
+    setLoading(false);
   };
 
   if (done) {
@@ -192,26 +188,19 @@ export default function FormularioMultietapas() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <h3 className="text-3xl md:text-4xl font-heading text-brown-dark mb-4">Perfeito! Dados enviados.</h3>
+            <h3 className="text-3xl md:text-4xl font-heading text-brown-dark mb-4">Perfeito! Dados enviados. 🎉</h3>
             <p className="text-brown-medium font-body mb-8 text-lg leading-relaxed max-w-md mx-auto">
-              Você será redirecionado para conversar com nosso time no WhatsApp.
+              Clique no botão abaixo para conversar com nosso time no WhatsApp e dar continuidade ao seu consórcio.
             </p>
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
+              <a href={done} target="_blank" rel="noopener noreferrer">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Button className="bg-gradient-to-r from-brown-caramel to-orange-500 hover:shadow-lg hover:shadow-brown-caramel/30 text-white rounded-full px-10 py-6 font-heading font-bold text-lg">
-                    Abrir WhatsApp →
+                    Falar no WhatsApp →
                   </Button>
                 </motion.div>
               </a>
