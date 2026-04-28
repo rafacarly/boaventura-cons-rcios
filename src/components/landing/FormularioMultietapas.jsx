@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { ArrowRight, ArrowLeft, Check, Car, Home, TrendingUp, Bike, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const WHATSAPP_NUMBER = "5571992764466";
 
@@ -72,6 +73,7 @@ function SelectOption({ options, value, onChange, cols = 2 }) {
 }
 
 export default function FormularioMultietapas() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -162,8 +164,8 @@ export default function FormularioMultietapas() {
       `Olá, meu nome é ${form.nome}. Acabei de preencher o formulário no site da Boaventura | Consórcios.\n\nMeu interesse é em: ${getObjetivoLabel(form.objetivo)}\nFaixa de crédito: ${getFaixaLabel(form.faixa_credito)}\nPrazo: ${getPrazoLabel(form.prazo)}\nConhecimento sobre consórcio: ${getConhecimentoLabel(form.conhecimento)}\n\nQuero falar com um atendente.`
     );
 
-    setDone(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`);
     setLoading(false);
+    navigate(`/obrigado?msg=${msg}`);
   };
 
   if (done) {

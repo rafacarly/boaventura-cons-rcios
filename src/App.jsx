@@ -12,6 +12,7 @@ import AdminLogin from './pages/AdminLogin';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Whatsapp from './pages/Whatsapp';
+import Obrigado from './pages/Obrigado';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -46,6 +47,7 @@ const AuthenticatedApp = () => {
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/:id" element={<BlogPost />} />
       <Route path="/whatsapp" element={<Whatsapp />} />
+      <Route path="/obrigado" element={<Obrigado />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
