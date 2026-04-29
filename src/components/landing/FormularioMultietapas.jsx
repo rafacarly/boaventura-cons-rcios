@@ -146,17 +146,14 @@ export default function FormularioMultietapas() {
 
   const handleNextStep = async () => {
     if (step === 0) {
-      // Salva lead incompleto imediatamente ao avançar do passo 0
-      const created = await base44.entities.Lead.create({
-        nome: form.nome,
-        whatsapp: form.whatsapp,
-        status: "novo",
-        completude: "incompleto"
+      // Salva lead incompleto via backend function (sem necessidade de login)
+      const res = await base44.functions.invoke("saveLead", {
+        action: "create",
+        data: { nome: form.nome, whatsapp: form.whatsapp, status: "novo", completude: "incompleto" }
       });
-      setLeadId(created.id);
+      setLeadId(res.data?.id);
     } else if (step === 1 && leadId) {
-      // Atualiza objetivo ao avançar do passo 1
-      base44.entities.Lead.update(leadId, { objetivo: form.objetivo });
+      base44.functions.invoke("saveLead", { action: "update", id: leadId, data: { objetivo: form.objetivo } });
     }
     setStep(step + 1);
   };
@@ -164,25 +161,15 @@ export default function FormularioMultietapas() {
   const handleSubmit = async () => {
     setLoading(true);
     if (leadId) {
-      // Atualiza o lead existente para completo
-      await base44.entities.Lead.update(leadId, {
-        objetivo: form.objetivo,
-        faixa_credito: form.faixa_credito,
-        prazo: form.prazo,
-        conhecimento: form.conhecimento,
-        status: "novo",
-        completude: "completo"
+      await base44.functions.invoke("saveLead", {
+        action: "update",
+        id: leadId,
+        data: { objetivo: form.objetivo, faixa_credito: form.faixa_credito, prazo: form.prazo, conhecimento: form.conhecimento, completude: "completo" }
       });
     } else {
-      await base44.entities.Lead.create({
-        nome: form.nome,
-        whatsapp: form.whatsapp,
-        objetivo: form.objetivo,
-        faixa_credito: form.faixa_credito,
-        prazo: form.prazo,
-        conhecimento: form.conhecimento,
-        status: "novo",
-        completude: "completo"
+      await base44.functions.invoke("saveLead", {
+        action: "create",
+        data: { nome: form.nome, whatsapp: form.whatsapp, objetivo: form.objetivo, faixa_credito: form.faixa_credito, prazo: form.prazo, conhecimento: form.conhecimento, status: "novo", completude: "completo" }
       });
     }
 
