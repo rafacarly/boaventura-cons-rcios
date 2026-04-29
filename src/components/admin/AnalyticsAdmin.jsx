@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
-import { Eye } from "lucide-react";
+import { Eye, Clock, ChevronDown, ChevronUp } from "lucide-react";
 
 const PAGE_LABELS = {
   home: { label: "Home", icon: "🏠", color: "bg-blue-accent/15 text-blue-accent" },
@@ -20,6 +20,53 @@ function StatCard({ icon, label, value, color }) {
       <div>
         <p className="text-2xl font-heading font-bold text-brown-dark">{value.toLocaleString("pt-BR")}</p>
         <p className="text-sm font-body text-brown-medium">{label}</p>
+      </div>
+    </div>
+  );
+}
+
+function HistoricoSection({ title, color, items, formatDateTime, renderRow }) {
+  const [open, setOpen] = useState(false);
+  const shown = open ? items : items.slice(0, 5);
+
+  return (
+    <div>
+      <h3 className="text-base font-heading font-bold text-brown-dark mb-4">{title}</h3>
+      <div className="bg-white rounded-xl border border-brown-caramel/10 overflow-hidden">
+        {items.length === 0 ? (
+          <p className="p-4 text-brown-medium font-body text-sm">Nenhum registro ainda.</p>
+        ) : (
+          <>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-brown-dark/5 border-b border-brown-caramel/10">
+                  <th className="px-4 py-3 text-left font-heading text-brown-dark w-44">
+                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Data/Hora</span>
+                  </th>
+                  <th className="px-4 py-3 text-left font-heading text-brown-dark">Detalhe</th>
+                </tr>
+              </thead>
+              <tbody>
+                {shown.map((item, idx) => (
+                  <tr key={item.id || idx} className="border-b border-brown-caramel/10 last:border-b-0 hover:bg-brown-sand/30">
+                    <td className="px-4 py-3 font-body text-xs text-brown-medium whitespace-nowrap">
+                      {formatDateTime(item.created_date)}
+                    </td>
+                    <td className="px-4 py-3">{renderRow(item)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {items.length > 5 && (
+              <button
+                onClick={() => setOpen(!open)}
+                className="w-full py-2 text-xs font-body text-brown-medium hover:bg-brown-sand/40 flex items-center justify-center gap-1 border-t border-brown-caramel/10"
+              >
+                {open ? <><ChevronUp className="w-3.5 h-3.5" /> Ver menos</> : <><ChevronDown className="w-3.5 h-3.5" /> Ver todos ({items.length})</>}
+              </button>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
@@ -73,6 +120,20 @@ export default function AnalyticsAdmin() {
   const leadsConcluidos = leads.filter((l) => l.completude === "completo").length;
   const taxaConclusao = leadsIniciados > 0 ? Math.round((leadsConcluidos / leadsIniciados) * 100) : 0;
 
+  // Histórico de eventos relevantes
+  const whatsappClicks = visitas.filter((v) => v.pagina === "whatsapp_float_click");
+  const whatsappPage = visitas.filter((v) => v.pagina === "whatsapp");
+  const formCompletos = leads.filter((l) => l.completude === "completo");
+
+  function formatDateTime(dateStr) {
+    if (!dateStr) return "—";
+    const d = new Date(dateStr);
+    return d.toLocaleString("pt-BR", {
+      day: "2-digit", month: "2-digit", year: "numeric",
+      hour: "2-digit", minute: "2-digit"
+    });
+  }
+
   return (
     <div className="space-y-8">
       {/* Total */}
@@ -120,6 +181,39 @@ export default function AnalyticsAdmin() {
           })}
         </div>
       </div>
+
+      {/* Histórico de eventos */}
+      <HistoricoSection
+        title="💬 Histórico — Cliques no Botão WhatsApp"
+        color="bg-orange-100 text-orange-600"
+        items={whatsappClicks}
+        formatDateTime={formatDateTime}
+        renderRow={(v) => (
+          <span className="text-brown-medium font-body text-sm">Visitante clicou no botão flutuante do WhatsApp</span>
+        )}
+      />
+      <HistoricoSection
+        title="📱 Histórico — Acessos à Página WhatsApp"
+        color="bg-green-100 text-green-700"
+        items={whatsappPage}
+        formatDateTime={formatDateTime}
+        renderRow={(v) => (
+          <span className="text-brown-medium font-body text-sm">Visitante acessou a página de redirecionamento WhatsApp</span>
+        )}
+      />
+      <HistoricoSection
+        title="✅ Histórico — Formulários Preenchidos"
+        color="bg-blue-accent/15 text-blue-accent"
+        items={formCompletos}
+        formatDateTime={formatDateTime}
+        renderRow={(lead) => (
+          <span className="text-brown-medium font-body text-sm">
+            <span className="font-semibold text-brown-dark">{lead.nome}</span>
+            {lead.whatsapp ? ` · ${lead.whatsapp}` : ""}
+            {lead.objetivo ? ` · ${lead.objetivo}` : ""}
+          </span>
+        )}
+      />
 
       {/* Posts do blog */}
       <div>
