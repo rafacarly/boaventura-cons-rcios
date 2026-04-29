@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
+import { trackEvent } from "@/hooks/useTracking";
 
 const WHATSAPP_NUMBER = "5571992764466";
 const WHATSAPP_MESSAGE = "Olá! Vim pelo site e quero saber mais sobre consórcio.";
@@ -40,6 +41,7 @@ export default function WhatsAppFloat() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackEvent("whatsapp_float_click")}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         animate={{

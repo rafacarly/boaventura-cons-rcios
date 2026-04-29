@@ -25,6 +25,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LeadDetailDialog from "../components/admin/LeadDetailDialog";
 import RastreamentoTags from "../components/admin/RastreamentoTags";
 import BlogAdmin from "../components/admin/BlogAdmin";
+import AnalyticsAdmin from "../components/admin/AnalyticsAdmin";
 import { isAdminAuthenticated, getAdminRole, logoutAdmin } from "@/lib/adminAuth";
 
 const STATUS_OPTIONS = [
@@ -346,6 +347,7 @@ export default function Admin() {
              <TabsTrigger value="carrossel" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden md:inline-flex">🎠 Carr.</TabsTrigger>
              <TabsTrigger value="configs" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">⚙️ Config</TabsTrigger>
              <TabsTrigger value="blog" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">📝 Blog</TabsTrigger>
+             <TabsTrigger value="analytics" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">📈 Analytics</TabsTrigger>
              <TabsTrigger value="rastreamento" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap">📊 Tags</TabsTrigger>
              {isCeo && <TabsTrigger value="senha" className="text-xs sm:text-sm px-2 sm:px-3 py-2 whitespace-nowrap hidden sm:inline-flex">🔑 Senhas</TabsTrigger>}
            </TabsList>
@@ -1493,6 +1495,11 @@ export default function Admin() {
             {/* ABA BLOG */}
             <TabsContent value="blog" className="space-y-6">
               <BlogAdmin />
+            </TabsContent>
+
+            {/* ABA ANALYTICS */}
+            <TabsContent value="analytics" className="space-y-6">
+              <AnalyticsAdmin />
             </TabsContent>
 
             {/* ABA RASTREAMENTO */}

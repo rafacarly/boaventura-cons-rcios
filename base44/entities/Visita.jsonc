@@ -1,0 +1,17 @@
+{
+  "name": "Visita",
+  "type": "object",
+  "properties": {
+    "pagina": {
+      "type": "string",
+      "description": "Identificador da p\u00e1gina (home, converter, obrigado, whatsapp, whatsapp_float_click, blog_post)"
+    },
+    "referencia": {
+      "type": "string",
+      "description": "Refer\u00eancia adicional (ex: ID ou t\u00edtulo do post do blog)"
+    }
+  },
+  "required": [
+    "pagina"
+  ]
+}

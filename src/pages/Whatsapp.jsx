@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+import { useTracking } from "@/hooks/useTracking";
 
 const WHATSAPP_URL = "https://wa.me/5571992764466";
 
 export default function Whatsapp() {
+  useTracking("whatsapp");
   useEffect(() => {
     window.location.href = WHATSAPP_URL;
   }, []);

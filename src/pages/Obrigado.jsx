@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useTracking } from "@/hooks/useTracking";
 
 const WHATSAPP_NUMBER = "5571992764466";
 
 export default function Obrigado() {
+  useTracking("obrigado");
   const params = new URLSearchParams(window.location.search);
   const msg = params.get("msg") || "";
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}${msg ? `?text=${msg}` : ""}`;

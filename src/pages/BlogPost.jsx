@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Footer from "../components/landing/Footer";
 import WhatsAppFloat from "../components/landing/WhatsAppFloat";
 import { useSEO } from "@/hooks/useSEO";
+import { useTracking } from "@/hooks/useTracking";
 
 const WHATSAPP_NUMBER = "5571992764466";
 
@@ -15,6 +16,7 @@ export default function BlogPost() {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const [curtido, setCurtido] = useState(false);
+  useTracking("blog_post", id);
 
   const { data: post, isLoading } = useQuery({
     queryKey: ["blogPost", id],

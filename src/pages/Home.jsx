@@ -1,5 +1,6 @@
 import React, { useState, lazy, Suspense } from "react";
 import { useInjectTag } from "@/hooks/useInjectTag";
+import { useTracking } from "@/hooks/useTracking";
 import Navbar from "../components/landing/Navbar";
 import SplashScreen from "../components/SplashScreen";
 import BannerCTA from "../components/landing/BannerCTA";
@@ -25,6 +26,7 @@ export default function Home() {
   const [splashDone, setSplashDone] = useState(false);
   useInjectTag("google_tag_home");
   useInjectTag("meta_pixel_id");
+  useTracking("home");
 
   return (
     <div className="min-h-screen">
