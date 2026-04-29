@@ -78,6 +78,7 @@ export default function FormularioMultietapas() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [leadId, setLeadId] = useState(null);
   const [form, setForm] = useState({
     nome: "",
     whatsapp: "",
@@ -143,19 +144,47 @@ export default function FormularioMultietapas() {
   const getPrazoLabel = (v) => PRAZOS.find(o => o.value === v)?.label || v;
   const getConhecimentoLabel = (v) => CONHECIMENTO.find(o => o.value === v)?.label || v;
 
+  const handleNextStep = async () => {
+    if (step === 0) {
+      // Salva lead incompleto imediatamente ao avançar do passo 0
+      const created = await base44.entities.Lead.create({
+        nome: form.nome,
+        whatsapp: form.whatsapp,
+        status: "novo",
+        completude: "incompleto"
+      });
+      setLeadId(created.id);
+    } else if (step === 1 && leadId) {
+      // Atualiza objetivo ao avançar do passo 1
+      base44.entities.Lead.update(leadId, { objetivo: form.objetivo });
+    }
+    setStep(step + 1);
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
-    const isComplete = form.nome && form.whatsapp && form.objetivo && form.faixa_credito && form.prazo && form.conhecimento;
-    await base44.entities.Lead.create({
-      nome: form.nome,
-      whatsapp: form.whatsapp,
-      objetivo: form.objetivo,
-      faixa_credito: form.faixa_credito,
-      prazo: form.prazo,
-      conhecimento: form.conhecimento,
-      status: "novo",
-      completude: isComplete ? "completo" : "incompleto"
-    });
+    if (leadId) {
+      // Atualiza o lead existente para completo
+      await base44.entities.Lead.update(leadId, {
+        objetivo: form.objetivo,
+        faixa_credito: form.faixa_credito,
+        prazo: form.prazo,
+        conhecimento: form.conhecimento,
+        status: "novo",
+        completude: "completo"
+      });
+    } else {
+      await base44.entities.Lead.create({
+        nome: form.nome,
+        whatsapp: form.whatsapp,
+        objetivo: form.objetivo,
+        faixa_credito: form.faixa_credito,
+        prazo: form.prazo,
+        conhecimento: form.conhecimento,
+        status: "novo",
+        completude: "completo"
+      });
+    }
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'form_sucesso' });
@@ -486,7 +515,7 @@ export default function FormularioMultietapas() {
                       whileTap={canNext() ? { scale: 0.95 } : {}}
                     >
                       <Button
-                        onClick={() => setStep(step + 1)}
+                        onClick={handleNextStep}
                         disabled={!canNext()}
                         className="bg-gradient-to-r from-brown-caramel to-orange-500 hover:shadow-lg hover:shadow-brown-caramel/30 text-white rounded-full px-6 py-4 font-heading font-bold gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                       >
